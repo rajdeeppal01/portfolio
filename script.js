@@ -655,11 +655,13 @@ window.handleFootballChoice = function(isUnited) {
         resultDiv.style.color = 'var(--primary-green)';
         resultDiv.textContent = '[✓] CORRECT! Glory Glory Manchester United! Red Devils Active.';
         
-        // Reset evading button back to original layout position
+        // Reset evading button back to normal flex flow layout (same level and stationary)
         const btn = document.getElementById('evading-btn');
         if (btn) {
-            btn.style.left = '60%';
-            btn.style.top = '55%';
+            btn.style.position = 'static';
+            btn.style.left = '';
+            btn.style.top = '';
+            btn.style.transform = '';
         }
     }
 };
@@ -668,18 +670,15 @@ window.initEvadingButton = function() {
     const btn = document.getElementById('evading-btn');
     const container = btn ? btn.closest('.terminal-card') : null;
     const screen = document.getElementById('terminal-screen');
-    if (!btn || !container) return;
+    const log = document.getElementById('terminal-log');
+    if (!btn || !container || !log) return;
 
     const prompts = [
         "you're getting hacked tonight...",
         "there's only one right option.",
-        "[!] Security Exception: Unauthorized option selection signature.",
         "[!] High-Risk Evasion: Intruder trying to select 'Others' detected.",
-        "[!] Critical: Redirecting telemetry link payload to Old Trafford...",
-        "Did you really think you could click that?",
-        "Stop trying to select the wrong team!",
-        "[!] Sysctl: Blocked illegal request routing to 'Others'.",
-        "[!] Threat Mitigation: Shielding active option vectors."
+        "[!] Threat Mitigation: Shielding active option vectors.",
+        "[!] Critical: Redirecting telemetry link payload to Old Trafford..."
     ];
 
     function evade() {
@@ -697,12 +696,23 @@ window.initEvadingButton = function() {
         btn.style.left = `${randomLeft}px`;
         btn.style.top = `${randomTop}px`;
 
-        // Output a funny warning prompt inside the CLI console logs
+        // Output a funny warning prompt inside a single in-place log line
         if (window.printTerminalLine) {
             const randomIndex = Math.floor(Math.random() * prompts.length);
-            window.printTerminalLine(prompts[randomIndex], 'error-msg');
+            const warningId = 'terminal-game-warning';
+            const warningLine = document.getElementById(warningId);
+
+            if (!warningLine) {
+                window.printTerminalLine(prompts[randomIndex], 'error-msg');
+                const lastLine = log.lastElementChild;
+                if (lastLine) {
+                    lastLine.id = warningId;
+                }
+            } else {
+                warningLine.textContent = prompts[randomIndex];
+            }
             
-            // Auto-scroll screen container down to show the new funny printouts
+            // Auto-scroll screen container down
             if (screen) {
                 screen.scrollTop = screen.scrollHeight;
             }
@@ -790,8 +800,8 @@ function initTerminal() {
 <span class="dir-highlight">projects/</span>    
 <span class="dir-highlight">skills/</span>    
 <span class="dir-highlight">credentials/</span>    
-<span class="dir-highlight">personal/</span>    
-<span class="dir-highlight">contact/</span>`.trim();
+<span class="dir-highlight">contact/</span>    
+<span class="dir-highlight">personal/</span>`.trim();
         log.appendChild(line);
     }
 
