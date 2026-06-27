@@ -651,17 +651,40 @@ window.handleFootballChoice = function(isUnited) {
     const resultDiv = document.getElementById('football-result');
     if (!resultDiv) return;
     if (isUnited) {
+        window.footballSelected = true;
         resultDiv.style.color = 'var(--primary-green)';
         resultDiv.textContent = '[✓] CORRECT! Glory Glory Manchester United! Red Devils Active.';
+        
+        // Reset evading button back to original layout position
+        const btn = document.getElementById('evading-btn');
+        if (btn) {
+            btn.style.left = '60%';
+            btn.style.top = '55%';
+        }
     }
 };
 
 window.initEvadingButton = function() {
     const btn = document.getElementById('evading-btn');
     const container = btn ? btn.closest('.terminal-card') : null;
+    const screen = document.getElementById('terminal-screen');
     if (!btn || !container) return;
 
+    const prompts = [
+        "you're getting hacked tonight...",
+        "there's only one right option.",
+        "[!] Security Exception: Unauthorized option selection signature.",
+        "[!] High-Risk Evasion: Intruder trying to select 'Others' detected.",
+        "[!] Critical: Redirecting telemetry link payload to Old Trafford...",
+        "Did you really think you could click that?",
+        "Stop trying to select the wrong team!",
+        "[!] Sysctl: Blocked illegal request routing to 'Others'.",
+        "[!] Threat Mitigation: Shielding active option vectors."
+    ];
+
     function evade() {
+        if (window.footballSelected) return;
+
         const containerRect = container.getBoundingClientRect();
         const btnRect = btn.getBoundingClientRect();
         
@@ -673,6 +696,17 @@ window.initEvadingButton = function() {
         
         btn.style.left = `${randomLeft}px`;
         btn.style.top = `${randomTop}px`;
+
+        // Output a funny warning prompt inside the CLI console logs
+        if (window.printTerminalLine) {
+            const randomIndex = Math.floor(Math.random() * prompts.length);
+            window.printTerminalLine(prompts[randomIndex], 'error-msg');
+            
+            // Auto-scroll screen container down to show the new funny printouts
+            if (screen) {
+                screen.scrollTop = screen.scrollHeight;
+            }
+        }
     }
 
     btn.addEventListener('mouseover', evade);
@@ -728,6 +762,7 @@ function initTerminal() {
         line.textContent = text;
         log.appendChild(line);
     }
+    window.printTerminalLine = printLine;
 
     // Append raw HTML directly into the terminal log
     function appendHTML(htmlString) {
