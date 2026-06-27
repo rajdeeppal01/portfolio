@@ -140,6 +140,7 @@ window.switchTab = function(command) {
         if (contactSection) {
             contactSection.classList.add('active-sec');
         }
+        syncTerminalView(command);
         window.scrollTo({ top: 0, behavior: 'smooth' });
     } else {
         const heroSection = document.getElementById('hero');
