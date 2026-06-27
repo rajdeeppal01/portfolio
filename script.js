@@ -201,8 +201,7 @@ function getWelcomeGuideHTML() {
     <div style="color: var(--primary-green); margin-bottom: 0.35rem;"><strong>[+] Core Console Commands:</strong></div>
     <div><span style="color: var(--primary-green); margin-right: 0.5rem;">•</span><strong style="color: var(--text-white);">whoami</strong>     - Extract visitor details & show professional summary.</div>
     <div><span style="color: var(--primary-green); margin-right: 0.5rem;">•</span><strong style="color: var(--text-white);">help</strong>       - View full CLI command reference menu.</div>
-    <div><span style="color: var(--primary-green); margin-right: 0.5rem;">•</span><strong style="color: var(--text-white);">ls / cd</strong>    - Navigate file directory folders.</div>
-    <div><span style="color: var(--primary-green); margin-right: 0.5rem;">•</span><strong style="color: var(--text-white);">scan</strong>       - Run cognitive security threat diagnostic audit.</div>
+    <div><span style="color: var(--primary-green); margin-right: 0.5rem;">•</span><strong style="color: var(--text-white);">ls / cd</strong>    - Navigate folders (experience, projects, skills, credentials, contact).</div>
     <div><span style="color: var(--primary-green); margin-right: 0.5rem;">•</span><strong style="color: var(--text-white);">theme</strong>      - Change console colors (matrix, dracula, nord, obsidian).</div>
     <div><span style="color: var(--primary-green); margin-right: 0.5rem;">•</span><strong style="color: var(--text-white);">clear</strong>      - Clear screen logs and reset terminal view.</div>
 </div>`;
@@ -257,9 +256,8 @@ function getAboutHTML() {
     <div class="terminal-card" style="margin-top: 0.65rem; border-color: var(--border-slate); background-color: transparent; border-style: dashed; font-family: var(--font-mono); font-size: 0.78rem; line-height: 1.5;">
         <div style="color: var(--primary-green); margin-bottom: 0.35rem;"><strong>[i] CONSOLE QUICK START GUIDE:</strong></div>
         <div><span style="color: var(--primary-green); margin-right: 0.5rem;">•</span>Type <strong style="color: var(--text-white);">help</strong> to list all interactive system commands.</div>
-        <div><span style="color: var(--primary-green); margin-right: 0.5rem;">•</span>Type <strong style="color: var(--text-white);">scan</strong> to run the automated Netra security vulnerability audit.</div>
         <div><span style="color: var(--primary-green); margin-right: 0.5rem;">•</span>Type <strong style="color: var(--text-white);">theme matrix</strong> | <strong style="color: var(--text-white);">theme dracula</strong> | <strong style="color: var(--text-white);">theme nord</strong> to customize themes.</div>
-        <div><span style="color: var(--primary-green); margin-right: 0.5rem;">•</span>Use <strong style="color: var(--text-white);">cd [section]</strong> (e.g., cd projects) or click the nav links above to navigate.</div>
+        <div><span style="color: var(--primary-green); margin-right: 0.5rem;">•</span>Use <strong style="color: var(--text-white);">ls</strong> / <strong style="color: var(--text-white);">cd [section]</strong> to navigate folders (experience, projects, skills, credentials, contact).</div>
     </div>
 </div>`;
 }

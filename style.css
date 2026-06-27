@@ -1498,7 +1498,7 @@ textarea.saas-input {
 }
 
 #session-time {
-    color: #000000;
+    color: var(--text-white);
     font-weight: bold;
 }
 
