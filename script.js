@@ -32,6 +32,10 @@ document.addEventListener('DOMContentLoaded', () => {
             if (window.audioTrackEnded) window.audioTrackEnded();
         });
     }
+
+    if (window.initDraggableWidget) {
+        window.initDraggableWidget();
+    }
 });
 
 /* --------------------------------------------------------------------------
@@ -781,19 +785,19 @@ const musicPlaylist = [
     {
         title: "This Is What You Came For",
         artist: "Calvin Harris & Rihanna",
-        url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
+        url: "https://archive.org/download/calvin-harris-rihanna-this-is-what-you-came-for-official-video/Calvin%20Harris%20%26%20Rihanna%20-%20This%20Is%20What%20You%20Came%20For%20%28Official%20Video%29.mp3",
         art: "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=120&auto=format&fit=crop&q=80"
     },
     {
         title: "Starboy",
         artist: "The Weeknd & Daft Punk",
-        url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3",
+        url: "https://archive.org/download/the-weeknd-starboy-ft.-daft-punk/The%20Weeknd%20-%20Starboy%20ft.%20Daft%20Punk.mp3",
         art: "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=120&auto=format&fit=crop&q=80"
     },
     {
         title: "Midnight City",
         artist: "M83",
-        url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3",
+        url: "https://archive.org/download/m83-midnight-city/M83%20-%20Midnight%20City.mp3",
         art: "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?w=120&auto=format&fit=crop&q=80"
     }
 ];
@@ -951,6 +955,83 @@ window.filterSongs = function() {
             row.style.display = 'none';
         }
     });
+};
+
+window.initDraggableWidget = function() {
+    const widget = document.getElementById('apple-music-widget');
+    if (!widget) return;
+    
+    let isDragging = false;
+    let startX = 0;
+    let startY = 0;
+    let widgetX = 0;
+    let widgetY = 0;
+    
+    // The top row containing the art and close button serves as drag handle
+    const dragHandle = widget.firstElementChild;
+    if (!dragHandle) return;
+    
+    dragHandle.style.cursor = 'grab';
+    
+    dragHandle.addEventListener('mousedown', dragStart);
+    dragHandle.addEventListener('touchstart', dragStart, { passive: true });
+    
+    function dragStart(e) {
+        // Skip drag if user clicked interactive button
+        if (e.target.closest('button')) return;
+        
+        isDragging = true;
+        dragHandle.style.cursor = 'grabbing';
+        
+        const rect = widget.getBoundingClientRect();
+        widgetX = rect.left;
+        widgetY = rect.top;
+        
+        const clientX = e.type === 'touchstart' ? e.touches[0].clientX : e.clientX;
+        const clientY = e.type === 'touchstart' ? e.touches[0].clientY : e.clientY;
+        
+        startX = clientX - widgetX;
+        startY = clientY - widgetY;
+        
+        document.addEventListener('mousemove', dragMove);
+        document.addEventListener('mouseup', dragEnd);
+        document.addEventListener('touchmove', dragMove, { passive: false });
+        document.addEventListener('touchend', dragEnd);
+    }
+    
+    function dragMove(e) {
+        if (!isDragging) return;
+        
+        if (e.type === 'touchmove') e.preventDefault();
+        
+        const clientX = e.type === 'touchmove' ? e.touches[0].clientX : e.clientX;
+        const clientY = e.type === 'touchmove' ? e.touches[0].clientY : e.clientY;
+        
+        let newX = clientX - startX;
+        let newY = clientY - startY;
+        
+        const viewportW = window.innerWidth;
+        const viewportH = window.innerHeight;
+        const widgetW = widget.offsetWidth;
+        const widgetH = widget.offsetHeight;
+        
+        newX = Math.max(0, Math.min(newX, viewportW - widgetW));
+        newY = Math.max(0, Math.min(newY, viewportH - widgetH));
+        
+        widget.style.bottom = 'auto';
+        widget.style.right = 'auto';
+        widget.style.left = `${newX}px`;
+        widget.style.top = `${newY}px`;
+    }
+    
+    function dragEnd() {
+        isDragging = false;
+        dragHandle.style.cursor = 'grab';
+        document.removeEventListener('mousemove', dragMove);
+        document.removeEventListener('mouseup', dragEnd);
+        document.removeEventListener('touchmove', dragMove);
+        document.removeEventListener('touchend', dragEnd);
+    }
 };
 
 /* --------------------------------------------------------------------------
