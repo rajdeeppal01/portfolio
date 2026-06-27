@@ -241,6 +241,13 @@ function getAboutHTML() {
             Experienced in architecting modern microservice infrastructures, designing low-latency telemetry protocols, and deploying cognitive LLM agent planners for active penetration desynchronization. Currently validating and expanding threat detection suites at Jio Platforms Limited.
         </p>
     </div>
+    <div class="terminal-card" style="margin-top: 0.65rem; border-color: var(--border-slate); background-color: transparent; border-style: dashed; font-family: var(--font-mono); font-size: 0.78rem; line-height: 1.5;">
+        <div style="color: var(--primary-green); margin-bottom: 0.35rem;"><strong>[i] CONSOLE QUICK START GUIDE:</strong></div>
+        <div><span style="color: var(--primary-green); margin-right: 0.5rem;">•</span>Type <strong style="color: var(--text-white);">help</strong> to list all interactive system commands.</div>
+        <div><span style="color: var(--primary-green); margin-right: 0.5rem;">•</span>Type <strong style="color: var(--text-white);">scan</strong> to run the automated Netra security vulnerability audit.</div>
+        <div><span style="color: var(--primary-green); margin-right: 0.5rem;">•</span>Type <strong style="color: var(--text-white);">theme matrix</strong> | <strong style="color: var(--text-white);">theme dracula</strong> | <strong style="color: var(--text-white);">theme nord</strong> to customize themes.</div>
+        <div><span style="color: var(--primary-green); margin-right: 0.5rem;">•</span>Use <strong style="color: var(--text-white);">cd [section]</strong> (e.g., cd projects) or click the nav links above to navigate.</div>
+    </div>
 </div>`;
 }
 
