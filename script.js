@@ -195,19 +195,6 @@ function initNavigation() {
     }
 }
 
-function getWelcomeBannerHTML() {
-    return `
-<pre class="terminal-banner" style="color: var(--primary-green); font-size: 0.85rem; line-height: 1.25; margin-bottom: 1.25rem; font-family: var(--font-mono); overflow-x: auto; white-space: pre; text-align: center; text-shadow: 0 0 5px var(--primary-green-glow);">
-             ___
-          .-'   '-.
-         /   \\\\ /   \\\\
-        |  -- O --  |
-         \\\\   / \\\\   /
-          '-.   .-'
-             """
-</pre>`;
-}
-
 function getWelcomeGuideHTML() {
     return `
 <div class="terminal-card" style="border-color: var(--border-slate); background-color: transparent; border-style: dashed; font-family: var(--font-mono); font-size: 0.78rem; line-height: 1.5; margin-bottom: 1rem;">
@@ -216,7 +203,6 @@ function getWelcomeGuideHTML() {
     <div><span style="color: var(--primary-green); margin-right: 0.5rem;">•</span><strong style="color: var(--text-white);">help</strong>       - View full CLI command reference menu.</div>
     <div><span style="color: var(--primary-green); margin-right: 0.5rem;">•</span><strong style="color: var(--text-white);">ls / cd</strong>    - Navigate folders (experience, projects, skills, credentials, contact).</div>
     <div><span style="color: var(--primary-green); margin-right: 0.5rem;">•</span><strong style="color: var(--text-white);">theme</strong>      - Change console colors (matrix, dracula, nord, obsidian).</div>
-    <div><span style="color: var(--primary-green); margin-right: 0.5rem;">•</span><strong style="color: var(--text-white);">crt</strong>        - Toggle CRT retro scanline filter (on/off).</div>
     <div><span style="color: var(--primary-green); margin-right: 0.5rem;">•</span><strong style="color: var(--text-white);">download</strong>   - Download PDF resume package.</div>
     <div><span style="color: var(--primary-green); margin-right: 0.5rem;">•</span><strong style="color: var(--text-white);">clear</strong>      - Clear screen logs and reset terminal view.</div>
 </div>`;
@@ -873,18 +859,8 @@ function initTerminal() {
                 printLine('  credentials- Display authenticated learning shields.');
                 printLine('  contact    - Scroll down to the contact dispatch section.');
                 printLine('  theme [t]  - Change console theme (theme list for options).');
-                printLine('  crt        - Toggle CRT retro scanline screen effect.');
                 printLine('  download   - Download Rajdeep Pal PDF resume.');
                 printLine('  clear      - Purge console screen logs.');
-                break;
-                
-            case 'crt':
-                const isActive = document.body.classList.toggle('crt-active');
-                if (isActive) {
-                    printLine('[+] CRT retro scanline filter: ENABLED.', 'success-msg');
-                } else {
-                    printLine('[+] CRT retro scanline filter: DISABLED (Pristine Obsidian Mode active).', 'success-msg');
-                }
                 break;
                 
             case 'download':
@@ -908,7 +884,6 @@ function initTerminal() {
                 
             case 'clear':
                 log.innerHTML = '';
-                appendHTML(getWelcomeBannerHTML());
                 printLine("Welcome to Rajdeep Pal's interactive portfolio console.", 'info-msg');
                 printLine("Type whoami to learn more about me! Or click navigation links above to explore.", 'info-msg');
                 printLine('');
@@ -967,7 +942,6 @@ function initTerminal() {
             // Handle overview as clear + re-welcome
             if (cmd === 'overview') {
                 log.innerHTML = '';
-                appendHTML(getWelcomeBannerHTML());
                 printLine("Welcome to Rajdeep Pal's interactive portfolio console.", 'info-msg');
                 printLine("Type whoami to learn more about me! Or click navigation links above to explore.", 'info-msg');
                 printLine('');
