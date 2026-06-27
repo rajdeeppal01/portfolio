@@ -197,15 +197,14 @@ function initNavigation() {
 
 function getWelcomeBannerHTML() {
     return `
-<pre class="terminal-banner" style="color: var(--primary-green); font-size: 0.58rem; line-height: 1.2; margin-bottom: 1.25rem; font-family: var(--font-mono); overflow-x: auto; white-space: pre; text-shadow: 0 0 5px var(--primary-green-glow);">
-  _____             _     _                  _____         _ 
- |  __ \\\\           (_)   | |                |  __ \\\\       | |
- | |__) |__ _  ___  _  __| |  ___   ___  _ __ | |__) |__ _  | |
- |  _  // _\` |/ __|| |/ _\` | / _ \\\\ / _ \\\\| '_ \\\\|  ___// _\` | | |
- | | \\\\ \\\\ (_| | (__ | | (_| ||  __/|  __/| |_) || |   (_| | | |
- |_|  \\\\_\\\\__,_|\\___||_|\\__,_| \\___| \\___|| .__/ |_|    \\__,_|_|_|
-                                        | |                      
-                                        |_|                      
+<pre class="terminal-banner" style="color: var(--primary-green); font-size: 0.85rem; line-height: 1.25; margin-bottom: 1.25rem; font-family: var(--font-mono); overflow-x: auto; white-space: pre; text-align: center; text-shadow: 0 0 5px var(--primary-green-glow);">
+             ___
+          .-'   '-.
+         /   \\\\ /   \\\\
+        |  -- O --  |
+         \\\\   / \\\\   /
+          '-.   .-'
+             """
 </pre>`;
 }
 
