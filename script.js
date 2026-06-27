@@ -629,6 +629,8 @@ function getPersonalHTML() {
         <span class="terminal-sec-num">05 //</span>
         <span class="terminal-sec-title">PERSONAL LOGS & FACTION AFFILIATION</span>
     </div>
+    
+    <!-- Football Evading Choice Card -->
     <div class="terminal-card" style="position: relative; min-height: 240px; display: flex; flex-direction: column; justify-content: space-between; padding: 1.5rem; border-color: var(--border-slate); background-color: var(--bg-card); overflow: hidden;">
         <h4 style="font-family: var(--font-mono); color: var(--text-white); font-size: 1rem; margin-top: 0.5rem; margin-bottom: 2.5rem; text-align: center; line-height: 1.4;">
             [SYSTEM QUERY] What is the greatest football club of all time?
@@ -644,6 +646,61 @@ function getPersonalHTML() {
         </div>
         <div id="football-result" style="min-height: 25px; margin-top: 1.5rem; font-family: var(--font-mono); font-size: 0.85rem; font-weight: bold; text-align: center; color: var(--primary-green);"></div>
     </div>
+
+    <!-- Apple Music Faction Audio Deck Card -->
+    <div class="terminal-card" style="margin-top: 1.5rem; border-color: var(--border-slate); background-color: var(--bg-card); padding: 1.5rem;">
+        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-slate); padding-bottom: 0.5rem; margin-bottom: 1rem;">
+            <span style="font-family: var(--font-mono); font-size: 0.85rem; font-weight: 700; color: var(--primary-green);">[+] FACTION AUDIO DECK (APPLE MUSIC)</span>
+            <span style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-dark);">STATUS: READY</span>
+        </div>
+        <div style="margin-bottom: 1.25rem;">
+            <input type="text" id="music-search" placeholder="Search song title or artist..." onkeyup="filterSongs()" style="width: 100%; font-family: var(--font-mono); font-size: 0.8rem; background-color: var(--bg-dark); border: 1px solid var(--border-slate); border-radius: 4px; padding: 0.5rem; color: var(--text-white); outline: none;">
+        </div>
+        <div id="music-list-container" style="display: flex; flex-direction: column; gap: 0.75rem;">
+            <!-- Song 1 -->
+            <div class="song-row-item" data-title="this is what you came for" data-artist="calvin harris rihanna" style="display: flex; align-items: center; justify-content: space-between; background: var(--bg-dark); border: 1px solid var(--border-slate); border-radius: 6px; padding: 0.65rem 0.85rem; transition: background 0.2s;" onmouseover="this.style.background='var(--bg-card-hover)'" onmouseout="this.style.background='var(--bg-dark)'">
+                <div style="display: flex; align-items: center; gap: 0.75rem; overflow: hidden; flex-grow: 1;">
+                    <div style="width: 40px; height: 40px; border-radius: 4px; background-image: url('https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=120&auto=format&fit=crop&q=80'); background-size: cover; background-position: center; flex-shrink: 0;"></div>
+                    <div style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis; display: flex; flex-direction: column; gap: 0.15rem;">
+                        <span style="font-size: 0.82rem; font-weight: 700; color: var(--text-white);">This Is What You Came For</span>
+                        <span style="font-size: 0.7rem; color: var(--text-muted);">Calvin Harris & Rihanna</span>
+                    </div>
+                </div>
+                <button onclick="playSong(0)" class="btn btn-primary" style="font-family: var(--font-mono); font-size: 0.72rem; padding: 0.35rem 0.85rem; border-radius: 4px; display: flex; align-items: center; gap: 0.25rem;">
+                    <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                    Play
+                </button>
+            </div>
+            <!-- Song 2 -->
+            <div class="song-row-item" data-title="starboy" data-artist="the weeknd daft punk" style="display: flex; align-items: center; justify-content: space-between; background: var(--bg-dark); border: 1px solid var(--border-slate); border-radius: 6px; padding: 0.65rem 0.85rem; transition: background 0.2s;" onmouseover="this.style.background='var(--bg-card-hover)'" onmouseout="this.style.background='var(--bg-dark)'">
+                <div style="display: flex; align-items: center; gap: 0.75rem; overflow: hidden; flex-grow: 1;">
+                    <div style="width: 40px; height: 40px; border-radius: 4px; background-image: url('https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=120&auto=format&fit=crop&q=80'); background-size: cover; background-position: center; flex-shrink: 0;"></div>
+                    <div style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis; display: flex; flex-direction: column; gap: 0.15rem;">
+                        <span style="font-size: 0.82rem; font-weight: 700; color: var(--text-white);">Starboy</span>
+                        <span style="font-size: 0.7rem; color: var(--text-muted);">The Weeknd & Daft Punk</span>
+                    </div>
+                </div>
+                <button onclick="playSong(1)" class="btn btn-primary" style="font-family: var(--font-mono); font-size: 0.72rem; padding: 0.35rem 0.85rem; border-radius: 4px; display: flex; align-items: center; gap: 0.25rem;">
+                    <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                    Play
+                </button>
+            </div>
+            <!-- Song 3 -->
+            <div class="song-row-item" data-title="midnight city" data-artist="m83" style="display: flex; align-items: center; justify-content: space-between; background: var(--bg-dark); border: 1px solid var(--border-slate); border-radius: 6px; padding: 0.65rem 0.85rem; transition: background 0.2s;" onmouseover="this.style.background='var(--bg-card-hover)'" onmouseout="this.style.background='var(--bg-dark)'">
+                <div style="display: flex; align-items: center; gap: 0.75rem; overflow: hidden; flex-grow: 1;">
+                    <div style="width: 40px; height: 40px; border-radius: 4px; background-image: url('https://images.unsplash.com/photo-1509198397868-475647b2a1e5?w=120&auto=format&fit=crop&q=80'); background-size: cover; background-position: center; flex-shrink: 0;"></div>
+                    <div style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis; display: flex; flex-direction: column; gap: 0.15rem;">
+                        <span style="font-size: 0.82rem; font-weight: 700; color: var(--text-white);">Midnight City</span>
+                        <span style="font-size: 0.7rem; color: var(--text-muted);">M83</span>
+                    </div>
+                </div>
+                <button onclick="playSong(2)" class="btn btn-primary" style="font-family: var(--font-mono); font-size: 0.72rem; padding: 0.35rem 0.85rem; border-radius: 4px; display: flex; align-items: center; gap: 0.25rem;">
+                    <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                    Play
+                </button>
+            </div>
+        </div>
+    </div>
 </div>`;
 }
 
@@ -655,6 +712,12 @@ window.handleFootballChoice = function(isUnited) {
         resultDiv.style.color = 'var(--primary-green)';
         resultDiv.textContent = '[✓] CORRECT! Glory Glory Manchester United! Red Devils Active.';
         
+        // Remove game warning line since correct choice was made
+        const warningLine = document.getElementById('terminal-game-warning');
+        if (warningLine) {
+            warningLine.remove();
+        }
+
         // Reset evading button back to normal flex flow layout (same level and stationary)
         const btn = document.getElementById('evading-btn');
         if (btn) {
@@ -674,7 +737,6 @@ window.initEvadingButton = function() {
     if (!btn || !container || !log) return;
 
     const prompts = [
-        "you're getting hacked tonight...",
         "there's only one right option.",
         "[!] High-Risk Evasion: Intruder trying to select 'Others' detected.",
         "[!] Threat Mitigation: Shielding active option vectors.",
@@ -721,6 +783,185 @@ window.initEvadingButton = function() {
 
     btn.addEventListener('mouseover', evade);
     btn.addEventListener('touchstart', evade);
+};
+
+/* --------------------------------------------------------------------------
+   FACTION APPLE MUSIC WIDGET CONTROLLER ROUTINES
+   -------------------------------------------------------------------------- */
+const musicPlaylist = [
+    {
+        title: "This Is What You Came For",
+        artist: "Calvin Harris & Rihanna",
+        url: "https://archive.org/download/calvin-harris-rihanna-this-is-what-you-came-for-official-video/Calvin%20Harris%20%26%20Rihanna%20-%20This%20Is%20What%20You%20Came%20For%20%28Official%20Video%29.mp3",
+        art: "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=120&auto=format&fit=crop&q=80"
+    },
+    {
+        title: "Starboy",
+        artist: "The Weeknd & Daft Punk",
+        url: "https://archive.org/download/the-weeknd-starboy-ft.-daft-punk/The%20Weeknd%20-%20Starboy%20ft.%20Daft%20Punk.mp3",
+        art: "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=120&auto=format&fit=crop&q=80"
+    },
+    {
+        title: "Midnight City",
+        artist: "M83",
+        url: "https://archive.org/download/m83-midnight-city/M83%20-%20Midnight%20City.mp3",
+        art: "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?w=120&auto=format&fit=crop&q=80"
+    }
+];
+
+let musicTrackIndex = 0;
+let isAudioMuted = false;
+
+window.playSong = function(index) {
+    musicTrackIndex = index;
+    const track = musicPlaylist[index];
+    const player = document.getElementById('audio-player');
+    const widget = document.getElementById('apple-music-widget');
+    
+    if (!player || !widget) return;
+    
+    // Update widget UI texts & art
+    document.getElementById('widget-song-title').textContent = track.title;
+    document.getElementById('widget-song-artist').textContent = track.artist;
+    document.getElementById('widget-album-art').style.backgroundImage = `url('${track.art}')`;
+    
+    // Load source and play
+    player.src = track.url;
+    player.load();
+    player.play().catch(e => console.log("Audio play blocked by browser autoplay rules: ", e));
+    
+    // Update play button state icon to pause
+    setPlayIconState(true);
+    
+    // Show widget
+    widget.style.display = 'block';
+    widget.style.transform = 'translateY(0) scale(1)';
+    widget.style.opacity = '1';
+};
+
+window.togglePlayPause = function() {
+    const player = document.getElementById('audio-player');
+    if (!player) return;
+    if (player.paused) {
+        player.play();
+        setPlayIconState(true);
+    } else {
+        player.pause();
+        setPlayIconState(false);
+    }
+};
+
+function setPlayIconState(isPlaying) {
+    const playIcon = document.getElementById('widget-play-icon');
+    if (!playIcon) return;
+    if (isPlaying) {
+        // Render Pause SVG
+        playIcon.innerHTML = `<rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect>`;
+    } else {
+        // Render Play SVG
+        playIcon.innerHTML = `<polygon points="5 3 19 12 5 21 5 3"></polygon>`;
+    }
+}
+
+window.toggleMute = function() {
+    const player = document.getElementById('audio-player');
+    const volIcon = document.getElementById('widget-volume-icon');
+    if (!player || !volIcon) return;
+    
+    isAudioMuted = !isAudioMuted;
+    player.muted = isAudioMuted;
+    
+    if (isAudioMuted) {
+        // Render Mute icon
+        volIcon.innerHTML = `<line x1="1" y1="1" x2="23" y2="23" stroke="currentColor" stroke-width="2"></line><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>`;
+    } else {
+        // Render Sound icon
+        volIcon.innerHTML = `<polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>`;
+    }
+};
+
+window.playPrevNext = function(isNext) {
+    if (isNext) {
+        musicTrackIndex = (musicTrackIndex + 1) % musicPlaylist.length;
+    } else {
+        musicTrackIndex = (musicTrackIndex - 1 + musicPlaylist.length) % musicPlaylist.length;
+    }
+    window.playSong(musicTrackIndex);
+};
+
+window.toggleMusicWidget = function(show) {
+    const widget = document.getElementById('apple-music-widget');
+    if (!widget) return;
+    if (show) {
+        widget.style.display = 'block';
+    } else {
+        widget.style.display = 'none';
+        const player = document.getElementById('audio-player');
+        if (player) player.pause();
+    }
+};
+
+window.updateAudioProgress = function() {
+    const player = document.getElementById('audio-player');
+    const timeCurrent = document.getElementById('widget-time-current');
+    const timeRemaining = document.getElementById('widget-time-remaining');
+    const fill = document.getElementById('widget-progress-fill');
+    
+    if (!player || !timeCurrent || !timeRemaining || !fill) return;
+    
+    const cur = player.currentTime;
+    const dur = player.duration;
+    
+    function formatTime(secs) {
+        const m = Math.floor(secs / 60);
+        const s = Math.floor(secs % 60);
+        return `${m}:${String(s).padStart(2, '0')}`;
+    }
+    
+    if (!isNaN(dur)) {
+        timeCurrent.textContent = formatTime(cur);
+        timeRemaining.textContent = `-${formatTime(dur - cur)}`;
+        const percent = (cur / dur) * 100;
+        fill.style.width = `${percent}%`;
+    } else {
+        timeCurrent.textContent = "0:00";
+        timeRemaining.textContent = "-0:00";
+        fill.style.width = "0%";
+    }
+};
+
+window.seekAudio = function(e) {
+    const player = document.getElementById('audio-player');
+    const track = document.getElementById('widget-progress-track');
+    if (!player || !track) return;
+    
+    const rect = track.getBoundingClientRect();
+    const clickX = e.clientX - rect.left;
+    const width = rect.width;
+    const ratio = clickX / width;
+    
+    if (!isNaN(player.duration)) {
+        player.currentTime = ratio * player.duration;
+    }
+};
+
+window.audioTrackEnded = function() {
+    // Autoplay next track
+    window.playPrevNext(true);
+};
+
+window.filterSongs = function() {
+    const q = document.getElementById('music-search').value.toLowerCase().trim();
+    const rows = document.querySelectorAll('.song-row-item');
+    rows.forEach(row => {
+        const title = row.getAttribute('data-title') || '';
+        const artist = row.getAttribute('data-artist') || '';
+        if (title.includes(q) || artist.includes(q)) {
+            row.style.display = 'flex';
+        } else {
+            row.style.display = 'none';
+        }
+    });
 };
 
 /* --------------------------------------------------------------------------
