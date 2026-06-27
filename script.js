@@ -21,6 +21,17 @@ document.addEventListener('DOMContentLoaded', () => {
     initNavigation();
     initTerminal();
     initScrollWarp(); // Double-layered scroll warp loop (Window + Terminal)
+
+    // Programmatic audio player event bindings
+    const player = document.getElementById('audio-player');
+    if (player) {
+        player.addEventListener('timeupdate', () => {
+            if (window.updateAudioProgress) window.updateAudioProgress();
+        });
+        player.addEventListener('ended', () => {
+            if (window.audioTrackEnded) window.audioTrackEnded();
+        });
+    }
 });
 
 /* --------------------------------------------------------------------------
@@ -647,10 +658,10 @@ function getPersonalHTML() {
         <div id="football-result" style="min-height: 25px; margin-top: 1.5rem; font-family: var(--font-mono); font-size: 0.85rem; font-weight: bold; text-align: center; color: var(--primary-green);"></div>
     </div>
 
-    <!-- Apple Music Faction Audio Deck Card -->
+    <!-- Faction Audio Deck Card -->
     <div class="terminal-card" style="margin-top: 1.5rem; border-color: var(--border-slate); background-color: var(--bg-card); padding: 1.5rem;">
         <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-slate); padding-bottom: 0.5rem; margin-bottom: 1rem;">
-            <span style="font-family: var(--font-mono); font-size: 0.85rem; font-weight: 700; color: var(--primary-green);">[+] FACTION AUDIO DECK (APPLE MUSIC)</span>
+            <span style="font-family: var(--font-mono); font-size: 0.85rem; font-weight: 700; color: var(--primary-green);">[+] FACTION AUDIO DECK</span>
             <span style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-dark);">STATUS: READY</span>
         </div>
         <div style="margin-bottom: 1.25rem;">
@@ -712,12 +723,6 @@ window.handleFootballChoice = function(isUnited) {
         resultDiv.style.color = 'var(--primary-green)';
         resultDiv.textContent = '[✓] CORRECT! Glory Glory Manchester United! Red Devils Active.';
         
-        // Remove game warning line since correct choice was made
-        const warningLine = document.getElementById('terminal-game-warning');
-        if (warningLine) {
-            warningLine.remove();
-        }
-
         // Reset evading button back to normal flex flow layout (same level and stationary)
         const btn = document.getElementById('evading-btn');
         if (btn) {
@@ -732,9 +737,7 @@ window.handleFootballChoice = function(isUnited) {
 window.initEvadingButton = function() {
     const btn = document.getElementById('evading-btn');
     const container = btn ? btn.closest('.terminal-card') : null;
-    const screen = document.getElementById('terminal-screen');
-    const log = document.getElementById('terminal-log');
-    if (!btn || !container || !log) return;
+    if (!btn || !container) return;
 
     const prompts = [
         "there's only one right option.",
@@ -758,26 +761,12 @@ window.initEvadingButton = function() {
         btn.style.left = `${randomLeft}px`;
         btn.style.top = `${randomTop}px`;
 
-        // Output a funny warning prompt inside a single in-place log line
-        if (window.printTerminalLine) {
+        // Output warning directly inside the result container on the card instead of terminal logs
+        const resultDiv = document.getElementById('football-result');
+        if (resultDiv) {
             const randomIndex = Math.floor(Math.random() * prompts.length);
-            const warningId = 'terminal-game-warning';
-            const warningLine = document.getElementById(warningId);
-
-            if (!warningLine) {
-                window.printTerminalLine(prompts[randomIndex], 'error-msg');
-                const lastLine = log.lastElementChild;
-                if (lastLine) {
-                    lastLine.id = warningId;
-                }
-            } else {
-                warningLine.textContent = prompts[randomIndex];
-            }
-            
-            // Auto-scroll screen container down
-            if (screen) {
-                screen.scrollTop = screen.scrollHeight;
-            }
+            resultDiv.style.color = 'var(--text-muted)';
+            resultDiv.textContent = prompts[randomIndex];
         }
     }
 
@@ -786,25 +775,25 @@ window.initEvadingButton = function() {
 };
 
 /* --------------------------------------------------------------------------
-   FACTION APPLE MUSIC WIDGET CONTROLLER ROUTINES
+   FACTION AUDIO DECK WIDGET CONTROLLER ROUTINES
    -------------------------------------------------------------------------- */
 const musicPlaylist = [
     {
         title: "This Is What You Came For",
         artist: "Calvin Harris & Rihanna",
-        url: "https://archive.org/download/calvin-harris-rihanna-this-is-what-you-came-for-official-video/Calvin%20Harris%20%26%20Rihanna%20-%20This%20Is%20What%20You%20Came%20For%20%28Official%20Video%29.mp3",
+        url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
         art: "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=120&auto=format&fit=crop&q=80"
     },
     {
         title: "Starboy",
         artist: "The Weeknd & Daft Punk",
-        url: "https://archive.org/download/the-weeknd-starboy-ft.-daft-punk/The%20Weeknd%20-%20Starboy%20ft.%20Daft%20Punk.mp3",
+        url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3",
         art: "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=120&auto=format&fit=crop&q=80"
     },
     {
         title: "Midnight City",
         artist: "M83",
-        url: "https://archive.org/download/m83-midnight-city/M83%20-%20Midnight%20City.mp3",
+        url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3",
         art: "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?w=120&auto=format&fit=crop&q=80"
     }
 ];
@@ -975,7 +964,10 @@ function initTerminal() {
     if (!input || !log || !screen) return;
 
     // Focus input on screen click
-    screen.addEventListener('click', () => {
+    screen.addEventListener('click', (e) => {
+        if (e.target.tagName === 'INPUT' || e.target.tagName === 'BUTTON' || e.target.closest('button') || e.target.closest('input')) {
+            return;
+        }
         input.focus({ preventScroll: true });
     });
 
