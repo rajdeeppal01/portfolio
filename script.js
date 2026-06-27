@@ -629,98 +629,97 @@ function getCredentialsHTML() {
 function getPersonalHTML() {
     return `
 <div class="terminal-rich-container">
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.5rem; width: 100%;">
-        <!-- Column 1: Football Trivia -->
-        <div style="display: flex; flex-direction: column; gap: 0.75rem;">
-            <div class="terminal-sec-header">
-                <span class="terminal-sec-num">05 //</span>
-                <span class="terminal-sec-title">FOOTBALL TRIVIA CHALLENGE</span>
-            </div>
-            <div class="terminal-card" style="position: relative; height: 320px; display: flex; flex-direction: column; justify-content: space-between; padding: 1.5rem; border-color: var(--border-slate); background-color: var(--bg-card); overflow: hidden; border-radius: 6px;">
-                <h4 style="font-family: var(--font-mono); color: var(--text-white); font-size: 0.95rem; margin-top: 0.5rem; margin-bottom: 2.5rem; text-align: center; line-height: 1.4;">
-                    [SYSTEM QUERY] What is the greatest football club of all time?
-                </h4>
-                <div style="display: flex; justify-content: flex-start; align-items: center; padding-left: 2rem; min-height: 60px;">
-                    <button onclick="handleFootballChoice(true)" class="btn btn-primary" style="font-family: var(--font-mono); font-size: 0.85rem; padding: 0.5rem 1.25rem; min-width: 180px; z-index: 10;">
-                        Manchester United
-                    </button>
-                    
-                    <button id="evading-btn" class="btn" style="position: absolute; left: 60%; top: 55%; font-family: var(--font-mono); font-size: 0.85rem; padding: 0.5rem 1.25rem; min-width: 120px; background-color: var(--bg-dark); border: 1px solid var(--border-slate); color: var(--text-muted); cursor: pointer; transition: left 0.12s ease, top 0.12s ease; z-index: 10;">
-                        Others
-                    </button>
+    <div class="terminal-sec-header">
+        <span class="terminal-sec-num">05 //</span>
+        <span class="terminal-sec-title">FOOTBALL TRIVIA CHALLENGE</span>
+    </div>
+    
+    <!-- Football Evading Choice Card -->
+    <div class="terminal-card" style="position: relative; min-height: 240px; display: flex; flex-direction: column; justify-content: space-between; padding: 1.5rem; border-color: var(--border-slate); background-color: var(--bg-card); overflow: hidden; border-radius: 6px;">
+        <h4 style="font-family: var(--font-mono); color: var(--text-white); font-size: 0.95rem; margin-top: 0.5rem; margin-bottom: 2.5rem; text-align: center; line-height: 1.4;">
+            [SYSTEM QUERY] What is the greatest football club of all time?
+        </h4>
+        <div style="display: flex; justify-content: flex-start; align-items: center; padding-left: 2rem; min-height: 60px;">
+            <button onclick="handleFootballChoice(true)" class="btn btn-primary" style="font-family: var(--font-mono); font-size: 0.85rem; padding: 0.5rem 1.25rem; min-width: 180px; z-index: 10;">
+                Manchester United
+            </button>
+            
+            <button id="evading-btn" class="btn" style="position: absolute; left: 60%; top: 55%; font-family: var(--font-mono); font-size: 0.85rem; padding: 0.5rem 1.25rem; min-width: 120px; background-color: var(--bg-dark); border: 1px solid var(--border-slate); color: var(--text-muted); cursor: pointer; transition: left 0.12s ease, top 0.12s ease; z-index: 10;">
+                Others
+            </button>
+        </div>
+        <div id="football-result" style="min-height: 25px; margin-top: 1.5rem; font-family: var(--font-mono); font-size: 0.85rem; font-weight: bold; text-align: center; color: var(--primary-green);"></div>
+    </div>
+</div>`;
+}
+
+function getAudioDeckHTML() {
+    return `
+<div class="terminal-rich-container">
+    <div class="terminal-sec-header">
+        <span class="terminal-sec-num">06 //</span>
+        <span class="terminal-sec-title">FACTION AUDIO DECK</span>
+    </div>
+    <div class="terminal-card" style="border-color: var(--border-slate); background-color: var(--bg-card); padding: 1.5rem; min-height: 320px; display: flex; flex-direction: column; justify-content: flex-start; border-radius: 6px; overflow: hidden;">
+        <div style="margin-bottom: 0.75rem;">
+            <input type="text" id="music-search" placeholder="Search song title or artist..." onkeyup="filterSongs()" style="width: 100%; font-family: var(--font-mono); font-size: 0.8rem; background-color: var(--bg-dark); border: 1px solid var(--border-slate); border-radius: 4px; padding: 0.5rem; color: var(--text-white); outline: none;">
+        </div>
+        <div id="music-list-container" style="display: flex; flex-direction: column; gap: 0.5rem; overflow-y: auto; flex-grow: 1; padding-right: 0.25rem;">
+            <!-- Song 1 -->
+            <div class="song-row-item" data-title="this is what you came for" data-artist="calvin harris rihanna" style="display: flex; align-items: center; justify-content: space-between; background: var(--bg-dark); border: 1px solid var(--border-slate); border-radius: 6px; padding: 0.5rem 0.75rem; transition: background 0.2s;" onmouseover="this.style.background='var(--bg-card-hover)'" onmouseout="this.style.background='var(--bg-dark)'">
+                <div style="display: flex; align-items: center; gap: 0.5rem; overflow: hidden; flex-grow: 1;">
+                    <div style="width: 32px; height: 32px; border-radius: 4px; background-image: url('https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=120&auto=format&fit=crop&q=80'); background-size: cover; background-position: center; flex-shrink: 0;"></div>
+                    <div style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis; display: flex; flex-direction: column; line-height: 1.2;">
+                        <span style="font-size: 0.78rem; font-weight: 700; color: var(--text-white);">This Is What You Came For</span>
+                        <span style="font-size: 0.65rem; color: var(--text-muted);">Calvin Harris & Rihanna</span>
+                    </div>
                 </div>
-                <div id="football-result" style="min-height: 25px; margin-top: 1.5rem; font-family: var(--font-mono); font-size: 0.85rem; font-weight: bold; text-align: center; color: var(--primary-green);"></div>
+                <button onclick="playSong(0)" class="btn btn-primary" style="font-family: var(--font-mono); font-size: 0.68rem; padding: 0.25rem 0.65rem; border-radius: 4px;">
+                    Play
+                </button>
+            </div>
+            <!-- Song 2 -->
+            <div class="song-row-item" data-title="starboy" data-artist="the weeknd daft punk" style="display: flex; align-items: center; justify-content: space-between; background: var(--bg-dark); border: 1px solid var(--border-slate); border-radius: 6px; padding: 0.5rem 0.75rem; transition: background 0.2s;" onmouseover="this.style.background='var(--bg-card-hover)'" onmouseout="this.style.background='var(--bg-dark)'">
+                <div style="display: flex; align-items: center; gap: 0.5rem; overflow: hidden; flex-grow: 1;">
+                    <div style="width: 32px; height: 32px; border-radius: 4px; background-image: url('https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=120&auto=format&fit=crop&q=80'); background-size: cover; background-position: center; flex-shrink: 0;"></div>
+                    <div style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis; display: flex; flex-direction: column; line-height: 1.2;">
+                        <span style="font-size: 0.78rem; font-weight: 700; color: var(--text-white);">Starboy</span>
+                        <span style="font-size: 0.65rem; color: var(--text-muted);">The Weeknd & Daft Punk</span>
+                    </div>
+                </div>
+                <button onclick="playSong(1)" class="btn btn-primary" style="font-family: var(--font-mono); font-size: 0.68rem; padding: 0.25rem 0.65rem; border-radius: 4px;">
+                    Play
+                </button>
+            </div>
+            <!-- Song 3 -->
+            <div class="song-row-item" data-title="midnight city" data-artist="m83" style="display: flex; align-items: center; justify-content: space-between; background: var(--bg-dark); border: 1px solid var(--border-slate); border-radius: 6px; padding: 0.5rem 0.75rem; transition: background 0.2s;" onmouseover="this.style.background='var(--bg-card-hover)'" onmouseout="this.style.background='var(--bg-dark)'">
+                <div style="display: flex; align-items: center; gap: 0.5rem; overflow: hidden; flex-grow: 1;">
+                    <div style="width: 32px; height: 32px; border-radius: 4px; background-image: url('https://images.unsplash.com/photo-1509198397868-475647b2a1e5?w=120&auto=format&fit=crop&q=80'); background-size: cover; background-position: center; flex-shrink: 0;"></div>
+                    <div style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis; display: flex; flex-direction: column; line-height: 1.2;">
+                        <span style="font-size: 0.78rem; font-weight: 700; color: var(--text-white);">Midnight City</span>
+                        <span style="font-size: 0.65rem; color: var(--text-muted);">M83</span>
+                    </div>
+                </div>
+                <button onclick="playSong(2)" class="btn btn-primary" style="font-family: var(--font-mono); font-size: 0.68rem; padding: 0.25rem 0.65rem; border-radius: 4px;">
+                    Play
+                </button>
+            </div>
+            <!-- Song 4 -->
+            <div class="song-row-item" data-title="sicko mode" data-artist="travis scott drake" style="display: flex; align-items: center; justify-content: space-between; background: var(--bg-dark); border: 1px solid var(--border-slate); border-radius: 6px; padding: 0.5rem 0.75rem; transition: background 0.2s;" onmouseover="this.style.background='var(--bg-card-hover)'" onmouseout="this.style.background='var(--bg-dark)'">
+                <div style="display: flex; align-items: center; gap: 0.5rem; overflow: hidden; flex-grow: 1;">
+                    <div style="width: 32px; height: 32px; border-radius: 4px; background-image: url('https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=120&auto=format&fit=crop&q=80'); background-size: cover; background-position: center; flex-shrink: 0;"></div>
+                    <div style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis; display: flex; flex-direction: column; line-height: 1.2;">
+                        <span style="font-size: 0.78rem; font-weight: 700; color: var(--text-white);">Sicko Mode</span>
+                        <span style="font-size: 0.65rem; color: var(--text-muted);">Travis Scott & Drake</span>
+                    </div>
+                </div>
+                <button onclick="playSong(3)" class="btn btn-primary" style="font-family: var(--font-mono); font-size: 0.68rem; padding: 0.25rem 0.65rem; border-radius: 4px;">
+                    Play
+                </button>
             </div>
         </div>
-        
-        <!-- Column 2: Faction Audio Deck -->
-        <div style="display: flex; flex-direction: column; gap: 0.75rem;">
-            <div class="terminal-sec-header">
-                <span class="terminal-sec-num">06 //</span>
-                <span class="terminal-sec-title">FACTION AUDIO DECK</span>
-            </div>
-            <div class="terminal-card" style="border-color: var(--border-slate); background-color: var(--bg-card); padding: 1.5rem; height: 320px; display: flex; flex-direction: column; justify-content: flex-start; border-radius: 6px; overflow: hidden;">
-                <div style="margin-bottom: 0.75rem;">
-                    <input type="text" id="music-search" placeholder="Search song title or artist..." onkeyup="filterSongs()" style="width: 100%; font-family: var(--font-mono); font-size: 0.8rem; background-color: var(--bg-dark); border: 1px solid var(--border-slate); border-radius: 4px; padding: 0.5rem; color: var(--text-white); outline: none;">
-                </div>
-                <div id="music-list-container" style="display: flex; flex-direction: column; gap: 0.5rem; overflow-y: auto; flex-grow: 1; padding-right: 0.25rem;">
-                    <!-- Song 1 -->
-                    <div class="song-row-item" data-title="this is what you came for" data-artist="calvin harris rihanna" style="display: flex; align-items: center; justify-content: space-between; background: var(--bg-dark); border: 1px solid var(--border-slate); border-radius: 6px; padding: 0.5rem 0.75rem; transition: background 0.2s;" onmouseover="this.style.background='var(--bg-card-hover)'" onmouseout="this.style.background='var(--bg-dark)'">
-                        <div style="display: flex; align-items: center; gap: 0.5rem; overflow: hidden; flex-grow: 1;">
-                            <div style="width: 32px; height: 32px; border-radius: 4px; background-image: url('https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=120&auto=format&fit=crop&q=80'); background-size: cover; background-position: center; flex-shrink: 0;"></div>
-                            <div style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis; display: flex; flex-direction: column; line-height: 1.2;">
-                                <span style="font-size: 0.78rem; font-weight: 700; color: var(--text-white);">This Is What You Came For</span>
-                                <span style="font-size: 0.65rem; color: var(--text-muted);">Calvin Harris & Rihanna</span>
-                            </div>
-                        </div>
-                        <button onclick="playSong(0)" class="btn btn-primary" style="font-family: var(--font-mono); font-size: 0.68rem; padding: 0.25rem 0.65rem; border-radius: 4px;">
-                            Play
-                        </button>
-                    </div>
-                    <!-- Song 2 -->
-                    <div class="song-row-item" data-title="starboy" data-artist="the weeknd daft punk" style="display: flex; align-items: center; justify-content: space-between; background: var(--bg-dark); border: 1px solid var(--border-slate); border-radius: 6px; padding: 0.5rem 0.75rem; transition: background 0.2s;" onmouseover="this.style.background='var(--bg-card-hover)'" onmouseout="this.style.background='var(--bg-dark)'">
-                        <div style="display: flex; align-items: center; gap: 0.5rem; overflow: hidden; flex-grow: 1;">
-                            <div style="width: 32px; height: 32px; border-radius: 4px; background-image: url('https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=120&auto=format&fit=crop&q=80'); background-size: cover; background-position: center; flex-shrink: 0;"></div>
-                            <div style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis; display: flex; flex-direction: column; line-height: 1.2;">
-                                <span style="font-size: 0.78rem; font-weight: 700; color: var(--text-white);">Starboy</span>
-                                <span style="font-size: 0.65rem; color: var(--text-muted);">The Weeknd & Daft Punk</span>
-                            </div>
-                        </div>
-                        <button onclick="playSong(1)" class="btn btn-primary" style="font-family: var(--font-mono); font-size: 0.68rem; padding: 0.25rem 0.65rem; border-radius: 4px;">
-                            Play
-                        </button>
-                    </div>
-                    <!-- Song 3 -->
-                    <div class="song-row-item" data-title="midnight city" data-artist="m83" style="display: flex; align-items: center; justify-content: space-between; background: var(--bg-dark); border: 1px solid var(--border-slate); border-radius: 6px; padding: 0.5rem 0.75rem; transition: background 0.2s;" onmouseover="this.style.background='var(--bg-card-hover)'" onmouseout="this.style.background='var(--bg-dark)'">
-                        <div style="display: flex; align-items: center; gap: 0.5rem; overflow: hidden; flex-grow: 1;">
-                            <div style="width: 32px; height: 32px; border-radius: 4px; background-image: url('https://images.unsplash.com/photo-1509198397868-475647b2a1e5?w=120&auto=format&fit=crop&q=80'); background-size: cover; background-position: center; flex-shrink: 0;"></div>
-                            <div style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis; display: flex; flex-direction: column; line-height: 1.2;">
-                                <span style="font-size: 0.78rem; font-weight: 700; color: var(--text-white);">Midnight City</span>
-                                <span style="font-size: 0.65rem; color: var(--text-muted);">M83</span>
-                            </div>
-                        </div>
-                        <button onclick="playSong(2)" class="btn btn-primary" style="font-family: var(--font-mono); font-size: 0.68rem; padding: 0.25rem 0.65rem; border-radius: 4px;">
-                            Play
-                        </button>
-                    </div>
-                    <!-- Song 4 -->
-                    <div class="song-row-item" data-title="sicko mode" data-artist="travis scott drake" style="display: flex; align-items: center; justify-content: space-between; background: var(--bg-dark); border: 1px solid var(--border-slate); border-radius: 6px; padding: 0.5rem 0.75rem; transition: background 0.2s;" onmouseover="this.style.background='var(--bg-card-hover)'" onmouseout="this.style.background='var(--bg-dark)'">
-                        <div style="display: flex; align-items: center; gap: 0.5rem; overflow: hidden; flex-grow: 1;">
-                            <div style="width: 32px; height: 32px; border-radius: 4px; background-image: url('https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=120&auto=format&fit=crop&q=80'); background-size: cover; background-position: center; flex-shrink: 0;"></div>
-                            <div style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis; display: flex; flex-direction: column; line-height: 1.2;">
-                                <span style="font-size: 0.78rem; font-weight: 700; color: var(--text-white);">Sicko Mode</span>
-                                <span style="font-size: 0.65rem; color: var(--text-muted);">Travis Scott & Drake</span>
-                            </div>
-                        </div>
-                        <button onclick="playSong(3)" class="btn btn-primary" style="font-family: var(--font-mono); font-size: 0.68rem; padding: 0.25rem 0.65rem; border-radius: 4px;">
-                            Play
-                        </button>
-                    </div>
-                </div>
-                <div id="music-no-results" style="display: none; text-align: center; padding: 1rem; font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-muted); border: 1px dashed var(--border-slate); border-radius: 6px; background-color: var(--bg-dark); margin-top: 0.5rem;">
-                    [!] No tracks found matching your query.
-                </div>
-            </div>
+        <div id="music-no-results" style="display: none; text-align: center; padding: 1rem; font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-muted); border: 1px dashed var(--border-slate); border-radius: 6px; background-color: var(--bg-dark); margin-top: 0.5rem;">
+            [!] No tracks found matching your query.
         </div>
     </div>
 </div>`;
@@ -822,9 +821,9 @@ let isAudioMuted = false;
 let ytPlayer = null;
 let progressTimer = null;
 
-// Dynamically load YouTube Iframe API
+// Dynamically load YouTube Iframe API via the privacy-optimized no-cookie domain
 const tag = document.createElement('script');
-tag.src = "https://www.youtube.com/iframe_api";
+tag.src = "https://www.youtube-nocookie.com/iframe_api";
 const firstScriptTag = document.getElementsByTagName('script')[0];
 if (firstScriptTag) {
     firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
@@ -1135,7 +1134,7 @@ function initTerminal() {
             }
             
             // Scroll to top for section commands, scroll to bottom for others!
-            const sectionCmds = ['overview', 'about', 'experience', 'exp', 'projects', 'proj', 'skills', 'credentials', 'certs', 'personal'];
+            const sectionCmds = ['overview', 'about', 'experience', 'exp', 'projects', 'proj', 'skills', 'credentials', 'certs', 'personal', 'audio', 'music'];
             const cmdLower = command.trim().toLowerCase();
             const isCdSection = cmdLower.startsWith('cd ') && sectionCmds.some(s => cmdLower.includes(s));
             
@@ -1182,7 +1181,8 @@ function initTerminal() {
 <span class="dir-highlight">skills/</span>    
 <span class="dir-highlight">credentials/</span>    
 <span class="dir-highlight">contact/</span>    
-<span class="dir-highlight">personal/</span>`.trim();
+<span class="dir-highlight">personal/</span>    
+<span class="dir-highlight">audio/</span>`.trim();
         log.appendChild(line);
     }
 
@@ -1242,6 +1242,11 @@ function initTerminal() {
                     window.initEvadingButton();
                 }
                 syncTerminalView('personal');
+            } else if (path === 'audio' || path === 'music') {
+                log.innerHTML = '';
+                printLine(`guest@raj-console:~$ cd ${path}`, 'input-echo');
+                appendHTML(getAudioDeckHTML());
+                syncTerminalView('audio');
             } else if (path === 'contact') {
                 printLine('[+] Redirecting to contact section...', 'success-msg');
                 setTimeout(() => {
@@ -1342,6 +1347,14 @@ function initTerminal() {
                 syncTerminalView('personal');
                 break;
                 
+            case 'audio':
+            case 'music':
+                log.innerHTML = '';
+                printLine(`guest@raj-console:~$ ${lowerCmd}`, 'input-echo');
+                appendHTML(getAudioDeckHTML());
+                syncTerminalView('audio');
+                break;
+                
             case 'contact':
                 printLine('[+] Redirecting to contact section...', 'success-msg');
                 setTimeout(() => {
@@ -1360,7 +1373,8 @@ function initTerminal() {
                 printLine('  projects   - Render active system buildouts.');
                 printLine('  skills     - Render the technical matrices.');
                 printLine('  credentials- Display authenticated learning shields.');
-                printLine('  personal   - Enter the personal faction affiliation segment.');
+                printLine('  personal   - Enter the personal football trivia card.');
+                printLine('  audio      - Open the Faction Audio Deck media system.');
                 printLine('  contact    - Scroll down to the contact dispatch section.');
                 printLine('  theme [t]  - Change console theme (theme list for options).');
                 printLine('  download   - Download Rajdeep Pal PDF resume.');
