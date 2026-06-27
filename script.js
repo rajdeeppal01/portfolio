@@ -622,6 +622,63 @@ function getCredentialsHTML() {
 </div>`;
 }
 
+function getPersonalHTML() {
+    return `
+<div class="terminal-rich-container">
+    <div class="terminal-sec-header">
+        <span class="terminal-sec-num">05 //</span>
+        <span class="terminal-sec-title">PERSONAL LOGS & FACTION AFFILIATION</span>
+    </div>
+    <div class="terminal-card" style="position: relative; min-height: 240px; display: flex; flex-direction: column; justify-content: space-between; padding: 1.5rem; border-color: var(--border-slate); background-color: var(--bg-card); overflow: hidden;">
+        <h4 style="font-family: var(--font-mono); color: var(--text-white); font-size: 1rem; margin-top: 0.5rem; margin-bottom: 2.5rem; text-align: center; line-height: 1.4;">
+            [SYSTEM QUERY] What is the greatest football club of all time?
+        </h4>
+        <div style="display: flex; justify-content: flex-start; align-items: center; padding-left: 2rem; min-height: 60px;">
+            <button onclick="handleFootballChoice(true)" class="btn btn-primary" style="font-family: var(--font-mono); font-size: 0.85rem; padding: 0.5rem 1.25rem; min-width: 180px; z-index: 10;">
+                Manchester United
+            </button>
+            
+            <button id="evading-btn" class="btn" style="position: absolute; left: 60%; top: 55%; font-family: var(--font-mono); font-size: 0.85rem; padding: 0.5rem 1.25rem; min-width: 120px; background-color: var(--bg-dark); border: 1px solid var(--border-slate); color: var(--text-muted); cursor: pointer; transition: left 0.12s ease, top 0.12s ease; z-index: 10;">
+                Others
+            </button>
+        </div>
+        <div id="football-result" style="min-height: 25px; margin-top: 1.5rem; font-family: var(--font-mono); font-size: 0.85rem; font-weight: bold; text-align: center; color: var(--primary-green);"></div>
+    </div>
+</div>`;
+}
+
+window.handleFootballChoice = function(isUnited) {
+    const resultDiv = document.getElementById('football-result');
+    if (!resultDiv) return;
+    if (isUnited) {
+        resultDiv.style.color = 'var(--primary-green)';
+        resultDiv.textContent = '[✓] CORRECT! Glory Glory Manchester United! Red Devils Active.';
+    }
+};
+
+window.initEvadingButton = function() {
+    const btn = document.getElementById('evading-btn');
+    const container = btn ? btn.closest('.terminal-card') : null;
+    if (!btn || !container) return;
+
+    function evade() {
+        const containerRect = container.getBoundingClientRect();
+        const btnRect = btn.getBoundingClientRect();
+        
+        const maxLeft = containerRect.width - btnRect.width - 32;
+        const maxTop = containerRect.height - btnRect.height - 32;
+        
+        const randomLeft = Math.max(16, Math.floor(Math.random() * maxLeft));
+        const randomTop = Math.max(16, Math.floor(Math.random() * maxTop));
+        
+        btn.style.left = `${randomLeft}px`;
+        btn.style.top = `${randomTop}px`;
+    }
+
+    btn.addEventListener('mouseover', evade);
+    btn.addEventListener('touchstart', evade);
+};
+
 /* --------------------------------------------------------------------------
    05. INTERACTIVE TERMINAL LOGIC & COMMAND PROCESSOR
    -------------------------------------------------------------------------- */
@@ -653,7 +710,7 @@ function initTerminal() {
             }
             
             // Scroll to top for section commands, scroll to bottom for others!
-            const sectionCmds = ['overview', 'about', 'experience', 'exp', 'projects', 'proj', 'skills', 'credentials', 'certs'];
+            const sectionCmds = ['overview', 'about', 'experience', 'exp', 'projects', 'proj', 'skills', 'credentials', 'certs', 'personal'];
             const cmdLower = command.trim().toLowerCase();
             const isCdSection = cmdLower.startsWith('cd ') && sectionCmds.some(s => cmdLower.includes(s));
             
@@ -698,6 +755,7 @@ function initTerminal() {
 <span class="dir-highlight">projects/</span>    
 <span class="dir-highlight">skills/</span>    
 <span class="dir-highlight">credentials/</span>    
+<span class="dir-highlight">personal/</span>    
 <span class="dir-highlight">contact/</span>`.trim();
         log.appendChild(line);
     }
@@ -750,6 +808,14 @@ function initTerminal() {
                 printLine('guest@raj-console:~$ cd credentials', 'input-echo');
                 appendHTML(getCredentialsHTML());
                 syncTerminalView('certs');
+            } else if (path === 'personal') {
+                log.innerHTML = '';
+                printLine('guest@raj-console:~$ cd personal', 'input-echo');
+                appendHTML(getPersonalHTML());
+                if (window.initEvadingButton) {
+                    window.initEvadingButton();
+                }
+                syncTerminalView('personal');
             } else if (path === 'contact') {
                 printLine('[+] Redirecting to contact section...', 'success-msg');
                 setTimeout(() => {
@@ -840,6 +906,16 @@ function initTerminal() {
                 syncTerminalView('certs');
                 break;
                 
+            case 'personal':
+                log.innerHTML = '';
+                printLine('guest@raj-console:~$ personal', 'input-echo');
+                appendHTML(getPersonalHTML());
+                if (window.initEvadingButton) {
+                    window.initEvadingButton();
+                }
+                syncTerminalView('personal');
+                break;
+                
             case 'contact':
                 printLine('[+] Redirecting to contact section...', 'success-msg');
                 setTimeout(() => {
@@ -858,6 +934,7 @@ function initTerminal() {
                 printLine('  projects   - Render active system buildouts.');
                 printLine('  skills     - Render the technical matrices.');
                 printLine('  credentials- Display authenticated learning shields.');
+                printLine('  personal   - Enter the personal faction affiliation segment.');
                 printLine('  contact    - Scroll down to the contact dispatch section.');
                 printLine('  theme [t]  - Change console theme (theme list for options).');
                 printLine('  download   - Download Rajdeep Pal PDF resume.');
@@ -954,7 +1031,7 @@ function initTerminal() {
             }
             
             // If it is a section command, scroll to the top so it starts at the beginning!
-            const sectionCmds = ['overview', 'experience', 'exp', 'projects', 'proj', 'skills', 'credentials', 'certs'];
+            const sectionCmds = ['overview', 'experience', 'exp', 'projects', 'proj', 'skills', 'credentials', 'certs', 'personal'];
             setTimeout(() => {
                 if (sectionCmds.includes(cmd)) {
                     screen.scrollTop = 0;
