@@ -195,6 +195,19 @@ function initNavigation() {
     }
 }
 
+function getWelcomeGuideHTML() {
+    return `
+<div class="terminal-card" style="border-color: var(--border-slate); background-color: transparent; border-style: dashed; font-family: var(--font-mono); font-size: 0.78rem; line-height: 1.5; margin-bottom: 1rem;">
+    <div style="color: var(--primary-green); margin-bottom: 0.35rem;"><strong>[+] Core Console Commands:</strong></div>
+    <div><span style="color: var(--primary-green); margin-right: 0.5rem;">•</span><strong style="color: var(--text-white);">whoami</strong>     - Extract visitor details & show professional summary.</div>
+    <div><span style="color: var(--primary-green); margin-right: 0.5rem;">•</span><strong style="color: var(--text-white);">help</strong>       - View full CLI command reference menu.</div>
+    <div><span style="color: var(--primary-green); margin-right: 0.5rem;">•</span><strong style="color: var(--text-white);">ls / cd</strong>    - Navigate file directory folders.</div>
+    <div><span style="color: var(--primary-green); margin-right: 0.5rem;">•</span><strong style="color: var(--text-white);">scan</strong>       - Run cognitive security threat diagnostic audit.</div>
+    <div><span style="color: var(--primary-green); margin-right: 0.5rem;">•</span><strong style="color: var(--text-white);">theme</strong>      - Change console colors (matrix, dracula, nord, obsidian).</div>
+    <div><span style="color: var(--primary-green); margin-right: 0.5rem;">•</span><strong style="color: var(--text-white);">clear</strong>      - Clear screen logs and reset terminal view.</div>
+</div>`;
+}
+
 function getWhoamiHTML() {
     const ua = navigator.userAgent;
     let os = 'Unknown OS';
@@ -858,6 +871,7 @@ function initTerminal() {
                 printLine("Welcome to Rajdeep Pal's interactive portfolio console.", 'info-msg');
                 printLine("Type whoami to learn more about me! Or click navigation links above to explore.", 'info-msg');
                 printLine('');
+                appendHTML(getWelcomeGuideHTML());
                 break;
                 
             default:
@@ -915,6 +929,7 @@ function initTerminal() {
                 printLine("Welcome to Rajdeep Pal's interactive portfolio console.", 'info-msg');
                 printLine("Type whoami to learn more about me! Or click navigation links above to explore.", 'info-msg');
                 printLine('');
+                appendHTML(getWelcomeGuideHTML());
                 appendHTML(getWhoamiHTML());
                 appendHTML(getAboutHTML());
             } else {
