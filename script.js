@@ -650,6 +650,9 @@ function initTerminal() {
         input.focus({ preventScroll: true });
     });
 
+    // Programmatically focus input on load without scrolling
+    input.focus({ preventScroll: true });
+
     // Handle command submission
     input.addEventListener('keydown', (e) => {
         if (e.key === 'Enter') {
