@@ -642,7 +642,7 @@ function getPersonalHTML() {
 <div class="terminal-rich-container">
     <div class="terminal-sec-header">
         <span class="terminal-sec-num">05 //</span>
-        <span class="terminal-sec-title">PERSONAL LOGS & FACTION AFFILIATION</span>
+        <span class="terminal-sec-title">FOOTBALL TRIVIA CHALLENGE</span>
     </div>
     
     <!-- Football Evading Choice Card -->
@@ -662,12 +662,13 @@ function getPersonalHTML() {
         <div id="football-result" style="min-height: 25px; margin-top: 1.5rem; font-family: var(--font-mono); font-size: 0.85rem; font-weight: bold; text-align: center; color: var(--primary-green);"></div>
     </div>
 
+    <div class="terminal-sec-header" style="margin-top: 2rem;">
+        <span class="terminal-sec-num">06 //</span>
+        <span class="terminal-sec-title">FACTION AUDIO DECK</span>
+    </div>
+
     <!-- Faction Audio Deck Card -->
-    <div class="terminal-card" style="margin-top: 1.5rem; border-color: var(--border-slate); background-color: var(--bg-card); padding: 1.5rem;">
-        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-slate); padding-bottom: 0.5rem; margin-bottom: 1rem;">
-            <span style="font-family: var(--font-mono); font-size: 0.85rem; font-weight: 700; color: var(--primary-green);">[+] FACTION AUDIO DECK</span>
-            <span style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-dark);">STATUS: READY</span>
-        </div>
+    <div class="terminal-card" style="border-color: var(--border-slate); background-color: var(--bg-card); padding: 1.5rem;">
         <div style="margin-bottom: 1.25rem;">
             <input type="text" id="music-search" placeholder="Search song title or artist..." onkeyup="filterSongs()" style="width: 100%; font-family: var(--font-mono); font-size: 0.8rem; background-color: var(--bg-dark); border: 1px solid var(--border-slate); border-radius: 4px; padding: 0.5rem; color: var(--text-white); outline: none;">
         </div>
@@ -756,10 +757,12 @@ window.initEvadingButton = function() {
         const containerRect = container.getBoundingClientRect();
         const btnRect = btn.getBoundingClientRect();
         
+        // Keep evading button constrained to the right 55% of the container to prevent overlapping Manchester United
+        const minLeft = Math.floor(containerRect.width * 0.45);
         const maxLeft = containerRect.width - btnRect.width - 32;
         const maxTop = containerRect.height - btnRect.height - 32;
         
-        const randomLeft = Math.max(16, Math.floor(Math.random() * maxLeft));
+        const randomLeft = minLeft + Math.floor(Math.random() * (maxLeft - minLeft));
         const randomTop = Math.max(16, Math.floor(Math.random() * maxTop));
         
         btn.style.left = `${randomLeft}px`;
@@ -785,19 +788,19 @@ const musicPlaylist = [
     {
         title: "This Is What You Came For",
         artist: "Calvin Harris & Rihanna",
-        url: "https://archive.org/download/calvin-harris-rihanna-this-is-what-you-came-for-official-video/Calvin%20Harris%20%26%20Rihanna%20-%20This%20Is%20What%20You%20Came%20For%20%28Official%20Video%29.mp3",
+        url: "https://web.archive.org/web/20210701000000oe_/https://archive.org/download/calvin-harris-rihanna-this-is-what-you-came-for-official-video/Calvin%20Harris%20%26%20Rihanna%20-%20This%20Is%20What%20You%20Came%20For%20%28Official%20Video%29.mp3",
         art: "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=120&auto=format&fit=crop&q=80"
     },
     {
         title: "Starboy",
         artist: "The Weeknd & Daft Punk",
-        url: "https://archive.org/download/the-weeknd-starboy-ft.-daft-punk/The%20Weeknd%20-%20Starboy%20ft.%20Daft%20Punk.mp3",
+        url: "https://web.archive.org/web/20210701000000oe_/https://archive.org/download/the-weeknd-starboy-ft.-daft-punk/The%20Weeknd%20-%20Starboy%20ft.%20Daft%20Punk.mp3",
         art: "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=120&auto=format&fit=crop&q=80"
     },
     {
         title: "Midnight City",
         artist: "M83",
-        url: "https://archive.org/download/m83-midnight-city/M83%20-%20Midnight%20City.mp3",
+        url: "https://web.archive.org/web/20210701000000oe_/https://archive.org/download/m83-midnight-city/M83%20-%20Midnight%20City.mp3",
         art: "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?w=120&auto=format&fit=crop&q=80"
     }
 ];
