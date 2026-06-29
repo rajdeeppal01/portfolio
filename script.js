@@ -15,15 +15,61 @@ fetch('https://ipapi.co/json/')
     });
 
 document.addEventListener('DOMContentLoaded', () => {
+    // Render all sections one below the other in the main container
+    const mainContainer = document.querySelector('.saas-container');
+    if (mainContainer) {
+        // Create Experience Section
+        const expSec = document.createElement('section');
+        expSec.id = 'experience';
+        expSec.className = 'saas-section';
+        expSec.innerHTML = getExperienceHTML();
+        mainContainer.appendChild(expSec);
+        
+        // Create Projects Section
+        const projSec = document.createElement('section');
+        projSec.id = 'projects';
+        projSec.className = 'saas-section';
+        projSec.innerHTML = getProjectsHTML();
+        mainContainer.appendChild(projSec);
+        
+        // Create Skills Section
+        const skillsSec = document.createElement('section');
+        skillsSec.id = 'skills';
+        skillsSec.className = 'saas-section';
+        skillsSec.innerHTML = getSkillsHTML();
+        mainContainer.appendChild(skillsSec);
+        
+        // Create Credentials Section
+        const certsSec = document.createElement('section');
+        certsSec.id = 'certs';
+        certsSec.className = 'saas-section';
+        certsSec.innerHTML = getCredentialsHTML();
+        mainContainer.appendChild(certsSec);
+        
+        // Move Contact Section to the end
+        const contactSec = document.getElementById('contact');
+        if (contactSec) {
+            mainContainer.appendChild(contactSec);
+        }
+    }
+
     initClock();
     initSessionTracker();
     initTypingAnimation();
     initNavigation();
     initTerminal();
     initScrollWarp(); // Double-layered scroll warp loop (Window + Terminal)
-
-    if (window.initDraggableWidget) {
-        window.initDraggableWidget();
+    initAmbientCanvas();
+    initCustomCursor();
+    
+    // Animate skill bars when scrolled into view
+    if (window.initSkillsScrollTrigger) {
+        window.initSkillsScrollTrigger();
+    }
+    
+    // Initialize visitor telemetry counter
+    if (window.initVisitorCounter) {
+        window.initVisitorCounter();
     }
 });
 
@@ -125,7 +171,7 @@ function syncTerminalView(command) {
     });
 
     if (heroSection) {
-        if (command === 'overview') {
+        if (document.body.classList.contains('terminal-minimized') || command === 'overview') {
             heroSection.classList.remove('terminal-only-view');
         } else {
             heroSection.classList.add('terminal-only-view');
@@ -134,28 +180,30 @@ function syncTerminalView(command) {
 }
 
 window.switchTab = function(command) {
-    const sections = document.querySelectorAll('.saas-section');
-
-    // Hide all sections, show the active one!
-    sections.forEach(sec => sec.classList.remove('active-sec'));
+    const navLinks = document.querySelectorAll('.nav-link');
     
-    if (command === 'contact') {
-        const contactSection = document.getElementById('contact');
-        if (contactSection) {
-            contactSection.classList.add('active-sec');
+    // Update navigation active states
+    navLinks.forEach(link => {
+        link.classList.remove('active');
+        const href = link.getAttribute('href').replace('#', '');
+        if (href === command) {
+            link.classList.add('active');
         }
-        syncTerminalView(command);
+    });
+
+    if (command === 'overview') {
         window.scrollTo({ top: 0, behavior: 'smooth' });
     } else {
-        const heroSection = document.getElementById('hero');
-        if (heroSection) {
-            heroSection.classList.add('active-sec');
-        }
-        syncTerminalView(command);
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-        // Trigger command execution in terminal
-        if (window.executeTerminalCommand) {
-            window.executeTerminalCommand(command);
+        let targetId = command;
+        if (command === 'certs') targetId = 'certs';
+        if (command === 'exp') targetId = 'experience';
+        if (command === 'proj') targetId = 'projects';
+        
+        const section = document.getElementById(targetId);
+        if (section) {
+            const yOffset = -80; // Header offset
+            const y = section.getBoundingClientRect().top + window.pageYOffset + yOffset;
+            window.scrollTo({ top: y, behavior: 'smooth' });
         }
     }
 };
@@ -626,480 +674,6 @@ function getCredentialsHTML() {
 </div>`;
 }
 
-function getPersonalHTML() {
-    return `
-<div class="terminal-rich-container">
-    <div class="terminal-sec-header">
-        <span class="terminal-sec-num">05 //</span>
-        <span class="terminal-sec-title">FOOTBALL TRIVIA CHALLENGE</span>
-    </div>
-    
-    <!-- Football Evading Choice Card -->
-    <div class="terminal-card" style="position: relative; min-height: 240px; display: flex; flex-direction: column; justify-content: space-between; padding: 1.5rem; border-color: var(--border-slate); background-color: var(--bg-card); overflow: hidden; border-radius: 6px;">
-        <h4 style="font-family: var(--font-mono); color: var(--text-white); font-size: 0.95rem; margin-top: 0.5rem; margin-bottom: 2.5rem; text-align: center; line-height: 1.4;">
-            [SYSTEM QUERY] What is the greatest football club of all time?
-        </h4>
-        <div style="display: flex; justify-content: flex-start; align-items: center; padding-left: 2rem; min-height: 60px;">
-            <button onclick="handleFootballChoice(true)" class="btn btn-primary" style="font-family: var(--font-mono); font-size: 0.85rem; padding: 0.5rem 1.25rem; min-width: 180px; z-index: 10;">
-                Manchester United
-            </button>
-            
-            <button id="evading-btn" class="btn" style="position: absolute; left: 60%; top: 55%; font-family: var(--font-mono); font-size: 0.85rem; padding: 0.5rem 1.25rem; min-width: 120px; background-color: var(--bg-dark); border: 1px solid var(--border-slate); color: var(--text-muted); cursor: pointer; transition: left 0.12s ease, top 0.12s ease; z-index: 10;">
-                Others
-            </button>
-        </div>
-        <div id="football-result" style="min-height: 25px; margin-top: 1.5rem; font-family: var(--font-mono); font-size: 0.85rem; font-weight: bold; text-align: center; color: var(--primary-green);"></div>
-    </div>
-</div>`;
-}
-
-function getAudioDeckHTML() {
-    return `
-<div class="terminal-rich-container">
-    <div class="terminal-sec-header">
-        <span class="terminal-sec-num">06 //</span>
-        <span class="terminal-sec-title">FACTION AUDIO DECK</span>
-    </div>
-    <div class="terminal-card" style="border-color: var(--border-slate); background-color: var(--bg-card); padding: 1.5rem; min-height: 320px; display: flex; flex-direction: column; justify-content: flex-start; border-radius: 6px; overflow: hidden;">
-        <div style="margin-bottom: 0.75rem;">
-            <input type="text" id="music-search" placeholder="Search song title or artist..." onkeyup="filterSongs()" style="width: 100%; font-family: var(--font-mono); font-size: 0.8rem; background-color: var(--bg-dark); border: 1px solid var(--border-slate); border-radius: 4px; padding: 0.5rem; color: var(--text-white); outline: none;">
-        </div>
-        <div id="music-list-container" style="display: flex; flex-direction: column; gap: 0.5rem; overflow-y: auto; flex-grow: 1; padding-right: 0.25rem;">
-            <!-- Song 1 -->
-            <div class="song-row-item" data-title="this is what you came for" data-artist="calvin harris rihanna" style="display: flex; align-items: center; justify-content: space-between; background: var(--bg-dark); border: 1px solid var(--border-slate); border-radius: 6px; padding: 0.5rem 0.75rem; transition: background 0.2s;" onmouseover="this.style.background='var(--bg-card-hover)'" onmouseout="this.style.background='var(--bg-dark)'">
-                <div style="display: flex; align-items: center; gap: 0.5rem; overflow: hidden; flex-grow: 1;">
-                    <div style="width: 32px; height: 32px; border-radius: 4px; background-image: url('https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=120&auto=format&fit=crop&q=80'); background-size: cover; background-position: center; flex-shrink: 0;"></div>
-                    <div style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis; display: flex; flex-direction: column; line-height: 1.2;">
-                        <span style="font-size: 0.78rem; font-weight: 700; color: var(--text-white);">This Is What You Came For</span>
-                        <span style="font-size: 0.65rem; color: var(--text-muted);">Calvin Harris & Rihanna</span>
-                    </div>
-                </div>
-                <button onclick="playSong(0)" class="btn btn-primary" style="font-family: var(--font-mono); font-size: 0.68rem; padding: 0.25rem 0.65rem; border-radius: 4px;">
-                    Play
-                </button>
-            </div>
-            <!-- Song 2 -->
-            <div class="song-row-item" data-title="starboy" data-artist="the weeknd daft punk" style="display: flex; align-items: center; justify-content: space-between; background: var(--bg-dark); border: 1px solid var(--border-slate); border-radius: 6px; padding: 0.5rem 0.75rem; transition: background 0.2s;" onmouseover="this.style.background='var(--bg-card-hover)'" onmouseout="this.style.background='var(--bg-dark)'">
-                <div style="display: flex; align-items: center; gap: 0.5rem; overflow: hidden; flex-grow: 1;">
-                    <div style="width: 32px; height: 32px; border-radius: 4px; background-image: url('https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=120&auto=format&fit=crop&q=80'); background-size: cover; background-position: center; flex-shrink: 0;"></div>
-                    <div style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis; display: flex; flex-direction: column; line-height: 1.2;">
-                        <span style="font-size: 0.78rem; font-weight: 700; color: var(--text-white);">Starboy</span>
-                        <span style="font-size: 0.65rem; color: var(--text-muted);">The Weeknd & Daft Punk</span>
-                    </div>
-                </div>
-                <button onclick="playSong(1)" class="btn btn-primary" style="font-family: var(--font-mono); font-size: 0.68rem; padding: 0.25rem 0.65rem; border-radius: 4px;">
-                    Play
-                </button>
-            </div>
-            <!-- Song 3 -->
-            <div class="song-row-item" data-title="midnight city" data-artist="m83" style="display: flex; align-items: center; justify-content: space-between; background: var(--bg-dark); border: 1px solid var(--border-slate); border-radius: 6px; padding: 0.5rem 0.75rem; transition: background 0.2s;" onmouseover="this.style.background='var(--bg-card-hover)'" onmouseout="this.style.background='var(--bg-dark)'">
-                <div style="display: flex; align-items: center; gap: 0.5rem; overflow: hidden; flex-grow: 1;">
-                    <div style="width: 32px; height: 32px; border-radius: 4px; background-image: url('https://images.unsplash.com/photo-1509198397868-475647b2a1e5?w=120&auto=format&fit=crop&q=80'); background-size: cover; background-position: center; flex-shrink: 0;"></div>
-                    <div style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis; display: flex; flex-direction: column; line-height: 1.2;">
-                        <span style="font-size: 0.78rem; font-weight: 700; color: var(--text-white);">Midnight City</span>
-                        <span style="font-size: 0.65rem; color: var(--text-muted);">M83</span>
-                    </div>
-                </div>
-                <button onclick="playSong(2)" class="btn btn-primary" style="font-family: var(--font-mono); font-size: 0.68rem; padding: 0.25rem 0.65rem; border-radius: 4px;">
-                    Play
-                </button>
-            </div>
-            <!-- Song 4 -->
-            <div class="song-row-item" data-title="sicko mode" data-artist="travis scott drake" style="display: flex; align-items: center; justify-content: space-between; background: var(--bg-dark); border: 1px solid var(--border-slate); border-radius: 6px; padding: 0.5rem 0.75rem; transition: background 0.2s;" onmouseover="this.style.background='var(--bg-card-hover)'" onmouseout="this.style.background='var(--bg-dark)'">
-                <div style="display: flex; align-items: center; gap: 0.5rem; overflow: hidden; flex-grow: 1;">
-                    <div style="width: 32px; height: 32px; border-radius: 4px; background-image: url('https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=120&auto=format&fit=crop&q=80'); background-size: cover; background-position: center; flex-shrink: 0;"></div>
-                    <div style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis; display: flex; flex-direction: column; line-height: 1.2;">
-                        <span style="font-size: 0.78rem; font-weight: 700; color: var(--text-white);">Sicko Mode</span>
-                        <span style="font-size: 0.65rem; color: var(--text-muted);">Travis Scott & Drake</span>
-                    </div>
-                </div>
-                <button onclick="playSong(3)" class="btn btn-primary" style="font-family: var(--font-mono); font-size: 0.68rem; padding: 0.25rem 0.65rem; border-radius: 4px;">
-                    Play
-                </button>
-            </div>
-        </div>
-        <div id="music-no-results" style="display: none; text-align: center; padding: 1rem; font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-muted); border: 1px dashed var(--border-slate); border-radius: 6px; background-color: var(--bg-dark); margin-top: 0.5rem;">
-            [!] No tracks found matching your query.
-        </div>
-    </div>
-</div>`;
-}
-
-window.handleFootballChoice = function(isUnited) {
-    const resultDiv = document.getElementById('football-result');
-    if (!resultDiv) return;
-    if (isUnited) {
-        window.footballSelected = true;
-        resultDiv.style.color = 'var(--primary-green)';
-        resultDiv.textContent = '[✓] CORRECT! Glory Glory Manchester United! Red Devils Active.';
-        
-        // Reset evading button back to normal flex flow layout (same level and stationary)
-        const btn = document.getElementById('evading-btn');
-        if (btn) {
-            btn.style.position = 'static';
-            btn.style.left = '';
-            btn.style.top = '';
-            btn.style.transform = '';
-        }
-    }
-};
-
-window.initEvadingButton = function() {
-    const btn = document.getElementById('evading-btn');
-    const container = btn ? btn.closest('.terminal-card') : null;
-    if (!btn || !container) return;
-
-    const prompts = [
-        "there's only one right option.",
-        "[!] High-Risk Evasion: Intruder trying to select 'Others' detected.",
-        "[!] Threat Mitigation: Shielding active option vectors.",
-        "[!] Critical: Redirecting telemetry link payload to Old Trafford..."
-    ];
-
-    function evade() {
-        if (window.footballSelected) return;
-
-        const containerRect = container.getBoundingClientRect();
-        const btnRect = btn.getBoundingClientRect();
-        
-        // Keep evading button constrained to the right 55% of the container to prevent overlapping Manchester United
-        const minLeft = Math.floor(containerRect.width * 0.45);
-        const maxLeft = containerRect.width - btnRect.width - 32;
-        const maxTop = containerRect.height - btnRect.height - 32;
-        
-        const randomLeft = minLeft + Math.floor(Math.random() * (maxLeft - minLeft));
-        const randomTop = Math.max(16, Math.floor(Math.random() * maxTop));
-        
-        btn.style.left = `${randomLeft}px`;
-        btn.style.top = `${randomTop}px`;
-
-        // Output warning directly inside the result container on the card instead of terminal logs
-        const resultDiv = document.getElementById('football-result');
-        if (resultDiv) {
-            const randomIndex = Math.floor(Math.random() * prompts.length);
-            resultDiv.style.color = 'var(--text-muted)';
-            resultDiv.textContent = prompts[randomIndex];
-        }
-    }
-
-    btn.addEventListener('mouseover', evade);
-    btn.addEventListener('touchstart', evade);
-};
-
-/* --------------------------------------------------------------------------
-   FACTION AUDIO DECK WIDGET CONTROLLER ROUTINES
-   -------------------------------------------------------------------------- */
-const musicPlaylist = [
-    {
-        title: "This Is What You Came For",
-        artist: "Calvin Harris & Rihanna",
-        videoId: "kOkQ4T5WO9E",
-        art: "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=120&auto=format&fit=crop&q=80"
-    },
-    {
-        title: "Starboy",
-        artist: "The Weeknd & Daft Punk",
-        videoId: "34Na4j8AVgA",
-        art: "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=120&auto=format&fit=crop&q=80"
-    },
-    {
-        title: "Midnight City",
-        artist: "M83",
-        videoId: "dX3kSGcoD4k",
-        art: "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?w=120&auto=format&fit=crop&q=80"
-    },
-    {
-        title: "Sicko Mode",
-        artist: "Travis Scott & Drake",
-        videoId: "6ONRf7h3Mdk",
-        art: "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=120&auto=format&fit=crop&q=80"
-    }
-];
-
-let musicTrackIndex = 0;
-let isAudioMuted = false;
-let ytPlayer = null;
-let progressTimer = null;
-
-// Dynamically load YouTube Iframe API via the privacy-optimized no-cookie domain
-const tag = document.createElement('script');
-tag.src = "https://www.youtube-nocookie.com/iframe_api";
-const firstScriptTag = document.getElementsByTagName('script')[0];
-if (firstScriptTag) {
-    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-}
-
-window.onYouTubeIframeAPIReady = function() {
-    ytPlayer = new YT.Player('youtube-player', {
-        height: '0',
-        width: '0',
-        videoId: '',
-        playerVars: {
-            'playsinline': 1,
-            'controls': 0,
-            'disablekb': 1,
-            'fs': 0,
-            'rel': 0,
-            'modestbranding': 1
-        },
-        events: {
-            'onStateChange': onPlayerStateChange,
-            'onError': onPlayerError
-        }
-    });
-};
-
-function formatTime(secs) {
-    const m = Math.floor(secs / 60);
-    const s = Math.floor(secs % 60);
-    return `${m}:${String(s).padStart(2, '0')}`;
-}
-
-function startProgressTimer() {
-    if (progressTimer) clearInterval(progressTimer);
-    progressTimer = setInterval(() => {
-        if (!ytPlayer || typeof ytPlayer.getPlayerState !== 'function') return;
-        const state = ytPlayer.getPlayerState();
-        if (state === YT.PlayerState.PLAYING) {
-            const cur = ytPlayer.getCurrentTime();
-            const dur = ytPlayer.getDuration();
-            
-            const timeCurrent = document.getElementById('widget-time-current');
-            const timeRemaining = document.getElementById('widget-time-remaining');
-            const fill = document.getElementById('widget-progress-fill');
-            
-            if (timeCurrent && timeRemaining && fill && dur) {
-                timeCurrent.textContent = formatTime(cur);
-                timeRemaining.textContent = `-${formatTime(dur - cur)}`;
-                const percent = (cur / dur) * 100;
-                fill.style.width = `${percent}%`;
-            }
-        }
-    }, 500);
-}
-
-function onPlayerStateChange(event) {
-    if (event.data === YT.PlayerState.ENDED) {
-        window.playPrevNext(true);
-    } else if (event.data === YT.PlayerState.PLAYING) {
-        setPlayIconState(true);
-        startProgressTimer();
-    } else if (event.data === YT.PlayerState.PAUSED) {
-        setPlayIconState(false);
-    }
-}
-
-function onPlayerError(event) {
-    console.error("YouTube Player Error: ", event.data);
-}
-
-window.playSong = function(index) {
-    musicTrackIndex = index;
-    const track = musicPlaylist[index];
-    const widget = document.getElementById('apple-music-widget');
-    
-    if (!widget) return;
-    
-    // Update widget UI texts & art
-    document.getElementById('widget-song-title').textContent = track.title;
-    document.getElementById('widget-song-artist').textContent = track.artist;
-    document.getElementById('widget-album-art').style.backgroundImage = `url('${track.art}')`;
-    
-    if (ytPlayer && typeof ytPlayer.loadVideoById === 'function') {
-        ytPlayer.loadVideoById(track.videoId);
-        setPlayIconState(true);
-    } else {
-        console.warn("YouTube player API not fully ready. Retrying in 1s...");
-        setTimeout(() => window.playSong(index), 1000);
-        return;
-    }
-    
-    // Show widget
-    widget.style.display = 'block';
-    widget.style.transform = 'translateY(0) scale(1)';
-    widget.style.opacity = '1';
-};
-
-window.togglePlayPause = function() {
-    if (!ytPlayer || typeof ytPlayer.getPlayerState !== 'function') return;
-    const state = ytPlayer.getPlayerState();
-    if (state === YT.PlayerState.PLAYING) {
-        ytPlayer.pauseVideo();
-        setPlayIconState(false);
-    } else {
-        ytPlayer.playVideo();
-        setPlayIconState(true);
-    }
-};
-
-function setPlayIconState(isPlaying) {
-    const playIcon = document.getElementById('widget-play-icon');
-    if (!playIcon) return;
-    if (isPlaying) {
-        playIcon.innerHTML = `<rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect>`;
-    } else {
-        playIcon.innerHTML = `<polygon points="5 3 19 12 5 21 5 3"></polygon>`;
-    }
-}
-
-window.toggleMute = function() {
-    if (!ytPlayer || typeof ytPlayer.mute !== 'function') return;
-    const volIcon = document.getElementById('widget-volume-icon');
-    if (!volIcon) return;
-    
-    isAudioMuted = !isAudioMuted;
-    if (isAudioMuted) {
-        ytPlayer.mute();
-        volIcon.innerHTML = `<line x1="1" y1="1" x2="23" y2="23" stroke="currentColor" stroke-width="2"></line><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>`;
-    } else {
-        ytPlayer.unMute();
-        volIcon.innerHTML = `<polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>`;
-    }
-};
-
-window.playPrevNext = function(isNext) {
-    if (isNext) {
-        musicTrackIndex = (musicTrackIndex + 1) % musicPlaylist.length;
-    } else {
-        musicTrackIndex = (musicTrackIndex - 1 + musicPlaylist.length) % musicPlaylist.length;
-    }
-    window.playSong(musicTrackIndex);
-};
-
-window.toggleMusicWidget = function(show) {
-    const widget = document.getElementById('apple-music-widget');
-    if (!widget) return;
-    if (show) {
-        widget.style.display = 'block';
-    } else {
-        widget.style.display = 'none';
-        if (ytPlayer && typeof ytPlayer.pauseVideo === 'function') {
-            ytPlayer.pauseVideo();
-        }
-    }
-};
-
-window.updateAudioProgress = function() {
-    // Progress is now handled by YouTube's internal player via startProgressTimer
-};
-
-window.seekAudio = function(e) {
-    const track = document.getElementById('widget-progress-track');
-    if (!ytPlayer || typeof ytPlayer.getDuration !== 'function' || !track) return;
-    
-    const rect = track.getBoundingClientRect();
-    const clickX = e.clientX - rect.left;
-    const width = rect.width;
-    const ratio = clickX / width;
-    
-    const duration = ytPlayer.getDuration();
-    if (duration && !isNaN(duration)) {
-        ytPlayer.seekTo(ratio * duration, true);
-    }
-};
-
-window.audioTrackEnded = function() {
-    // Autoplay next track handled by onPlayerStateChange
-};
-
-window.filterSongs = function() {
-    const q = document.getElementById('music-search').value.toLowerCase().trim();
-    const rows = document.querySelectorAll('.song-row-item');
-    let visibleCount = 0;
-    rows.forEach(row => {
-        const title = row.getAttribute('data-title') || '';
-        const artist = row.getAttribute('data-artist') || '';
-        if (title.includes(q) || artist.includes(q)) {
-            row.style.display = 'flex';
-            visibleCount++;
-        } else {
-            row.style.display = 'none';
-        }
-    });
-    
-    const noResults = document.getElementById('music-no-results');
-    if (noResults) {
-        noResults.style.display = visibleCount === 0 ? 'block' : 'none';
-    }
-};
-
-window.initDraggableWidget = function() {
-    const widget = document.getElementById('apple-music-widget');
-    if (!widget) return;
-    
-    let isDragging = false;
-    let startX = 0;
-    let startY = 0;
-    let widgetX = 0;
-    let widgetY = 0;
-    
-    // The top row containing the art and close button serves as drag handle
-    const dragHandle = widget.firstElementChild;
-    if (!dragHandle) return;
-    
-    dragHandle.style.cursor = 'grab';
-    
-    dragHandle.addEventListener('mousedown', dragStart);
-    dragHandle.addEventListener('touchstart', dragStart, { passive: true });
-    
-    function dragStart(e) {
-        // Skip drag if user clicked interactive button
-        if (e.target.closest('button')) return;
-        
-        isDragging = true;
-        dragHandle.style.cursor = 'grabbing';
-        
-        const rect = widget.getBoundingClientRect();
-        widgetX = rect.left;
-        widgetY = rect.top;
-        
-        const clientX = e.type === 'touchstart' ? e.touches[0].clientX : e.clientX;
-        const clientY = e.type === 'touchstart' ? e.touches[0].clientY : e.clientY;
-        
-        startX = clientX - widgetX;
-        startY = clientY - widgetY;
-        
-        document.addEventListener('mousemove', dragMove);
-        document.addEventListener('mouseup', dragEnd);
-        document.addEventListener('touchmove', dragMove, { passive: false });
-        document.addEventListener('touchend', dragEnd);
-    }
-    
-    function dragMove(e) {
-        if (!isDragging) return;
-        
-        if (e.type === 'touchmove') e.preventDefault();
-        
-        const clientX = e.type === 'touchmove' ? e.touches[0].clientX : e.clientX;
-        const clientY = e.type === 'touchmove' ? e.touches[0].clientY : e.clientY;
-        
-        let newX = clientX - startX;
-        let newY = clientY - startY;
-        
-        const viewportW = window.innerWidth;
-        const viewportH = window.innerHeight;
-        const widgetW = widget.offsetWidth;
-        const widgetH = widget.offsetHeight;
-        
-        newX = Math.max(0, Math.min(newX, viewportW - widgetW));
-        newY = Math.max(0, Math.min(newY, viewportH - widgetH));
-        
-        widget.style.bottom = 'auto';
-        widget.style.right = 'auto';
-        widget.style.left = `${newX}px`;
-        widget.style.top = `${newY}px`;
-    }
-    
-    function dragEnd() {
-        isDragging = false;
-        dragHandle.style.cursor = 'grab';
-        document.removeEventListener('mousemove', dragMove);
-        document.removeEventListener('mouseup', dragEnd);
-        document.removeEventListener('touchmove', dragMove);
-        document.removeEventListener('touchend', dragEnd);
-    }
-};
-
 /* --------------------------------------------------------------------------
    05. INTERACTIVE TERMINAL LOGIC & COMMAND PROCESSOR
    -------------------------------------------------------------------------- */
@@ -1134,7 +708,7 @@ function initTerminal() {
             }
             
             // Scroll to top for section commands, scroll to bottom for others!
-            const sectionCmds = ['overview', 'about', 'experience', 'exp', 'projects', 'proj', 'skills', 'credentials', 'certs', 'personal', 'audio', 'music'];
+            const sectionCmds = ['overview', 'about', 'experience', 'exp', 'projects', 'proj', 'skills', 'credentials', 'certs'];
             const cmdLower = command.trim().toLowerCase();
             const isCdSection = cmdLower.startsWith('cd ') && sectionCmds.some(s => cmdLower.includes(s));
             
@@ -1160,6 +734,15 @@ function initTerminal() {
         tempDiv.innerHTML = htmlString.trim();
         
         const childNode = tempDiv.firstChild;
+        if (childNode) {
+            const cards = childNode.querySelectorAll('.terminal-card, .project-terminal-card, .terminal-skills-category, .terminal-cert-card, .terminal-ach-banner, .song-row-item, .timeline-item');
+            if (cards.length > 0) {
+                cards.forEach(card => card.classList.add('stagger-in'));
+            } else {
+                childNode.classList.add('stagger-in');
+            }
+        }
+        
         log.appendChild(childNode);
 
         // Trigger animations for skill progress bars if present
@@ -1168,6 +751,9 @@ function initTerminal() {
             bars.forEach(bar => {
                 bar.style.width = bar.getAttribute('data-level');
             });
+            if (window.updateClassicContentFlow) {
+                window.updateClassicContentFlow();
+            }
         }, 100);
     }
 
@@ -1180,9 +766,7 @@ function initTerminal() {
 <span class="dir-highlight">projects/</span>    
 <span class="dir-highlight">skills/</span>    
 <span class="dir-highlight">credentials/</span>    
-<span class="dir-highlight">contact/</span>    
-<span class="dir-highlight">personal/</span>    
-<span class="dir-highlight">audio/</span>`.trim();
+<span class="dir-highlight">contact/</span>`.trim();
         log.appendChild(line);
     }
 
@@ -1234,19 +818,6 @@ function initTerminal() {
                 printLine('guest@raj-console:~$ cd credentials', 'input-echo');
                 appendHTML(getCredentialsHTML());
                 syncTerminalView('certs');
-            } else if (path === 'personal') {
-                log.innerHTML = '';
-                printLine('guest@raj-console:~$ cd personal', 'input-echo');
-                appendHTML(getPersonalHTML());
-                if (window.initEvadingButton) {
-                    window.initEvadingButton();
-                }
-                syncTerminalView('personal');
-            } else if (path === 'audio' || path === 'music') {
-                log.innerHTML = '';
-                printLine(`guest@raj-console:~$ cd ${path}`, 'input-echo');
-                appendHTML(getAudioDeckHTML());
-                syncTerminalView('audio');
             } else if (path === 'contact') {
                 printLine('[+] Redirecting to contact section...', 'success-msg');
                 setTimeout(() => {
@@ -1337,24 +908,6 @@ function initTerminal() {
                 syncTerminalView('certs');
                 break;
                 
-            case 'personal':
-                log.innerHTML = '';
-                printLine('guest@raj-console:~$ personal', 'input-echo');
-                appendHTML(getPersonalHTML());
-                if (window.initEvadingButton) {
-                    window.initEvadingButton();
-                }
-                syncTerminalView('personal');
-                break;
-                
-            case 'audio':
-            case 'music':
-                log.innerHTML = '';
-                printLine(`guest@raj-console:~$ ${lowerCmd}`, 'input-echo');
-                appendHTML(getAudioDeckHTML());
-                syncTerminalView('audio');
-                break;
-                
             case 'contact':
                 printLine('[+] Redirecting to contact section...', 'success-msg');
                 setTimeout(() => {
@@ -1373,8 +926,6 @@ function initTerminal() {
                 printLine('  projects   - Render active system buildouts.');
                 printLine('  skills     - Render the technical matrices.');
                 printLine('  credentials- Display authenticated learning shields.');
-                printLine('  personal   - Enter the personal football trivia card.');
-                printLine('  audio      - Open the Faction Audio Deck media system.');
                 printLine('  contact    - Scroll down to the contact dispatch section.');
                 printLine('  theme [t]  - Change console theme (theme list for options).');
                 printLine('  download   - Download Rajdeep Pal PDF resume.');
@@ -1471,7 +1022,7 @@ function initTerminal() {
             }
             
             // If it is a section command, scroll to the top so it starts at the beginning!
-            const sectionCmds = ['overview', 'experience', 'exp', 'projects', 'proj', 'skills', 'credentials', 'certs', 'personal'];
+            const sectionCmds = ['overview', 'experience', 'exp', 'projects', 'proj', 'skills', 'credentials', 'certs'];
             setTimeout(() => {
                 if (sectionCmds.includes(cmd)) {
                     screen.scrollTop = 0;
@@ -1609,9 +1160,11 @@ window.handleFormSubmit = function(event) {
     
     if (!form || !btn || !status) return;
 
-    const sender = document.getElementById('form-sender').value;
-    const email = document.getElementById('form-email').value;
-    const subject = document.getElementById('form-subject').value;
+    const formData = new FormData(form);
+    const subject = formData.get('subject') || 'Portfolio Contact';
+    formData.append('_subject', `Portfolio Contact: ${subject}`);
+    formData.append('_template', 'table');
+    formData.append('_captcha', 'false');
 
     btn.disabled = true;
     btn.textContent = "Encrypting Data Packet...";
@@ -1620,15 +1173,26 @@ window.handleFormSubmit = function(event) {
     
     setTimeout(() => {
         btn.textContent = "Broadcasting Packet...";
-        
-        setTimeout(() => {
-            btn.textContent = "Transmit Completed";
-            status.textContent = "ENCRYPTED_DELIVERY";
-            status.className = "channel-status positive";
-            
 
-            
-            alert("Transmission successfully processed. Your secure packet has been logged into the database.");
+        fetch('https://formsubmit.co/ajax/rajdeeppalwork@gmail.com', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json'
+            },
+            body: formData
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Message transmission failed.');
+            }
+            return response.json();
+        })
+        .then(() => {
+            btn.textContent = "Transmit Completed";
+            status.textContent = "DELIVERED";
+            status.className = "channel-status positive";
+
+            alert("Transmission delivered. Your message has been sent to Rajdeep Pal.");
             
             form.reset();
             setTimeout(() => {
@@ -1637,8 +1201,14 @@ window.handleFormSubmit = function(event) {
                 status.textContent = "READY";
                 status.className = "channel-status positive";
             }, 3000);
-            
-        }, 1200);
+        })
+        .catch(() => {
+            btn.disabled = false;
+            btn.textContent = "Transmit Packet";
+            status.textContent = "FAILED";
+            status.className = "channel-status error";
+            alert("Transmission failed. Please email rajdeeppalwork@gmail.com directly.");
+        });
     }, 1000);
 };
 
@@ -1669,7 +1239,7 @@ function initScrollWarp() {
         const winSkew = Math.max(-3.0, Math.min(3.0, winSpeed * 0.08));
         const winScale = Math.max(0.98, Math.min(1.02, 1 - Math.abs(winSpeed) * 0.0006));
 
-        const winWarpTargets = document.querySelectorAll('.terminal-wrapper, .stats-dashboard, .hero-intel, .saas-card');
+        const winWarpTargets = document.querySelectorAll('.stats-dashboard, .hero-intel, .saas-card');
         winWarpTargets.forEach(el => {
             if (Math.abs(winSpeed) > 0.05) {
                 el.style.transform = `skewY(${winSkew}deg) scaleY(${winScale})`;
@@ -1705,3 +1275,288 @@ function initScrollWarp() {
 
     requestAnimationFrame(trackScrollWarp);
 }
+
+/* --------------------------------------------------------------------------
+   09. INTERACTIVE AMBIENT CANVAS & CUSTOM FLUID CURSOR
+   -------------------------------------------------------------------------- */
+function initAmbientCanvas() {
+    const canvas = document.getElementById('ambient-canvas');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    
+    let width = canvas.width = window.innerWidth;
+    let height = canvas.height = window.innerHeight;
+    
+    window.addEventListener('resize', () => {
+        width = canvas.width = window.innerWidth;
+        height = canvas.height = window.innerHeight;
+    });
+    
+    let mouse = { x: width / 2, y: height / 2, tx: width / 2, ty: height / 2 };
+    
+    window.addEventListener('mousemove', (e) => {
+        mouse.tx = e.clientX;
+        mouse.ty = e.clientY;
+    });
+    
+    // Define 3 interactive glowing blobs
+    const blobs = [
+        { x: Math.random() * width, y: Math.random() * height, r: 350, speed: 0.03, color1: 'rgba(20, 184, 166, 0.08)', color2: 'rgba(20, 184, 166, 0)' },
+        { x: Math.random() * width, y: Math.random() * height, r: 450, speed: 0.02, color1: 'rgba(56, 189, 248, 0.06)', color2: 'rgba(56, 189, 248, 0)' },
+        { x: Math.random() * width, y: Math.random() * height, r: 400, speed: 0.015, color1: 'rgba(139, 92, 246, 0.05)', color2: 'rgba(139, 92, 246, 0)' }
+    ];
+    
+    // Generate parallax background particles
+    const particles = [];
+    for (let i = 0; i < 70; i++) {
+        particles.push({
+            x: Math.random() * width,
+            y: Math.random() * height,
+            r: Math.random() * 1.5 + 0.5,
+            depth: Math.random() * 0.4 + 0.1, // Parallax depth factor
+            color: `rgba(255, 255, 255, ${Math.random() * 0.15 + 0.05})`
+        });
+    }
+    
+    function animate() {
+        // Smoothly ease mouse coordinates
+        mouse.x += (mouse.tx - mouse.x) * 0.08;
+        mouse.y += (mouse.ty - mouse.y) * 0.08;
+        
+        const scrollY = window.scrollY;
+        
+        // Clear with background color matching active theme
+        ctx.fillStyle = getComputedStyle(document.body).getPropertyValue('--bg-darker') || '#0a0a0c';
+        ctx.fillRect(0, 0, width, height);
+        
+        // Draw parallax stars/particles first
+        particles.forEach(p => {
+            // Apply vertical shift based on scrollY and particle depth
+            let py = (p.y - scrollY * p.depth) % height;
+            if (py < 0) py += height;
+            
+            ctx.fillStyle = p.color;
+            ctx.beginPath();
+            ctx.arc(p.x, py, p.r, 0, Math.PI * 2);
+            ctx.fill();
+        });
+        
+        blobs.forEach((blob, idx) => {
+            // Blob centers follow the eased mouse with offsets
+            const targetX = mouse.x + Math.sin(Date.now() * 0.0008 + idx * 2) * 150;
+            const targetY = mouse.y + Math.cos(Date.now() * 0.0008 + idx * 2) * 150;
+            
+            blob.x += (targetX - blob.x) * blob.speed;
+            blob.y += (targetY - blob.y) * blob.speed;
+            
+            // Render beautiful radial gradient glow
+            const grad = ctx.createRadialGradient(blob.x, blob.y, 0, blob.x, blob.y, blob.r);
+            grad.addColorStop(0, blob.color1);
+            grad.addColorStop(1, blob.color2);
+            
+            ctx.fillStyle = grad;
+            ctx.beginPath();
+            ctx.arc(blob.x, blob.y, blob.r, 0, Math.PI * 2);
+            ctx.fill();
+        });
+        
+        requestAnimationFrame(animate);
+    }
+    
+    animate();
+}
+
+function initCustomCursor() {
+    const dot = document.getElementById('custom-cursor-dot');
+    const ring = document.getElementById('custom-cursor-ring');
+    if (!dot || !ring) return;
+    
+    let mouse = { x: -100, y: -100, tx: -100, ty: -100 };
+    let ringPos = { x: -100, y: -100 };
+    
+    window.addEventListener('mousemove', (e) => {
+        mouse.tx = e.clientX;
+        mouse.ty = e.clientY;
+        
+        // Make cursor visible on first move
+        if (dot.style.opacity === '') {
+            dot.style.opacity = '1';
+            ring.style.opacity = '1';
+        }
+    });
+    
+    // Hide cursor when leaving window
+    document.addEventListener('mouseleave', () => {
+        dot.style.opacity = '0';
+        ring.style.opacity = '0';
+    });
+    
+    document.addEventListener('mouseenter', () => {
+        dot.style.opacity = '1';
+        ring.style.opacity = '1';
+    });
+    
+    function updateCursor() {
+        // Move dot instantly
+        mouse.x = mouse.tx;
+        mouse.y = mouse.ty;
+        dot.style.transform = `translate3d(${mouse.x}px, ${mouse.y}px, 0) translate(-50%, -50%)`;
+        
+        // Move ring with lag (inertial easing)
+        ringPos.x += (mouse.x - ringPos.x) * 0.15;
+        ringPos.y += (mouse.y - ringPos.y) * 0.15;
+        ring.style.transform = `translate3d(${ringPos.x}px, ${ringPos.y}px, 0) translate(-50%, -50%)`;
+        
+        requestAnimationFrame(updateCursor);
+    }
+    requestAnimationFrame(updateCursor);
+    
+    // Trigger cursor scaling on hoverable elements
+    const hoverSelectors = 'a, button, input, textarea, select, .nav-link, .btn, .song-row-item, .logo-container, [onclick]';
+    
+    document.addEventListener('mouseover', (e) => {
+        if (e.target.closest(hoverSelectors)) {
+            document.body.classList.add('cursor-hover');
+        }
+    });
+    
+    document.addEventListener('mouseout', (e) => {
+        if (!e.target.closest(hoverSelectors)) {
+            document.body.classList.remove('cursor-hover');
+        }
+    });
+}
+
+window.toggleTerminalMinimize = function(minimize) {
+    const wrapper = document.querySelector('.terminal-wrapper');
+    if (minimize) {
+        document.body.classList.add('terminal-minimized');
+        const overlay = document.getElementById('terminal-minimized-overlay');
+        if (overlay) overlay.style.display = 'flex';
+    } else {
+        document.body.classList.remove('terminal-minimized');
+        const overlay = document.getElementById('terminal-minimized-overlay');
+        if (overlay) overlay.style.display = 'none';
+        
+        // Reset any inline drag offsets to snap back to the default floating position
+        if (wrapper) {
+            wrapper.style.left = '';
+            wrapper.style.top = '';
+            wrapper.style.right = '';
+        }
+        
+        const input = document.getElementById('terminal-input');
+        if (input) input.focus({ preventScroll: true });
+    }
+};
+
+window.initSkillsScrollTrigger = function() {
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const bars = entry.target.querySelectorAll('.term-skill-bar');
+                bars.forEach(bar => {
+                    bar.style.width = bar.getAttribute('data-level');
+                });
+            }
+        });
+    }, { threshold: 0.15 });
+    
+    const skillsSec = document.getElementById('skills');
+    if (skillsSec) observer.observe(skillsSec);
+};
+
+// Dragging capability for the terminal
+function makeTerminalDraggable() {
+    const wrapper = document.querySelector('.terminal-wrapper');
+    const header = document.querySelector('.terminal-header');
+    if (!wrapper || !header) return;
+    
+    let isDragging = false;
+    let startX, startY;
+    let initialLeft, initialTop;
+    
+    header.addEventListener('mousedown', (e) => {
+        // Do not drag if clicking dots or status lights
+        if (e.target.closest('.terminal-dots') || e.target.closest('.terminal-status-light')) return;
+        if (document.body.classList.contains('terminal-minimized')) return;
+        
+        isDragging = true;
+        startX = e.clientX;
+        startY = e.clientY;
+        
+        const rect = wrapper.getBoundingClientRect();
+        initialLeft = rect.left;
+        initialTop = rect.top;
+        
+        wrapper.style.transition = 'none';
+        wrapper.style.left = `${initialLeft}px`;
+        wrapper.style.right = 'auto';
+        
+        document.body.classList.add('dragging-active');
+        e.preventDefault();
+    });
+    
+    document.addEventListener('mousemove', (e) => {
+        if (!isDragging) return;
+        
+        const dx = e.clientX - startX;
+        const dy = e.clientY - startY;
+        
+        wrapper.style.left = `${initialLeft + dx}px`;
+        wrapper.style.top = `${initialTop + dy}px`;
+    });
+    
+    document.addEventListener('mouseup', () => {
+        if (isDragging) {
+            isDragging = false;
+            wrapper.style.transition = 'all 0.4s cubic-bezier(0.25, 1, 0.5, 1)';
+            document.body.classList.remove('dragging-active');
+        }
+    });
+}
+
+// Initialise features on load
+setTimeout(() => {
+    makeTerminalDraggable();
+    window.initVisitorCounter();
+}, 500);
+
+// Live visitor telemetry counter
+window.initVisitorCounter = function() {
+    const activeEl = document.getElementById('live-active-users');
+    const totalEl = document.getElementById('total-visits-counter');
+    if (!activeEl || !totalEl) return;
+    
+    // Simulate live active users (nodes) fluctuating slightly
+    setInterval(() => {
+        const current = parseInt(activeEl.textContent, 10) || 2;
+        const change = Math.random() > 0.5 ? 1 : -1;
+        const next = Math.max(1, Math.min(5, current + change));
+        activeEl.textContent = next;
+    }, 4000);
+    
+    // Fallback counter logic using localStorage
+    let localVisits = parseInt(localStorage.getItem('portfolio_visits'), 10);
+    if (!localVisits || isNaN(localVisits)) {
+        localVisits = 1482; // Baseline starting value
+    }
+    localVisits += 1;
+    localStorage.setItem('portfolio_visits', localVisits);
+    totalEl.textContent = localVisits;
+    
+    // Try fetching from CountAPI
+    const namespace = 'rajdeeppal01_portfolio';
+    const key = 'visits';
+    fetch(`https://api.countapi.xyz/hit/${namespace}/${key}`)
+        .then(res => res.json())
+        .then(data => {
+            if (data && data.value) {
+                totalEl.textContent = data.value;
+                localStorage.setItem('portfolio_visits', data.value);
+            }
+        })
+        .catch(err => {
+            console.log("CountAPI offline, running on local telemetry fallback.");
+        });
+};

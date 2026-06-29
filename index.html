@@ -42,8 +42,6 @@
                 <a href="#skills" class="nav-link" id="nav-skills-link">Skills</a>
                 <a href="#certs" class="nav-link" id="nav-certs-link">Credentials</a>
                 <a href="#contact" class="nav-link" id="nav-contact-link">Contact</a>
-                <a href="#personal" class="nav-link" id="nav-personal-link">Personal</a>
-                <a href="#audio" class="nav-link" id="nav-audio-link">Audio Deck</a>
             </nav>
             <div class="header-actions-panel">
                 <span class="status-badge"><span class="dot green"></span> System: Active</span>
@@ -110,11 +108,14 @@
                 <div class="hero-visual">
                     <!-- Interactive Terminal Wrapper (Primary Interface) -->
                     <div class="terminal-wrapper">
+                        <!-- Minimized Overlay -->
+                        <div id="terminal-minimized-overlay" onclick="toggleTerminalMinimize(false)">
+                            <span class="status-dot-pulse" style="width: 8px; height: 8px; background: var(--primary-green); border-radius: 50%; box-shadow: 0 0 8px var(--primary-green);"></span>
+                            <span style="font-family: var(--font-mono); font-size: 0.7rem; color: var(--primary-green); writing-mode: vertical-rl; text-orientation: mixed; letter-spacing: 0.22em; font-weight: 600;">CONSOLE</span>
+                        </div>
                         <div class="terminal-header">
                             <div class="terminal-dots">
-                                <span class="dot close"></span>
-                                <span class="dot minimize"></span>
-                                <span class="dot maximize"></span>
+                                <span class="dot minimize" onclick="toggleTerminalMinimize(true)" title="Minimize Terminal" style="cursor: pointer;"></span>
                             </div>
                             <div class="terminal-title">raj-console@rajdeep-pal: ~</div>
                             <div class="terminal-status-light">
@@ -175,20 +176,20 @@
                         <div class="form-row">
                             <div class="form-group">
                                 <label for="form-sender">Sender Name</label>
-                                <input type="text" id="form-sender" required placeholder="Identity / Organization" class="saas-input">
+                                <input type="text" id="form-sender" name="name" required placeholder="Identity / Organization" class="saas-input">
                             </div>
                             <div class="form-group">
                                 <label for="form-email">Sender Email</label>
-                                <input type="email" id="form-email" required placeholder="sender@domain.com" class="saas-input">
+                                <input type="email" id="form-email" name="email" required placeholder="sender@domain.com" class="saas-input">
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="form-subject">Subject</label>
-                            <input type="text" id="form-subject" required placeholder="Transmission Intent" class="saas-input">
+                            <input type="text" id="form-subject" name="subject" required placeholder="Transmission Intent" class="saas-input">
                         </div>
                         <div class="form-group">
                             <label for="form-payload">Data Payload (Message)</label>
-                            <textarea id="form-payload" required rows="6" placeholder="Write your transmission details here..." class="saas-input"></textarea>
+                            <textarea id="form-payload" name="message" required rows="6" placeholder="Write your transmission details here..." class="saas-input"></textarea>
                         </div>
                         <button type="submit" class="btn btn-primary btn-submit">
                             Transmit Packet
@@ -244,6 +245,14 @@
     <footer class="saas-footer">
         <div class="footer-container">
             <span class="footer-copy">&copy; 2026 RAJDEEP PAL // ALL RIGHTS RESERVED.</span>
+            
+            <div class="footer-telemetry" style="display: flex; align-items: center; gap: 0.45rem; color: var(--text-dark);">
+                <span class="status-dot-pulse" style="width: 5px; height: 5px; background: #27c93f; border-radius: 50%; display: inline-block;"></span>
+                <span>NODES_ACTIVE: <strong id="live-active-users" style="color: var(--text-muted);">2</strong></span>
+                <span>|</span>
+                <span>TOTAL_VISITS: <strong id="total-visits-counter" style="color: var(--text-muted);">...</strong></span>
+            </div>
+
             <div class="session-tracker">
                 <span>SESSION_DUR:</span>
                 <span id="session-time">00:00:00</span>
@@ -252,59 +261,11 @@
         </div>
     </footer>
 
-    <!-- Mini-Player Widget -->
-    <div id="apple-music-widget" style="display: none; position: fixed; bottom: 24px; right: 24px; width: 320px; background: var(--bg-card); border: 1px solid var(--border-slate); border-radius: 12px; padding: 0.9rem; color: var(--text-white); z-index: 9999; box-shadow: 0 12px 40px rgba(0,0,0,0.65); transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); font-family: var(--font-sans);">
-        <div style="display: flex; gap: 0.75rem; align-items: center; margin-bottom: 0.75rem; user-select: none; -webkit-user-select: none;">
-            <!-- Album Art -->
-            <div id="widget-album-art" style="width: 54px; height: 54px; border-radius: 6px; background-size: cover; background-position: center; flex-shrink: 0; box-shadow: 0 4px 10px rgba(0,0,0,0.3); background-color: var(--bg-dark);"></div>
-            <!-- Title/Artist -->
-            <div style="flex-grow: 1; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; display: flex; flex-direction: column; justify-content: center; gap: 0.15rem;">
-                <span id="widget-song-title" style="font-size: 0.85rem; font-weight: 700; color: var(--text-white); display: block; overflow: hidden; text-overflow: ellipsis;">Song Title</span>
-                <span id="widget-song-artist" style="font-size: 0.72rem; color: var(--text-muted); display: block; overflow: hidden; text-overflow: ellipsis;">Artist Name</span>
-            </div>
-            <!-- Close/Collapse Button -->
-            <button onclick="toggleMusicWidget(false)" style="background: none; border: none; color: var(--text-muted); cursor: pointer; padding: 0.2rem; display: flex; align-items: center; justify-content: center; border-radius: 50%; width: 24px; height: 24px; transition: background 0.2s;" onmouseover="this.style.background='var(--bg-card-hover)'" onmouseout="this.style.background='none'">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-            </button>
-        </div>
-        <!-- Progress Bar and Times -->
-        <div style="margin-bottom: 0.5rem;">
-            <div style="position: relative; width: 100%; height: 3px; background: var(--bg-dark); border: 1px solid var(--border-slate); border-radius: 2px; cursor: pointer;" id="widget-progress-track" onclick="seekAudio(event)">
-                <div id="widget-progress-fill" style="width: 0%; height: 100%; background: var(--primary-green); border-radius: 2px; position: relative;">
-                    <div style="position: absolute; right: -4px; top: -3.5px; width: 10px; height: 10px; border-radius: 50%; background: var(--text-white); box-shadow: 0 1px 4px rgba(0,0,0,0.3);"></div>
-                </div>
-            </div>
-            <div style="display: flex; justify-content: space-between; font-size: 0.62rem; color: var(--text-muted); margin-top: 0.3rem; font-family: var(--font-mono);">
-                <span id="widget-time-current">0:00</span>
-                <span id="widget-time-remaining">-0:00</span>
-            </div>
-        </div>
-        <!-- Media Controls -->
-        <div style="display: flex; justify-content: space-around; align-items: center; padding: 0 0.5rem;">
-            <!-- Mute/Volume -->
-            <button onclick="toggleMute()" style="background: none; border: none; color: var(--text-white); cursor: pointer; padding: 0.3rem;">
-                <svg id="widget-volume-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
-            </button>
-            <!-- Skip Backward -->
-            <button onclick="playPrevNext(false)" style="background: none; border: none; color: var(--text-white); cursor: pointer; padding: 0.3rem;">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="19 20 9 12 19 4 19 20"></polygon><line x1="5" y1="19" x2="5" y2="5"></line></svg>
-            </button>
-            <!-- Play/Pause -->
-            <button onclick="togglePlayPause()" style="background: none; border: none; color: var(--text-white); cursor: pointer; padding: 0.3rem; display: flex; align-items: center; justify-content: center; background: var(--bg-dark); border: 1px solid var(--border-slate); border-radius: 50%; width: 36px; height: 36px; transition: transform 0.1s;" onmousedown="this.style.transform='scale(0.95)'" onmouseup="this.style.transform='scale(1)'">
-                <svg id="widget-play-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
-            </button>
-            <!-- Skip Forward -->
-            <button onclick="playPrevNext(true)" style="background: none; border: none; color: var(--text-white); cursor: pointer; padding: 0.3rem;">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 4 15 12 5 20 5 4"></polygon><line x1="19" y1="5" x2="19" y2="19"></line></svg>
-            </button>
-            <!-- Lyrics Indicator -->
-            <button style="background: none; border: none; color: var(--text-muted); cursor: pointer; padding: 0.3rem;">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"></path><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"></path></svg>
-            </button>
-        </div>
-        <!-- Hidden YouTube Player Container -->
-        <div id="youtube-player" style="display: none;"></div>
-    </div>
+    <!-- Ambient Canvas, Noise Overlay, and Custom Cursor -->
+    <canvas id="ambient-canvas"></canvas>
+    <div id="noise-overlay"></div>
+    <div id="custom-cursor-dot"></div>
+    <div id="custom-cursor-ring"></div>
 
     <!-- Script Injection -->
     <script src="script.js"></script>
