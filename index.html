@@ -43,7 +43,21 @@
                 <a href="#certs" class="nav-link" id="nav-certs-link">Credentials</a>
                 <a href="#contact" class="nav-link" id="nav-contact-link">Contact</a>
             </nav>
-            <div class="header-actions-panel">
+            <div class="header-actions-panel" style="display: flex; align-items: center; gap: 1rem;">
+                <button id="theme-toggle-btn" aria-label="Toggle Theme" style="background: none; border: none; color: var(--text-muted); cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 0.25rem; transition: color 0.3s ease; outline: none;">
+                    <svg id="theme-toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 17px; height: 17px; pointer-events: none;">
+                        <!-- Sun Icon (Default) -->
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
                 <span class="status-badge"><span class="dot green"></span> System: Active</span>
                 <span class="time-display" id="header-time">12:00:00 IST</span>
             </div>
@@ -58,16 +72,27 @@
     <!-- Main Container -->
     <main class="saas-container">
         
+
         <!-- SECTION 1: HERO (With Live Integrated Console) -->
         <section id="hero" class="saas-section hero-section active-sec">
             <div class="hero-layout">
                 <div class="hero-intel">
-                    <div class="security-badge">
-                        <svg class="badge-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
-                            <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
-                        </svg>
-                        <span>SECURITY PORTFOLIO</span>
+                    <div class="security-badge-row" style="display: flex; align-items: center; justify-content: flex-start; flex-wrap: wrap; gap: 1.25rem; margin-bottom: 1.5rem;">
+                        <div class="security-badge" style="margin-bottom: 0;">
+                            <svg class="badge-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                                <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                            </svg>
+                            <span>SECURITY PORTFOLIO</span>
+                        </div>
+                        <div id="dynamic-greeting" style="font-family: var(--font-mono); font-size: 0.7rem; color: var(--primary-green); letter-spacing: 0.08em; text-transform: uppercase; opacity: 0.85; display: flex; align-items: center; gap: 0.4rem;">
+                            <span class="status-dot-pulse" style="width: 5px; height: 5px; background: var(--primary-green); border-radius: 50%; display: inline-block;"></span>
+                            <span>NODE: ONLINE // SYNCING...</span>
+                        </div>
+                        <div id="visitor-telemetry" style="font-family: var(--font-mono); font-size: 0.7rem; color: var(--text-muted); letter-spacing: 0.08em; text-transform: uppercase; opacity: 0.85; display: none; align-items: center; gap: 0.4rem;">
+                            <span class="status-dot-pulse" style="width: 5px; height: 5px; background: var(--text-muted); border-radius: 50%; display: inline-block;"></span>
+                            <span>VISITOR: SYNCING...</span>
+                        </div>
                     </div>
                     <h1 class="hero-title">
                         Building intelligent security systems.
@@ -88,8 +113,8 @@
                         </div>
                         <div class="stat-box">
                             <span class="stat-label">Location</span>
-                            <span class="stat-value">Navi Mumbai, IN</span>
-                            <span class="stat-sub">18.97° N, 72.82° E</span>
+                            <span class="stat-value" id="owner-city-country">Navi Mumbai, IN</span>
+                            <span class="stat-sub" id="owner-coordinates">18.97° N, 72.82° E</span>
                         </div>
                         <div class="stat-box">
                             <span class="stat-label">Education</span>
@@ -106,47 +131,7 @@
                 </div>
                 
                 <div class="hero-visual">
-                    <!-- Interactive Terminal Wrapper (Primary Interface) -->
-                    <div class="terminal-wrapper">
-                        <!-- Minimized Overlay -->
-                        <div id="terminal-minimized-overlay" onclick="toggleTerminalMinimize(false)">
-                            <span class="status-dot-pulse" style="width: 8px; height: 8px; background: var(--primary-green); border-radius: 50%; box-shadow: 0 0 8px var(--primary-green);"></span>
-                            <span style="font-family: var(--font-mono); font-size: 0.7rem; color: var(--primary-green); writing-mode: vertical-rl; text-orientation: mixed; letter-spacing: 0.22em; font-weight: 600;">CONSOLE</span>
-                        </div>
-                        <div class="terminal-header">
-                            <div class="terminal-dots">
-                                <span class="dot minimize" onclick="toggleTerminalMinimize(true)" title="Minimize Terminal" style="cursor: pointer;"></span>
-                            </div>
-                            <div class="terminal-title">raj-console@rajdeep-pal: ~</div>
-                            <div class="terminal-status-light">
-                                <span class="status-blink green"></span>
-                                <span>SUITE: ONLINE</span>
-                            </div>
-                        </div>
-                        <div class="terminal-body" id="terminal-screen">
-                            <div class="terminal-output" id="terminal-log">
-                                <div class="terminal-line info-msg">Welcome to Rajdeep Pal's interactive portfolio console.</div>
-                                <div class="terminal-line info-msg">Type <span class="cmd-highlight">whoami</span> to learn more about me! Or click navigation links above to explore.</div>
-                                <div class="terminal-line"><br></div>
-                                <div class="terminal-card" style="border-color: var(--border-slate); background-color: transparent; border-style: dashed; font-family: var(--font-mono); font-size: 0.78rem; line-height: 1.5; margin-bottom: 1rem;">
-                                    <div style="color: var(--primary-green); margin-bottom: 0.35rem;"><strong>[+] Core Console Commands:</strong></div>
-                                    <div><span style="color: var(--primary-green); margin-right: 0.5rem;">•</span><strong style="color: var(--text-white);">whoami</strong>     - Extract visitor details & show professional summary.</div>
-                                    <div><span style="color: var(--primary-green); margin-right: 0.5rem;">•</span><strong style="color: var(--text-white);">help</strong>       - View full CLI command reference menu.</div>
-                                    <div><span style="color: var(--primary-green); margin-right: 0.5rem;">•</span><strong style="color: var(--text-white);">ls / cd</strong>    - Navigate folders (experience, projects, skills, credentials, contact).</div>
-                                    <div><span style="color: var(--primary-green); margin-right: 0.5rem;">•</span><strong style="color: var(--text-white);">theme</strong>      - Change console colors (matrix, dracula, nord, obsidian).</div>
-                                    <div><span style="color: var(--primary-green); margin-right: 0.5rem;">•</span><strong style="color: var(--text-white);">download</strong>   - Download PDF resume package.</div>
-                                    <div><span style="color: var(--primary-green); margin-right: 0.5rem;">•</span><strong style="color: var(--text-white);">clear</strong>      - Clear screen logs and reset terminal view.</div>
-                                </div>
-                            </div>
-                            <div class="terminal-guide-line">
-                                <span class="guide-text">Type <span class="cmd-highlight">ls</span> to list sections | <span class="cmd-highlight">cd [section]</span> to navigate</span>
-                            </div>
-                            <div class="terminal-input-line">
-                                <span class="prompt">guest@raj-console:~$</span>
-                                <input type="text" id="terminal-input" autocomplete="off" aria-label="Terminal input prompt">
-                            </div>
-                        </div>
-                    </div>
+                    <!-- Grouping container for grid layout; terminal moved to body for viewport isolation on mobile -->
                 </div>
             </div>
         </section>
@@ -260,6 +245,69 @@
             <span class="integrity-hash">SHA256: 3b8c4d7f...2e9a</span>
         </div>
     </footer>
+
+    <!-- Interactive Terminal Wrapper (Primary Interface) -->
+    <div class="terminal-wrapper">
+        <!-- Minimized Overlay -->
+        <div id="terminal-minimized-overlay" onclick="toggleTerminalMinimize(false)">
+            <span class="status-dot-pulse" style="width: 8px; height: 8px; background: var(--primary-green); border-radius: 50%; box-shadow: 0 0 8px var(--primary-green);"></span>
+            <span style="font-family: var(--font-mono); font-size: 0.7rem; color: var(--primary-green); writing-mode: vertical-rl; text-orientation: mixed; letter-spacing: 0.22em; font-weight: 600;">CONSOLE</span>
+        </div>
+        <div class="terminal-header">
+            <div class="terminal-dots">
+                <span class="dot minimize" onclick="toggleTerminalMinimize(true)" title="Minimize Terminal" style="cursor: pointer;"></span>
+            </div>
+            <div class="terminal-title">raj-console@rajdeep-pal: ~</div>
+            <div class="terminal-status-light">
+                <span class="status-blink green"></span>
+                <span>SUITE: ONLINE</span>
+            </div>
+        </div>
+        <div class="terminal-body" id="terminal-screen">
+            <div class="terminal-output" id="terminal-log">
+                <div class="terminal-line info-msg">Welcome to Rajdeep Pal's interactive portfolio console.</div>
+                <div class="terminal-line info-msg">Type <span class="cmd-highlight">whoami</span> to learn more about me! Or click navigation links above to explore.</div>
+                <div class="terminal-line"><br></div>
+                <div class="terminal-card" style="border-color: var(--border-slate); background-color: transparent; border-style: dashed; font-family: var(--font-mono); font-size: 0.78rem; line-height: 1.5; margin-bottom: 1rem;">
+                    <div style="color: var(--primary-green); margin-bottom: 0.35rem;"><strong>[+] Core Console Commands:</strong></div>
+                    <div><span style="color: var(--primary-green); margin-right: 0.5rem;">•</span><strong style="color: var(--text-white);">whoami</strong>     - Extract visitor details & show professional summary.</div>
+                    <div><span style="color: var(--primary-green); margin-right: 0.5rem;">•</span><strong style="color: var(--text-white);">help</strong>       - View full CLI command reference menu.</div>
+                    <div><span style="color: var(--primary-green); margin-right: 0.5rem;">•</span><strong style="color: var(--text-white);">ls / cd</strong>    - Navigate folders (experience, projects, skills, credentials, contact).</div>
+                    <div><span style="color: var(--primary-green); margin-right: 0.5rem;">•</span><strong style="color: var(--text-white);">theme</strong>      - Change console colors (matrix, dracula, nord, obsidian).</div>
+                    <div><span style="color: var(--primary-green); margin-right: 0.5rem;">•</span><strong style="color: var(--text-white);">download</strong>   - Download PDF resume package.</div>
+                    <div><span style="color: var(--primary-green); margin-right: 0.5rem;">•</span><strong style="color: var(--text-white);">clear</strong>      - Clear screen logs and reset terminal view.</div>
+                </div>
+            </div>
+            <div class="terminal-guide-line">
+                <span class="guide-text">Type <span class="cmd-highlight">ls</span> to list sections | <span class="cmd-highlight">cd [section]</span> to navigate</span>
+            </div>
+            <div class="terminal-input-line">
+                <span class="prompt">guest@raj-console:~$</span>
+                <input type="text" id="terminal-input" autocomplete="off" aria-label="Terminal input prompt">
+            </div>
+        </div>
+    </div>
+
+    <!-- Floating Mobile View Toggle (Segmented Control) -->
+    <div class="mobile-view-toggle" id="mobile-view-toggle">
+        <button class="view-toggle-btn active" data-view="profile">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 13px; height: 13px;">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                <polyline points="14 2 14 8 20 8"></polyline>
+                <line x1="16" y1="13" x2="8" y2="13"></line>
+                <line x1="16" y1="17" x2="8" y2="17"></line>
+                <polyline points="10 9 9 9 8 9"></polyline>
+            </svg>
+            <span>Profile</span>
+        </button>
+        <button class="view-toggle-btn" data-view="console">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 13px; height: 13px;">
+                <polyline points="4 17 10 11 4 5"></polyline>
+                <line x1="12" y1="19" x2="20" y2="19"></line>
+            </svg>
+            <span>Console</span>
+        </button>
+    </div>
 
     <!-- Ambient Canvas, Noise Overlay, and Custom Cursor -->
     <canvas id="ambient-canvas"></canvas>

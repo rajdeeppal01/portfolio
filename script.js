@@ -61,6 +61,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initScrollWarp(); // Double-layered scroll warp loop (Window + Terminal)
     initAmbientCanvas();
     initCustomCursor();
+    initMobileViewToggle();
     
     // Animate skill bars when scrolled into view
     if (window.initSkillsScrollTrigger) {
@@ -70,6 +71,26 @@ document.addEventListener('DOMContentLoaded', () => {
     // Initialize visitor telemetry counter
     if (window.initVisitorCounter) {
         window.initVisitorCounter();
+    }
+
+    // Initialize time and weather personalization
+    if (window.initTimeAndWeather) {
+        window.initTimeAndWeather();
+    }
+    
+    // Initialize owner location loader
+    initOwnerLocation();
+
+
+
+    // Initialize 3D card tilt effects
+    if (window.initCardTilt) {
+        window.initCardTilt();
+    }
+
+    // Initialize circular theme toggle transition
+    if (window.initThemeToggle) {
+        window.initThemeToggle();
     }
 });
 
@@ -182,6 +203,22 @@ function syncTerminalView(command) {
 window.switchTab = function(command) {
     const navLinks = document.querySelectorAll('.nav-link');
     
+    // Automatically switch mobile view from Console to Profile when navigating
+    if (document.body.classList.contains('mobile-console-mode')) {
+        document.body.classList.remove('mobile-console-mode');
+        const toggleContainer = document.getElementById('mobile-view-toggle');
+        if (toggleContainer) {
+            const buttons = toggleContainer.querySelectorAll('.view-toggle-btn');
+            buttons.forEach(btn => {
+                if (btn.getAttribute('data-view') === 'profile') {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+        }
+    }
+    
     // Update navigation active states
     navLinks.forEach(link => {
         link.classList.remove('active');
@@ -212,6 +249,25 @@ function initNavigation() {
     const navLinks = document.querySelectorAll('.nav-link');
     const btnGoContact = document.getElementById('btn-go-contact');
     const terminalInput = document.getElementById('terminal-input');
+    const toggleBtn = document.getElementById('mobile-toggle');
+    const navMenu = document.getElementById('nav-menu');
+
+    // Mobile menu toggle
+    if (toggleBtn && navMenu) {
+        toggleBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            toggleBtn.classList.toggle('open');
+            navMenu.classList.toggle('mobile-active');
+        });
+
+        // Close menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!navMenu.contains(e.target) && e.target !== toggleBtn) {
+                toggleBtn.classList.remove('open');
+                navMenu.classList.remove('mobile-active');
+            }
+        });
+    }
 
     navLinks.forEach(link => {
         link.addEventListener('click', (e) => {
@@ -219,6 +275,11 @@ function initNavigation() {
             const targetId = link.getAttribute('href').replace('#', '');
             if (window.switchTab) {
                 window.switchTab(targetId);
+            }
+            // Close mobile menu
+            if (toggleBtn && navMenu) {
+                toggleBtn.classList.remove('open');
+                navMenu.classList.remove('mobile-active');
             }
         });
     });
@@ -230,12 +291,22 @@ function initNavigation() {
             if (window.switchTab) {
                 window.switchTab('overview');
             }
+            // Close mobile menu
+            if (toggleBtn && navMenu) {
+                toggleBtn.classList.remove('open');
+                navMenu.classList.remove('mobile-active');
+            }
         });
     }
 
     if (btnGoContact) {
         btnGoContact.addEventListener('click', () => {
             if (window.switchTab) window.switchTab('contact');
+            // Close mobile menu
+            if (toggleBtn && navMenu) {
+                toggleBtn.classList.remove('open');
+                navMenu.classList.remove('mobile-active');
+            }
         });
     }
 
@@ -334,11 +405,11 @@ function getExperienceHTML() {
                 </div>
                 <div class="term-card-meta">June 2026 - Present | Navi Mumbai, IN</div>
                 <div class="term-card-body">
-                    <p>Developing and validating the <strong>Jio Cybersecurity Suite (JCS)</strong>, a converged cognitive security platform combining automated vulnerability analysis and threat simulation.</p>
+                    <p>Developing the <strong>Jio Cybersecurity Suite (JCS)</strong>, a unified offline-first cognitive security platform combining automated threat intelligence and autonomous threat simulation.</p>
                     <ul class="term-bullets">
-                        <li><strong>Netra0 (Automated Threat Intelligence & CVE Scanner):</strong> Orchestrates target reconnaissance by scanning active TCP ports, extracting service banners, and querying live NVD v2.0 API endpoints to identify and rank network vulnerabilities using CVSS scores.</li>
-                        <li><strong>Netra1 (Autonomous Pentesting Agent):</strong> Built an interactive agent powered by a Gemini 2.5 Flash cognitive planner to autonomously execute network intrusion and evasion modules (packet fragmentation, TLS tunneling, SSH brute-forcing, UDP DDoS floods) through a conversational console with built-in authorization gates.</li>
-                        <li><strong>Suite Architecture:</strong> Containerized microservices (FastAPI, PostgreSQL, Redis, Celery) deployed via Kubernetes (Minikube) on RHEL 9.</li>
+                        <li><strong>JCS0 (Automated CVE Reconnaissance & Triage Engine):</strong> Orchestrates target intelligence sweeps by performing passive DNS mapping, active TCP port sweeps, and service banner extraction, correlating findings against live and offline SQLite NVD v2.0 CVE databases to rank network vulnerabilities.</li>
+                        <li><strong>JCS1 (Autonomous Pentesting & Threat Simulation Agent):</strong> Built an interactive agent powered by a local, self-hosted open-source LLM (Ollama with <code>phi3</code>) via a ReAct reasoning planner to autonomously execute SSH audits, TLS tunneling, packet fragmentation, and UDP floods through a secure conversational console with built-in operator authorization gates.</li>
+                        <li><strong>Suite Architecture (V11.0 Production Upgrade):</strong> Re-engineered the platform from Kubernetes into a high-stability <strong>Docker Compose</strong> microservices pipeline (FastAPI, PostgreSQL, Redis, Celery) on RHEL 9, utilizing segregated Celery worker tiers (T1/T2/T3) and a host-level Nginx reverse proxy.</li>
                     </ul>
                 </div>
                 <div class="term-tags">
@@ -394,11 +465,12 @@ function getProjectsHTML() {
             </div>
             <h4 class="term-proj-title">Jio Cybersecurity Suite (JCS)</h4>
             <p class="term-proj-desc" style="margin-bottom: 0.5rem;">
-                A converged cognitive security platform combining automated CVE reconnaissance and active threat intrusion simulation, containerized in Kubernetes on RHEL 9.
+                A unified, offline-first cognitive security platform combining automated CVE reconnaissance and active threat simulation.
             </p>
             <ul class="term-bullets" style="font-size: 0.82rem; margin-bottom: 0.85rem; color: var(--text-muted); list-style-type: none; padding-left: 0;">
-                <li style="position: relative; padding-left: 0.85rem; margin-bottom: 0.35rem;"><strong style="color: var(--text-white);">Netra0 (Automated Threat Intelligence & CVE Scanner):</strong> Orchestrates target reconnaissance by scanning active TCP ports, extracting service banners, and querying live NVD v2.0 API endpoints to identify and rank network vulnerabilities using CVSS scores.</li>
-                <li style="position: relative; padding-left: 0.85rem; margin-bottom: 0.35rem;"><strong style="color: var(--text-white);">Netra1 (Autonomous Pentesting Agent):</strong> Built an interactive agent powered by a Gemini 2.5 Flash cognitive planner to autonomously execute network intrusion and evasion modules (packet fragmentation, TLS tunneling, SSH brute-forcing, UDP DDoS floods) through a conversational console with built-in authorization gates.</li>
+                <li style="position: relative; padding-left: 0.85rem; margin-bottom: 0.35rem;"><strong style="color: var(--text-white);">JCS0 (Automated CVE Reconnaissance & Triage Engine):</strong> Orchestrates target intelligence sweeps by performing passive DNS mapping, active TCP port sweeps, and service banner extraction, correlating findings against live and offline SQLite NVD v2.0 CVE databases to rank network vulnerabilities.</li>
+                <li style="position: relative; padding-left: 0.85rem; margin-bottom: 0.35rem;"><strong style="color: var(--text-white);">JCS1 (Autonomous Pentesting & Threat Simulation Agent):</strong> Built an interactive agent powered by a local, self-hosted open-source LLM (Ollama with <code>phi3</code>) via a ReAct reasoning planner to autonomously execute SSH audits, TLS tunneling, packet fragmentation, and UDP floods through a secure conversational console with built-in operator authorization gates.</li>
+                <li style="position: relative; padding-left: 0.85rem; margin-bottom: 0.35rem;"><strong style="color: var(--text-white);">Suite Architecture (V11.0 Production Upgrade):</strong> Re-engineered the platform from Kubernetes into a high-stability <strong>Docker Compose</strong> microservices pipeline (FastAPI, PostgreSQL, Redis, Celery) on RHEL 9, utilizing segregated Celery worker tiers (T1/T2/T3) and a host-level Nginx reverse proxy.</li>
             </ul>
             <div class="term-tags">
                 <span class="term-tag">FastAPI</span>
@@ -1293,11 +1365,40 @@ function initAmbientCanvas() {
     });
     
     let mouse = { x: width / 2, y: height / 2, tx: width / 2, ty: height / 2 };
+    let touch = { x: 0, y: 0, tx: 0, ty: 0, opacity: 0, targetOpacity: 0 };
     
     window.addEventListener('mousemove', (e) => {
         mouse.tx = e.clientX;
         mouse.ty = e.clientY;
     });
+    
+    // Touch event handlers for mobile ambient glow
+    window.addEventListener('touchstart', (e) => {
+        if (e.touches.length > 0) {
+            touch.targetOpacity = 0.22; // Visible glowing opacity
+            touch.tx = e.touches[0].clientX;
+            touch.ty = e.touches[0].clientY;
+            
+            // Initialize position immediately on first touch to prevent jumping
+            if (touch.opacity < 0.05) {
+                touch.x = touch.tx;
+                touch.y = touch.ty;
+            }
+        }
+    }, { passive: true });
+
+    window.addEventListener('touchmove', (e) => {
+        if (e.touches.length > 0) {
+            touch.tx = e.touches[0].clientX;
+            touch.ty = e.touches[0].clientY;
+        }
+    }, { passive: true });
+
+    const endTouch = () => {
+        touch.targetOpacity = 0;
+    };
+    window.addEventListener('touchend', endTouch, { passive: true });
+    window.addEventListener('touchcancel', endTouch, { passive: true });
     
     // Define 3 interactive glowing blobs
     const blobs = [
@@ -1341,6 +1442,24 @@ function initAmbientCanvas() {
             ctx.fill();
         });
         
+        // Draw touch glow blob on mobile
+        touch.opacity += (touch.targetOpacity - touch.opacity) * 0.1;
+        if (touch.opacity > 0.01) {
+            touch.x += (touch.tx - touch.x) * 0.15;
+            touch.y += (touch.ty - touch.y) * 0.15;
+            
+            const radius = 150; // Concentrated glow area
+            const grad = ctx.createRadialGradient(touch.x, touch.y, 0, touch.x, touch.y, radius);
+            grad.addColorStop(0, `rgba(20, 184, 166, ${touch.opacity})`);
+            grad.addColorStop(0.5, `rgba(20, 184, 166, ${touch.opacity * 0.35})`);
+            grad.addColorStop(1, 'rgba(20, 184, 166, 0)');
+            
+            ctx.fillStyle = grad;
+            ctx.beginPath();
+            ctx.arc(touch.x, touch.y, radius, 0, Math.PI * 2);
+            ctx.fill();
+        }
+        
         blobs.forEach((blob, idx) => {
             // Blob centers follow the eased mouse with offsets
             const targetX = mouse.x + Math.sin(Date.now() * 0.0008 + idx * 2) * 150;
@@ -1374,6 +1493,8 @@ function initCustomCursor() {
     let mouse = { x: -100, y: -100, tx: -100, ty: -100 };
     let ringPos = { x: -100, y: -100 };
     
+    const hoverSelectors = 'a, button, input, textarea, select, .nav-link, .btn, .song-row-item, .logo-container, [onclick]';
+
     window.addEventListener('mousemove', (e) => {
         mouse.tx = e.clientX;
         mouse.ty = e.clientY;
@@ -1383,6 +1504,59 @@ function initCustomCursor() {
             dot.style.opacity = '1';
             ring.style.opacity = '1';
         }
+    });
+    
+    // Touch event handlers for mobile
+    window.addEventListener('touchstart', (e) => {
+        if (e.touches.length > 0) {
+            mouse.tx = e.touches[0].clientX;
+            mouse.ty = e.touches[0].clientY;
+            
+            // Set initial position immediately to prevent jumping
+            if (dot.style.opacity !== '1') {
+                mouse.x = mouse.tx;
+                mouse.y = mouse.ty;
+                ringPos.x = mouse.tx;
+                ringPos.y = mouse.ty;
+            }
+            
+            dot.style.opacity = '1';
+            ring.style.opacity = '1';
+
+            // Touch-based hover state
+            if (e.target.closest(hoverSelectors)) {
+                document.body.classList.add('cursor-hover');
+            } else {
+                document.body.classList.remove('cursor-hover');
+            }
+        }
+    });
+
+    window.addEventListener('touchmove', (e) => {
+        if (e.touches.length > 0) {
+            mouse.tx = e.touches[0].clientX;
+            mouse.ty = e.touches[0].clientY;
+
+            // Update hover state during touch drag/scroll
+            const element = document.elementFromPoint(mouse.tx, mouse.ty);
+            if (element && element.closest(hoverSelectors)) {
+                document.body.classList.add('cursor-hover');
+            } else {
+                document.body.classList.remove('cursor-hover');
+            }
+        }
+    });
+
+    window.addEventListener('touchend', () => {
+        dot.style.opacity = '0';
+        ring.style.opacity = '0';
+        document.body.classList.remove('cursor-hover');
+    });
+
+    window.addEventListener('touchcancel', () => {
+        dot.style.opacity = '0';
+        ring.style.opacity = '0';
+        document.body.classList.remove('cursor-hover');
     });
     
     // Hide cursor when leaving window
@@ -1411,9 +1585,7 @@ function initCustomCursor() {
     }
     requestAnimationFrame(updateCursor);
     
-    // Trigger cursor scaling on hoverable elements
-    const hoverSelectors = 'a, button, input, textarea, select, .nav-link, .btn, .song-row-item, .logo-container, [onclick]';
-    
+    // Trigger cursor scaling on hoverable elements for desktop mouse
     document.addEventListener('mouseover', (e) => {
         if (e.target.closest(hoverSelectors)) {
             document.body.classList.add('cursor-hover');
@@ -1433,6 +1605,22 @@ window.toggleTerminalMinimize = function(minimize) {
         document.body.classList.add('terminal-minimized');
         const overlay = document.getElementById('terminal-minimized-overlay');
         if (overlay) overlay.style.display = 'flex';
+        
+        // On mobile, switch view back to Profile so they don't see an empty screen
+        if (document.body.classList.contains('mobile-console-mode')) {
+            document.body.classList.remove('mobile-console-mode');
+            const toggleContainer = document.getElementById('mobile-view-toggle');
+            if (toggleContainer) {
+                const buttons = toggleContainer.querySelectorAll('.view-toggle-btn');
+                buttons.forEach(btn => {
+                    if (btn.getAttribute('data-view') === 'profile') {
+                        btn.classList.add('active');
+                    } else {
+                        btn.classList.remove('active');
+                    }
+                });
+            }
+        }
     } else {
         document.body.classList.remove('terminal-minimized');
         const overlay = document.getElementById('terminal-minimized-overlay');
@@ -1560,3 +1748,249 @@ window.initVisitorCounter = function() {
             console.log("CountAPI offline, running on local telemetry fallback.");
         });
 };
+
+// Fetch owner location from owner_location.json
+function initOwnerLocation() {
+    fetch('owner_location.json')
+        .then(res => res.json())
+        .then(data => {
+            const cityCountryEl = document.getElementById('owner-city-country');
+            const coordsEl = document.getElementById('owner-coordinates');
+            
+            if (data.city && data.country) {
+                if (cityCountryEl) cityCountryEl.textContent = `${data.city}, ${data.country}`;
+            }
+            if (data.latitude && data.longitude) {
+                if (coordsEl) {
+                    const latDir = data.latitude >= 0 ? 'N' : 'S';
+                    const lonDir = data.longitude >= 0 ? 'E' : 'W';
+                    coordsEl.textContent = `${Math.abs(data.latitude).toFixed(2)}° ${latDir}, ${Math.abs(data.longitude).toFixed(2)}° ${lonDir}`;
+                }
+            }
+        })
+        .catch(() => {
+            // Fallback is already hardcoded in HTML
+        });
+}
+
+// Live Time-of-Day Greeting & Visitor Weather Telemetry Sync
+window.initTimeAndWeather = function() {
+    const greetingEl = document.getElementById('dynamic-greeting');
+    
+    // 1. Time-of-day Greeting
+    if (greetingEl) {
+        const updateGreeting = () => {
+            const hour = new Date().getHours();
+            let msg = "NODE: ONLINE";
+            if (hour >= 5 && hour < 12) {
+                msg = "NODE: ONLINE // Good morning";
+            } else if (hour >= 12 && hour < 17) {
+                msg = "NODE: ONLINE // Good afternoon";
+            } else if (hour >= 17 && hour < 21) {
+                msg = "NODE: ONLINE // Good evening";
+            } else {
+                msg = "SECURITY NODE: ACTIVE // Working late? Good night";
+            }
+            greetingEl.innerHTML = `<span class="status-dot-pulse" style="width: 5px; height: 5px; background: var(--primary-green); border-radius: 50%; display: inline-block;"></span> <span>${msg}</span>`;
+        };
+        updateGreeting();
+        // Update every 5 minutes
+        setInterval(updateGreeting, 300000);
+    }
+    
+    // 2. Visitor Location & Weather Sync (using visitor details)
+    const updateVisitorWeather = () => {
+        fetch('https://ipapi.co/json/')
+            .then(res => res.json())
+            .then(data => {
+                if (data.city && data.country_code) {
+                    const visitorLoc = `${data.city}, ${data.country_code}`;
+                    const lat = data.latitude;
+                    const lon = data.longitude;
+                    
+                    // Fetch weather for visitor coordinates
+                    fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true`)
+                        .then(r => r.json())
+                        .then(wData => {
+                            const telemetryEl = document.getElementById('visitor-telemetry');
+                            if (wData && wData.current_weather && telemetryEl) {
+                                const temp = Math.round(wData.current_weather.temperature);
+                                const code = wData.current_weather.weathercode;
+                                
+                                // Map WMO codes to Emojis
+                                let emoji = "☀️";
+                                if (code === 0) emoji = "☀️";
+                                else if (code >= 1 && code <= 3) emoji = "🌤️";
+                                else if (code >= 45 && code <= 48) emoji = "🌫️";
+                                else if (code >= 51 && code <= 65) emoji = "🌧️";
+                                else if (code >= 71 && code <= 77) emoji = "❄️";
+                                else if (code >= 80 && code <= 82) emoji = "🌧️";
+                                else if (code >= 95 && code <= 99) emoji = "⛈️";
+                                
+                                telemetryEl.innerHTML = `<span class="status-dot-pulse" style="width: 5px; height: 5px; background: var(--text-muted); border-radius: 50%; display: inline-block;"></span> <span>Visitor: ${visitorLoc} // ${emoji} ${temp}°C</span>`;
+                                telemetryEl.style.display = 'inline-flex';
+                            }
+                        })
+                        .catch(() => {
+                            const telemetryEl = document.getElementById('visitor-telemetry');
+                            if (telemetryEl) {
+                                telemetryEl.innerHTML = `<span class="status-dot-pulse" style="width: 5px; height: 5px; background: var(--text-muted); border-radius: 50%; display: inline-block;"></span> <span>Visitor: ${visitorLoc}</span>`;
+                                telemetryEl.style.display = 'inline-flex';
+                            }
+                        });
+                }
+            })
+            .catch(() => {
+                // Keep telemetry hidden if IP check fails
+            });
+    };
+    
+    updateVisitorWeather();
+    // Update visitor weather every 10 minutes
+    setInterval(updateVisitorWeather, 600000);
+};
+
+
+
+// 3D Card Parallax Tilt effect
+window.initCardTilt = function() {
+    const cards = document.querySelectorAll('.project-card, .experience-card');
+    cards.forEach(card => {
+        card.addEventListener('mousemove', (e) => {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            
+            const xc = rect.width / 2;
+            const yc = rect.height / 2;
+            
+            const angleX = (yc - y) / 18;
+            const angleY = (x - xc) / 18;
+            
+            card.style.transform = `perspective(1000px) rotateX(${angleX}deg) rotateY(${angleY}deg) scale3d(1.015, 1.015, 1.015)`;
+            card.style.boxShadow = '0 15px 35px rgba(20, 184, 166, 0.12)';
+        });
+        
+        card.addEventListener('mouseleave', () => {
+            card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
+            card.style.boxShadow = '';
+        });
+    });
+};
+
+// Circular Clip-Path Theme Switcher Animation
+window.initThemeToggle = function() {
+    const btn = document.getElementById('theme-toggle-btn');
+    if (!btn) return;
+    
+    btn.addEventListener('click', (e) => {
+        // Create transition overlay
+        const overlay = document.createElement('div');
+        overlay.id = 'theme-transition-overlay';
+        
+        // Determine target theme class and target background color
+        const isCurrentlyLight = document.body.classList.contains('light-theme');
+        let nextThemeBackground = '#0a0a0c'; // default dark
+        
+        if (isCurrentlyLight) {
+            // Transitioning to dark
+            if (document.body.classList.contains('theme-matrix')) {
+                nextThemeBackground = '#000000';
+            } else if (document.body.classList.contains('theme-dracula')) {
+                nextThemeBackground = '#1e1e2f';
+            } else if (document.body.classList.contains('theme-nord')) {
+                nextThemeBackground = '#2e3440';
+            }
+        } else {
+            // Transitioning to light
+            nextThemeBackground = '#f5f5f7'; // default light
+            if (document.body.classList.contains('theme-matrix')) {
+                nextThemeBackground = '#f1f8e9';
+            } else if (document.body.classList.contains('theme-dracula')) {
+                nextThemeBackground = '#f8f8f2';
+            } else if (document.body.classList.contains('theme-nord')) {
+                nextThemeBackground = '#eceff4';
+            }
+        }
+        overlay.style.backgroundColor = nextThemeBackground;
+        
+        // Get mouse coordinates for the clip-path origin
+        const x = e.clientX;
+        const y = e.clientY;
+        overlay.style.clipPath = `circle(0% at ${x}px ${y}px)`;
+        
+        document.body.appendChild(overlay);
+        
+        // Force reflow
+        overlay.offsetWidth;
+        
+        // Trigger the circular wave expand transition
+        overlay.style.clipPath = `circle(150% at ${x}px ${y}px)`;
+        
+        // Toggle the class on body in the middle of the transition for a seamless reveal
+        setTimeout(() => {
+            if (isCurrentlyLight) {
+                document.body.classList.remove('light-theme');
+                btn.innerHTML = `
+                    <svg id="theme-toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 17px; height: 17px; pointer-events: none;">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                `;
+            } else {
+                document.body.classList.add('light-theme');
+                btn.innerHTML = `
+                    <svg id="theme-toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 17px; height: 17px; pointer-events: none;">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                `;
+            }
+        }, 300);
+        
+        // Clean up overlay after animation completes
+        overlay.addEventListener('transitionend', () => {
+            overlay.remove();
+        });
+    });
+};
+
+// Floating Mobile View Toggle (Profile vs. Console)
+function initMobileViewToggle() {
+    const toggleContainer = document.getElementById('mobile-view-toggle');
+    if (!toggleContainer) return;
+    
+    const buttons = toggleContainer.querySelectorAll('.view-toggle-btn');
+    
+    buttons.forEach(button => {
+        button.addEventListener('click', () => {
+            const view = button.getAttribute('data-view');
+            
+            // Update active button styling
+            buttons.forEach(btn => btn.classList.remove('active'));
+            button.classList.add('active');
+            
+            // Update body class for view mode
+            if (view === 'console') {
+                document.body.classList.add('mobile-console-mode');
+                // Automatically restore terminal if it was minimized
+                if (window.toggleTerminalMinimize) {
+                    window.toggleTerminalMinimize(false);
+                }
+                // Focus terminal input if visible
+                setTimeout(() => {
+                    const termInput = document.getElementById('terminal-input');
+                    if (termInput) termInput.focus();
+                }, 100);
+            } else {
+                document.body.classList.remove('mobile-console-mode');
+            }
+        });
+    });
+}
