@@ -2877,9 +2877,15 @@ body.terminal-minimized .saas-container {
    SKIPER UI PREMIUM COMPONENT INTEGRATIONS
    ========================================================================== */
 
-/* Apple Squircle Curves */
+/* Apple Squircle Approximation - Premium Rounded Corners */
 .saas-card, .project-card, .skills-category, .info-card, .terminal-card {
-    clip-path: url(#squircle-clip);
+    border-radius: 20px !important;
+    overflow: hidden;
+}
+
+/* Smooth Theme Transitions */
+body, .saas-card, .project-card, .skills-category, .info-card, .terminal-card, .saas-header {
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 /* Scroll Fade Mask for Terminal Screen */

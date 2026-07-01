@@ -1881,86 +1881,36 @@ window.initCardTilt = function() {
     });
 };
 
-// Circular Clip-Path Theme Switcher Animation
+// Highly Robust Theme Switcher Toggle
 window.initThemeToggle = function() {
     const btn = document.getElementById('theme-toggle-btn');
     if (!btn) return;
     
-    btn.addEventListener('click', (e) => {
-        // Create transition overlay
-        const overlay = document.createElement('div');
-        overlay.id = 'theme-transition-overlay';
-        
-        // Determine target theme class and target background color
+    btn.addEventListener('click', () => {
         const isCurrentlyLight = document.body.classList.contains('light-theme');
-        let nextThemeBackground = '#0a0a0c'; // default dark
-        
         if (isCurrentlyLight) {
-            // Transitioning to dark
-            if (document.body.classList.contains('theme-matrix')) {
-                nextThemeBackground = '#000000';
-            } else if (document.body.classList.contains('theme-dracula')) {
-                nextThemeBackground = '#1e1e2f';
-            } else if (document.body.classList.contains('theme-nord')) {
-                nextThemeBackground = '#2e3440';
-            }
+            document.body.classList.remove('light-theme');
+            btn.innerHTML = `
+                <svg id="theme-toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 17px; height: 17px; pointer-events: none;">
+                    <circle cx="12" cy="12" r="5"></circle>
+                    <line x1="12" y1="1" x2="12" y2="3"></line>
+                    <line x1="12" y1="21" x2="12" y2="23"></line>
+                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                    <line x1="1" y1="12" x2="3" y2="12"></line>
+                    <line x1="21" y1="12" x2="23" y2="12"></line>
+                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                </svg>
+            `;
         } else {
-            // Transitioning to light
-            nextThemeBackground = '#f5f5f7'; // default light
-            if (document.body.classList.contains('theme-matrix')) {
-                nextThemeBackground = '#f1f8e9';
-            } else if (document.body.classList.contains('theme-dracula')) {
-                nextThemeBackground = '#f8f8f2';
-            } else if (document.body.classList.contains('theme-nord')) {
-                nextThemeBackground = '#eceff4';
-            }
+            document.body.classList.add('light-theme');
+            btn.innerHTML = `
+                <svg id="theme-toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 17px; height: 17px; pointer-events: none;">
+                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                </svg>
+            `;
         }
-        overlay.style.backgroundColor = nextThemeBackground;
-        
-        // Get mouse coordinates for the clip-path origin
-        const x = e.clientX;
-        const y = e.clientY;
-        overlay.style.clipPath = `circle(0% at ${x}px ${y}px)`;
-        
-        document.body.appendChild(overlay);
-        
-        // Force reflow
-        overlay.offsetWidth;
-        
-        // Trigger the circular wave expand transition
-        overlay.style.clipPath = `circle(150% at ${x}px ${y}px)`;
-        
-        // Toggle the class on body in the middle of the transition for a seamless reveal
-        setTimeout(() => {
-            if (isCurrentlyLight) {
-                document.body.classList.remove('light-theme');
-                btn.innerHTML = `
-                    <svg id="theme-toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 17px; height: 17px; pointer-events: none;">
-                        <circle cx="12" cy="12" r="5"></circle>
-                        <line x1="12" y1="1" x2="12" y2="3"></line>
-                        <line x1="12" y1="21" x2="12" y2="23"></line>
-                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-                        <line x1="1" y1="12" x2="3" y2="12"></line>
-                        <line x1="21" y1="12" x2="23" y2="12"></line>
-                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-                    </svg>
-                `;
-            } else {
-                document.body.classList.add('light-theme');
-                btn.innerHTML = `
-                    <svg id="theme-toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 17px; height: 17px; pointer-events: none;">
-                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-                    </svg>
-                `;
-            }
-        }, 300);
-        
-        // Clean up overlay after animation completes
-        overlay.addEventListener('transitionend', () => {
-            overlay.remove();
-        });
     });
 };
 
