@@ -92,6 +92,9 @@ document.addEventListener('DOMContentLoaded', () => {
     if (window.initThemeToggle) {
         window.initThemeToggle();
     }
+
+    // Initialize smooth caret input
+    initSmoothCaret();
 });
 
 /* --------------------------------------------------------------------------
@@ -1993,4 +1996,57 @@ function initMobileViewToggle() {
             }
         });
     });
+}
+
+// Smooth Caret Input Implementation
+function initSmoothCaret() {
+    const input = document.getElementById('terminal-input');
+    if (!input) return;
+    
+    const container = document.createElement('div');
+    container.className = 'terminal-caret-container';
+    
+    const caret = document.createElement('div');
+    caret.className = 'terminal-caret blinking';
+    
+    input.parentNode.insertBefore(container, input);
+    container.appendChild(input);
+    container.appendChild(caret);
+    
+    const measurer = document.createElement('span');
+    measurer.style.position = 'absolute';
+    measurer.style.visibility = 'hidden';
+    measurer.style.whiteSpace = 'pre';
+    measurer.style.fontFamily = 'var(--font-mono)';
+    measurer.style.fontSize = '0.85rem';
+    measurer.style.letterSpacing = 'normal';
+    measurer.style.padding = '0';
+    measurer.style.margin = '0';
+    document.body.appendChild(measurer);
+    
+    function updateCaretPosition() {
+        const val = input.value;
+        const selectionStart = input.selectionStart || val.length;
+        const textBeforeCursor = val.substring(0, selectionStart);
+        
+        measurer.textContent = textBeforeCursor.replace(/ /g, '\u00a0');
+        
+        const width = measurer.getBoundingClientRect().width;
+        caret.style.left = `${width}px`;
+        
+        caret.classList.remove('blinking');
+        clearTimeout(caret.blinkTimeout);
+        caret.blinkTimeout = setTimeout(() => {
+            caret.classList.add('blinking');
+        }, 500);
+    }
+    
+    input.addEventListener('input', updateCaretPosition);
+    input.addEventListener('keydown', () => setTimeout(updateCaretPosition, 10));
+    input.addEventListener('keyup', updateCaretPosition);
+    input.addEventListener('click', updateCaretPosition);
+    input.addEventListener('focus', () => { caret.style.display = 'block'; });
+    input.addEventListener('blur', () => { caret.style.display = 'none'; });
+    
+    updateCaretPosition();
 }

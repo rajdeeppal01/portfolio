@@ -266,10 +266,40 @@ a:hover {
     padding: 0.35rem 0.65rem;
     border-radius: var(--border-radius);
     transition: var(--transition-fast);
+    position: relative;
+    overflow: hidden;
+    display: inline-block;
+}
+
+.nav-link span {
+    display: inline-block;
+    transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.nav-link::after {
+    content: attr(data-text);
+    position: absolute;
+    left: 0.65rem;
+    top: 100%;
+    display: inline-block;
+    transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+    color: var(--primary-green);
+    font-weight: 600;
+}
+
+.nav-link:hover span {
+    transform: translateY(-100%);
+}
+
+.nav-link:hover::after {
+    transform: translateY(-100%);
+}
+
+.nav-link.active span {
+    color: var(--text-white);
 }
 
 .nav-link:hover, .nav-link.active {
-    color: var(--text-white);
     background-color: var(--bg-dark);
 }
 
@@ -922,6 +952,30 @@ a:hover {
     grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
     gap: 1.5rem;
     margin-top: 1.5rem;
+}
+
+@media (min-width: 993px) {
+    .projects-grid {
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+        gap: 1.25rem;
+    }
+    
+    .project-card {
+        flex: 1;
+        transition: flex 0.4s cubic-bezier(0.25, 1, 0.5, 1), transform 0.12s ease-out, border-color 0.2s ease, background-color 0.2s ease !important;
+        min-width: 200px;
+        overflow: hidden;
+    }
+    
+    .projects-grid:hover .project-card {
+        flex: 0.8;
+    }
+    
+    .projects-grid .project-card:hover {
+        flex: 1.6;
+    }
 }
 
 .project-card {
@@ -2818,5 +2872,72 @@ body.terminal-minimized .saas-container {
         display: none !important;
     }
 }
+
+/* ==========================================================================
+   SKIPER UI PREMIUM COMPONENT INTEGRATIONS
+   ========================================================================== */
+
+/* Apple Squircle Curves */
+.saas-card, .project-card, .skills-category, .info-card, .terminal-card {
+    clip-path: url(#squircle-clip);
+}
+
+/* Scroll Fade Mask for Terminal Screen */
+.terminal-body {
+    -webkit-mask-image: linear-gradient(to bottom, transparent, black 25px, black calc(100% - 25px), transparent);
+    mask-image: linear-gradient(to bottom, transparent, black 25px, black calc(100% - 25px), transparent);
+}
+
+/* Smooth Caret Input Styles */
+.terminal-input-line {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+#terminal-input {
+    background: transparent;
+    border: none;
+    color: transparent !important;
+    text-shadow: 0 0 0 var(--text-white);
+    caret-color: transparent !important;
+    outline: none;
+    flex-grow: 1;
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    position: relative;
+    z-index: 2;
+}
+
+.terminal-caret-container {
+    position: relative;
+    display: inline-block;
+    flex-grow: 1;
+}
+
+.terminal-caret {
+    position: absolute;
+    width: 8px;
+    height: 15px;
+    background-color: var(--primary-green);
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 1;
+    pointer-events: none;
+    transition: left 0.08s cubic-bezier(0.25, 1, 0.5, 1);
+    box-shadow: 0 0 8px var(--primary-green-glow);
+}
+
+.terminal-caret.blinking {
+    animation: caretBlink 1s step-end infinite;
+}
+
+@keyframes caretBlink {
+    from, to { background-color: transparent; }
+    50% { background-color: var(--primary-green); }
+}
+
 
 
