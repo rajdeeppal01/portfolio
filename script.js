@@ -206,6 +206,13 @@ function syncTerminalView(command) {
 window.switchTab = function(command) {
     const navLinks = document.querySelectorAll('.nav-link');
     
+    // Toggle centering layout class
+    if (command === 'overview') {
+        document.body.classList.remove('tab-view-active');
+    } else {
+        document.body.classList.add('tab-view-active');
+    }
+    
     // Automatically switch mobile view from Console to Profile when navigating
     if (document.body.classList.contains('mobile-console-mode')) {
         document.body.classList.remove('mobile-console-mode');

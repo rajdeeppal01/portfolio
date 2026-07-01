@@ -376,7 +376,7 @@ a:hover {
 }
 
 @media (min-width: 993px) {
-    body:not(.terminal-minimized) .saas-container {
+    body:not(.terminal-minimized):not(.tab-view-active) .saas-container {
         max-width: calc(100% - 480px);
         margin-left: 4%;
         margin-right: auto;
