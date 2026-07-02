@@ -680,6 +680,13 @@ function initShowcaseGallery() {
             }
         }
 
+        function collapseAll() {
+            panels.forEach(p => {
+                p.classList.remove('is-expanded');
+                p.setAttribute('aria-expanded', 'false');
+            });
+        }
+
         panels.forEach((panel, i) => {
             if (canHover) {
                 panel.addEventListener('mouseenter', () => setActive(i));
@@ -696,6 +703,13 @@ function initShowcaseGallery() {
                     setActive(i);
                 }
             });
+        });
+
+        if (canHover) {
+            gallery.addEventListener('mouseleave', collapseAll);
+        }
+        gallery.addEventListener('focusout', (e) => {
+            if (!gallery.contains(e.relatedTarget)) collapseAll();
         });
     });
 }
