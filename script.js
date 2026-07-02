@@ -32,6 +32,14 @@ document.addEventListener('DOMContentLoaded', () => {
         projSec.innerHTML = getProjectsHTML();
         mainContainer.appendChild(projSec);
         
+        // Create Showcase Section (live deployments carousel)
+        const showcaseSec = document.createElement('section');
+        showcaseSec.id = 'showcase';
+        showcaseSec.className = 'saas-section';
+        showcaseSec.innerHTML = getShowcaseHTML();
+        mainContainer.appendChild(showcaseSec);
+        initShowcaseCarousel();
+
         // Create Skills Section
         const skillsSec = document.createElement('section');
         skillsSec.id = 'skills';
@@ -551,6 +559,126 @@ function getProjectsHTML() {
         </div>
     </div>
 </div>`;
+}
+
+function getShowcaseHTML() {
+    const showcaseItems = [
+        {
+            id: 'edza-ai',
+            status: 'LIVE',
+            title: 'Edza AI — Socratic Cognitive Console',
+            desc: 'An AI tutoring console that refuses to just hand over answers. It walks students through physics, math, and chemistry problems Socratically, forcing first-principles reasoning at every step.',
+            tags: ['AI Tutoring', 'Socratic Method', 'Gemini API'],
+            url: 'https://ezda-demo.onrender.com/',
+            urlLabel: 'ezda-demo.onrender.com'
+        },
+        {
+            id: 'cybersentinel-ai',
+            status: 'LIVE',
+            title: 'CyberSentinel AI — SOC & GRC Auditor',
+            desc: 'An interactive AI-driven Security Operations Center simulator that doubles as a GRC compliance auditor, letting users practice threat detection and security diagnostics in a live console.',
+            tags: ['AI', 'SOC Simulation', 'GRC'],
+            url: 'https://cyber-sentinel-ai-delta.vercel.app/',
+            urlLabel: 'cyber-sentinel-ai-delta.vercel.app'
+        },
+        {
+            id: 'portfolio-site',
+            status: 'LIVE',
+            title: 'This Portfolio — Terminal Console UI',
+            desc: 'The very site you\'re on: a terminal-driven portfolio where every section doubles as a navigable command console, built from scratch in vanilla JS.',
+            tags: ['Vanilla JS', 'Terminal UI', 'GitHub Pages'],
+            url: 'https://rajdeeppal01.github.io/portfolio/',
+            urlLabel: 'rajdeeppal01.github.io/portfolio'
+        }
+    ];
+
+    const slides = showcaseItems.map(item => `
+        <div class="swiper-slide">
+            <div class="showcase-card">
+                <div class="browser-chrome">
+                    <span class="chrome-dot red"></span>
+                    <span class="chrome-dot yellow"></span>
+                    <span class="chrome-dot green"></span>
+                    <span class="chrome-url">${item.urlLabel}</span>
+                </div>
+                <div class="browser-viewport">
+                    <iframe
+                        src="${item.url}"
+                        loading="lazy"
+                        sandbox="allow-scripts allow-same-origin"
+                        referrerpolicy="no-referrer"
+                        title="${item.title} live preview"
+                        tabindex="-1"
+                    ></iframe>
+                    <a class="viewport-overlay" href="${item.url}" target="_blank" rel="noopener noreferrer" aria-label="Open ${item.title}"></a>
+                </div>
+                <div class="showcase-info">
+                    <div class="term-proj-status">
+                        <span class="status-dot green"></span> STATUS: ${item.status}
+                    </div>
+                    <h4 class="term-proj-title">${item.title}</h4>
+                    <p class="term-proj-desc">${item.desc}</p>
+                    <div class="term-tags">
+                        ${item.tags.map(t => `<span class="term-tag">${t}</span>`).join('')}
+                    </div>
+                    <div class="term-proj-actions">
+                        <a href="${item.url}" target="_blank" rel="noopener noreferrer" class="term-action-link">Launch Live ↗</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `).join('');
+
+    return `
+<div class="terminal-rich-container">
+    <div class="terminal-sec-header">
+        <span class="terminal-sec-num">◆ //</span>
+        <span class="terminal-sec-title">LIVE DEPLOYMENTS</span>
+    </div>
+    <p class="showcase-subtitle">A rotating console of active builds — live, embedded, and one click from launch.</p>
+    <div class="showcase-carousel swiper showcase-swiper">
+        <div class="swiper-wrapper">
+            ${slides}
+        </div>
+        <div class="swiper-pagination showcase-pagination"></div>
+        <div class="swiper-button-prev showcase-nav-prev"></div>
+        <div class="swiper-button-next showcase-nav-next"></div>
+    </div>
+</div>`;
+}
+
+function initShowcaseCarousel() {
+    if (typeof Swiper === 'undefined') return;
+    if (window.showcaseSwiperInstance) {
+        window.showcaseSwiperInstance.destroy(true, true);
+    }
+    window.showcaseSwiperInstance = new Swiper('.showcase-swiper', {
+        effect: 'coverflow',
+        grabCursor: true,
+        centeredSlides: true,
+        loop: true,
+        slidesPerView: 1.15,
+        spaceBetween: 24,
+        coverflowEffect: {
+            rotate: 0,
+            stretch: 0,
+            depth: 140,
+            modifier: 2,
+            slideShadows: false
+        },
+        pagination: {
+            el: '.showcase-pagination',
+            clickable: true
+        },
+        navigation: {
+            nextEl: '.showcase-nav-next',
+            prevEl: '.showcase-nav-prev'
+        },
+        breakpoints: {
+            640: { slidesPerView: 1.5, spaceBetween: 28 },
+            1000: { slidesPerView: 2.2, spaceBetween: 32 }
+        }
+    });
 }
 
 function getSkillsHTML() {
