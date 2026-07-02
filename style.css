@@ -2960,9 +2960,11 @@ body, .saas-card, .project-card, .skills-category, .info-card, .terminal-card, .
 
 .expand-gallery {
     display: flex;
+    justify-content: center;
     gap: 0.75rem;
     height: 520px;
     width: 100%;
+    contain: layout paint;
 }
 
 .expand-panel {
@@ -2973,7 +2975,8 @@ body, .saas-card, .project-card, .skills-category, .info-card, .terminal-card, .
     border-radius: var(--border-radius);
     overflow: hidden;
     cursor: pointer;
-    transition: flex-basis 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+    will-change: flex-basis;
+    transition: flex-basis 0.4s cubic-bezier(0.16, 1, 0.3, 1),
                 border-color 0.3s ease,
                 box-shadow 0.3s ease;
 }
@@ -3095,6 +3098,27 @@ body, .saas-card, .project-card, .skills-category, .info-card, .terminal-card, .
     height: 100%;
     border: 0;
     pointer-events: none;
+}
+
+.viewport-placeholder {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg-dark);
+    z-index: 1;
+}
+
+.viewport-placeholder-text {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--text-dark);
+    letter-spacing: 0.02em;
+}
+
+.expand-panel.preview-loaded .viewport-placeholder {
+    display: none;
 }
 
 .viewport-overlay {
