@@ -596,7 +596,7 @@ function getShowcaseHTML() {
     ];
 
     const panels = showcaseItems.map((item, i) => `
-        <div class="expand-panel${i === 0 ? ' is-expanded' : ''}" data-panel-index="${i}" tabindex="0" role="button" aria-expanded="${i === 0 ? 'true' : 'false'}" aria-label="Show ${item.shortName}">
+        <div class="expand-panel" data-panel-index="${i}" tabindex="0" role="button" aria-expanded="false" aria-label="Show ${item.shortName}">
             <div class="expand-panel-collapsed">
                 <div class="expand-panel-top">
                     <span class="expand-panel-num">0${i + 1}</span>
@@ -612,9 +612,11 @@ function getShowcaseHTML() {
                     <span class="chrome-url">${item.urlLabel}</span>
                 </div>
                 <div class="browser-viewport">
+                    <div class="viewport-placeholder">
+                        <span class="viewport-placeholder-text">Hover to load preview</span>
+                    </div>
                     <iframe
-                        src="${item.url}"
-                        loading="lazy"
+                        data-src="${item.url}"
                         sandbox="allow-scripts allow-same-origin"
                         referrerpolicy="no-referrer"
                         title="${item.title} live preview"
@@ -667,6 +669,15 @@ function initShowcaseGallery() {
                 p.classList.toggle('is-expanded', isActive);
                 p.setAttribute('aria-expanded', isActive ? 'true' : 'false');
             });
+            const activePanel = panels[index];
+            if (activePanel) {
+                const iframe = activePanel.querySelector('iframe[data-src]');
+                if (iframe) {
+                    iframe.src = iframe.dataset.src;
+                    iframe.removeAttribute('data-src');
+                    activePanel.classList.add('preview-loaded');
+                }
+            }
         }
 
         panels.forEach((panel, i) => {
