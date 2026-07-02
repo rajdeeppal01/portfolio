@@ -2949,7 +2949,7 @@ body, .saas-card, .project-card, .skills-category, .info-card, .terminal-card, .
 
 
 /* --------------------------------------------------------------------------
-   SHOWCASE SECTION — Live Deployments Carousel
+   SHOWCASE SECTION — Live Deployments (Expand-on-Hover Gallery)
    -------------------------------------------------------------------------- */
 .showcase-subtitle {
     font-size: 0.9rem;
@@ -2958,30 +2958,94 @@ body, .saas-card, .project-card, .skills-category, .info-card, .terminal-card, .
     max-width: 46ch;
 }
 
-.showcase-carousel {
-    padding: 1rem 0 3rem;
-    overflow: visible;
-}
-
-.showcase-carousel .swiper-wrapper {
-    align-items: stretch;
-}
-
-.showcase-card {
+.expand-gallery {
     display: flex;
-    flex-direction: column;
-    height: 100%;
+    gap: 0.75rem;
+    height: 520px;
+    width: 100%;
+}
+
+.expand-panel {
+    position: relative;
+    flex: 0 0 76px;
     background: var(--bg-card);
     border: 1px solid var(--border-slate);
     border-radius: var(--border-radius);
     overflow: hidden;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18);
-    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    cursor: pointer;
+    transition: flex-basis 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+                border-color 0.3s ease,
+                box-shadow 0.3s ease;
 }
 
-.swiper-slide-active .showcase-card {
+.expand-panel.is-expanded {
+    flex: 1 1 auto;
     border-color: var(--border-hover);
     box-shadow: 0 8px 28px rgba(0, 0, 0, 0.28);
+    cursor: default;
+}
+
+.expand-panel:focus-visible {
+    outline: 2px solid var(--primary-green);
+    outline-offset: 2px;
+}
+
+/* Collapsed state: narrow vertical label strip */
+.expand-panel-collapsed {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.1rem 0;
+    opacity: 1;
+    transition: opacity 0.25s ease;
+}
+
+.expand-panel.is-expanded .expand-panel-collapsed {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.expand-panel-top {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.expand-panel-num {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    font-weight: 700;
+    color: var(--text-dark);
+}
+
+.expand-panel-name {
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    color: var(--text-white);
+    white-space: nowrap;
+}
+
+/* Expanded state: full card content */
+.expand-panel-content {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    opacity: 0;
+    transition: opacity 0.35s ease 0.1s;
+    pointer-events: none;
+}
+
+.expand-panel.is-expanded .expand-panel-content {
+    opacity: 1;
+    pointer-events: auto;
 }
 
 /* Browser chrome bar */
@@ -2992,6 +3056,7 @@ body, .saas-card, .project-card, .skills-category, .info-card, .terminal-card, .
     padding: 0.6rem 0.75rem;
     background: var(--bg-dark);
     border-bottom: 1px solid var(--border-slate);
+    flex-shrink: 0;
 }
 
 .chrome-dot {
@@ -3019,20 +3084,16 @@ body, .saas-card, .project-card, .skills-category, .info-card, .terminal-card, .
 .browser-viewport {
     position: relative;
     width: 100%;
-    aspect-ratio: 16 / 10;
+    height: 220px;
+    flex-shrink: 0;
     overflow: hidden;
     background: var(--bg-dark);
 }
 
 .browser-viewport iframe {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 285%;
-    height: 285%;
+    width: 100%;
+    height: 100%;
     border: 0;
-    transform: scale(0.351);
-    transform-origin: 0 0;
     pointer-events: none;
 }
 
@@ -3045,7 +3106,7 @@ body, .saas-card, .project-card, .skills-category, .info-card, .terminal-card, .
     transition: opacity 0.2s ease;
 }
 
-.showcase-card:hover .viewport-overlay {
+.expand-panel-content:hover .viewport-overlay {
     opacity: 1;
 }
 
@@ -3053,50 +3114,51 @@ body, .saas-card, .project-card, .skills-category, .info-card, .terminal-card, .
     display: flex;
     flex-direction: column;
     flex-grow: 1;
+    min-height: 0;
     padding: 1.15rem;
+    overflow-y: auto;
 }
 
-/* Swiper theme overrides */
-.showcase-swiper .swiper-pagination-bullet {
-    background: var(--border-slate);
-    opacity: 1;
-    width: 6px;
-    height: 6px;
+.showcase-info .term-proj-desc {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
 
-.showcase-swiper .swiper-pagination-bullet-active {
-    background: var(--primary-green);
-    width: 18px;
-    border-radius: 3px;
-}
+/* Mobile: switch to vertical accordion */
+@media (max-width: 720px) {
+    .expand-gallery {
+        flex-direction: column;
+        height: auto;
+    }
 
-.showcase-nav-prev,
-.showcase-nav-next {
-    width: 36px;
-    height: 36px;
-    margin-top: -18px;
-    background: var(--bg-card);
-    border: 1px solid var(--border-slate);
-    border-radius: 50%;
-    color: var(--text-white);
-    transition: border-color 0.2s ease, background 0.2s ease;
-}
+    .expand-panel {
+        flex: 0 0 52px;
+    }
 
-.showcase-nav-prev::after,
-.showcase-nav-next::after {
-    font-size: 0.85rem;
-    font-weight: 700;
-}
+    .expand-panel.is-expanded {
+        flex: 0 0 auto;
+        min-height: 460px;
+    }
 
-.showcase-nav-prev:hover,
-.showcase-nav-next:hover {
-    border-color: var(--primary-green);
-    background: var(--bg-dark);
-}
+    .expand-panel-collapsed {
+        flex-direction: row;
+        justify-content: space-between;
+        padding: 0 1rem;
+    }
 
-@media (max-width: 640px) {
-    .showcase-nav-prev,
-    .showcase-nav-next {
-        display: none;
+    .expand-panel-top {
+        flex-direction: row;
+        gap: 0.6rem;
+    }
+
+    .expand-panel-name {
+        writing-mode: horizontal-tb;
+        text-orientation: initial;
+    }
+
+    .browser-viewport {
+        height: 180px;
     }
 }
