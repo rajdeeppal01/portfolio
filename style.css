@@ -2947,3 +2947,156 @@ body, .saas-card, .project-card, .skills-category, .info-card, .terminal-card, .
 
 
 
+
+/* --------------------------------------------------------------------------
+   SHOWCASE SECTION — Live Deployments Carousel
+   -------------------------------------------------------------------------- */
+.showcase-subtitle {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    margin: -0.5rem 0 1.75rem;
+    max-width: 46ch;
+}
+
+.showcase-carousel {
+    padding: 1rem 0 3rem;
+    overflow: visible;
+}
+
+.showcase-carousel .swiper-wrapper {
+    align-items: stretch;
+}
+
+.showcase-card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    background: var(--bg-card);
+    border: 1px solid var(--border-slate);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.swiper-slide-active .showcase-card {
+    border-color: var(--border-hover);
+    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.28);
+}
+
+/* Browser chrome bar */
+.browser-chrome {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.6rem 0.75rem;
+    background: var(--bg-dark);
+    border-bottom: 1px solid var(--border-slate);
+}
+
+.chrome-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.chrome-dot.red { background-color: #ff5f57; }
+.chrome-dot.yellow { background-color: #febc2e; }
+.chrome-dot.green { background-color: #28c840; }
+
+.chrome-url {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    color: var(--text-dark);
+    margin-left: 0.5rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* Live iframe preview viewport */
+.browser-viewport {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    overflow: hidden;
+    background: var(--bg-dark);
+}
+
+.browser-viewport iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 285%;
+    height: 285%;
+    border: 0;
+    transform: scale(0.351);
+    transform-origin: 0 0;
+    pointer-events: none;
+}
+
+.viewport-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    background: linear-gradient(180deg, transparent 60%, rgba(0, 0, 0, 0.35) 100%);
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.showcase-card:hover .viewport-overlay {
+    opacity: 1;
+}
+
+.showcase-info {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    padding: 1.15rem;
+}
+
+/* Swiper theme overrides */
+.showcase-swiper .swiper-pagination-bullet {
+    background: var(--border-slate);
+    opacity: 1;
+    width: 6px;
+    height: 6px;
+}
+
+.showcase-swiper .swiper-pagination-bullet-active {
+    background: var(--primary-green);
+    width: 18px;
+    border-radius: 3px;
+}
+
+.showcase-nav-prev,
+.showcase-nav-next {
+    width: 36px;
+    height: 36px;
+    margin-top: -18px;
+    background: var(--bg-card);
+    border: 1px solid var(--border-slate);
+    border-radius: 50%;
+    color: var(--text-white);
+    transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.showcase-nav-prev::after,
+.showcase-nav-next::after {
+    font-size: 0.85rem;
+    font-weight: 700;
+}
+
+.showcase-nav-prev:hover,
+.showcase-nav-next:hover {
+    border-color: var(--primary-green);
+    background: var(--bg-dark);
+}
+
+@media (max-width: 640px) {
+    .showcase-nav-prev,
+    .showcase-nav-next {
+        display: none;
+    }
+}
