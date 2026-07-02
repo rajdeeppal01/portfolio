@@ -643,46 +643,48 @@ function getShowcaseHTML() {
 <div class="terminal-rich-container">
     <div class="terminal-sec-header">
         <span class="terminal-sec-num">◆ //</span>
-        <span class="terminal-sec-title">LIVE DEPLOYMENTS</span>
+        <span class="terminal-sec-title">SHOWCASE</span>
     </div>
     <p class="showcase-subtitle">A rotating console of active builds — live, embedded, and one click from launch.</p>
-    <div class="expand-gallery" id="showcaseGallery">
+    <div class="expand-gallery">
         ${panels}
     </div>
 </div>`;
 }
 
 function initShowcaseGallery() {
-    const gallery = document.getElementById('showcaseGallery');
-    if (!gallery) return;
-    const panels = Array.from(gallery.querySelectorAll('.expand-panel'));
-    if (!panels.length) return;
-
     const canHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+    const galleries = document.querySelectorAll('.expand-gallery:not([data-initialized])');
 
-    function setActive(index) {
-        panels.forEach((p, i) => {
-            const isActive = i === index;
-            p.classList.toggle('is-expanded', isActive);
-            p.setAttribute('aria-expanded', isActive ? 'true' : 'false');
-        });
-    }
+    galleries.forEach(gallery => {
+        const panels = Array.from(gallery.querySelectorAll('.expand-panel'));
+        if (!panels.length) return;
+        gallery.dataset.initialized = 'true';
 
-    panels.forEach((panel, i) => {
-        if (canHover) {
-            panel.addEventListener('mouseenter', () => setActive(i));
+        function setActive(index) {
+            panels.forEach((p, i) => {
+                const isActive = i === index;
+                p.classList.toggle('is-expanded', isActive);
+                p.setAttribute('aria-expanded', isActive ? 'true' : 'false');
+            });
         }
-        panel.addEventListener('click', (e) => {
-            // Ignore clicks that originate from links/iframe overlay inside the expanded content
-            if (e.target.closest('a')) return;
-            setActive(i);
-        });
-        panel.addEventListener('focus', () => setActive(i));
-        panel.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter' || e.key === ' ') {
-                e.preventDefault();
-                setActive(i);
+
+        panels.forEach((panel, i) => {
+            if (canHover) {
+                panel.addEventListener('mouseenter', () => setActive(i));
             }
+            panel.addEventListener('click', (e) => {
+                // Ignore clicks that originate from links/iframe overlay inside the expanded content
+                if (e.target.closest('a')) return;
+                setActive(i);
+            });
+            panel.addEventListener('focus', () => setActive(i));
+            panel.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    setActive(i);
+                }
+            });
         });
     });
 }
@@ -924,7 +926,7 @@ function initTerminal() {
             }
             
             // Scroll to top for section commands, scroll to bottom for others!
-            const sectionCmds = ['overview', 'about', 'experience', 'exp', 'projects', 'proj', 'skills', 'credentials', 'certs'];
+            const sectionCmds = ['overview', 'about', 'experience', 'exp', 'projects', 'proj', 'skills', 'credentials', 'certs', 'showcase'];
             const cmdLower = command.trim().toLowerCase();
             const isCdSection = cmdLower.startsWith('cd ') && sectionCmds.some(s => cmdLower.includes(s));
             
@@ -982,7 +984,8 @@ function initTerminal() {
 <span class="dir-highlight">projects/</span>    
 <span class="dir-highlight">skills/</span>    
 <span class="dir-highlight">credentials/</span>    
-<span class="dir-highlight">contact/</span>`.trim();
+<span class="dir-highlight">contact/</span>    
+<span class="dir-highlight">showcase/</span>`.trim();
         log.appendChild(line);
     }
 
@@ -1039,6 +1042,12 @@ function initTerminal() {
                 setTimeout(() => {
                     if (window.switchTab) window.switchTab('contact');
                 }, 300);
+            } else if (path === 'showcase') {
+                log.innerHTML = '';
+                printLine('guest@raj-console:~$ cd showcase', 'input-echo');
+                appendHTML(getShowcaseHTML());
+                initShowcaseGallery();
+                syncTerminalView('showcase');
             } else {
                 printLine(`bash: cd: ${path}: No such file or directory`, 'error-msg');
             }
@@ -1129,6 +1138,14 @@ function initTerminal() {
                 setTimeout(() => {
                     if (window.switchTab) window.switchTab('contact');
                 }, 300);
+                break;
+
+            case 'showcase':
+                log.innerHTML = '';
+                printLine('guest@raj-console:~$ showcase', 'input-echo');
+                appendHTML(getShowcaseHTML());
+                initShowcaseGallery();
+                syncTerminalView('showcase');
                 break;
                 
             case 'help':
@@ -1238,7 +1255,7 @@ function initTerminal() {
             }
             
             // If it is a section command, scroll to the top so it starts at the beginning!
-            const sectionCmds = ['overview', 'experience', 'exp', 'projects', 'proj', 'skills', 'credentials', 'certs'];
+            const sectionCmds = ['overview', 'experience', 'exp', 'projects', 'proj', 'skills', 'credentials', 'certs', 'showcase'];
             setTimeout(() => {
                 if (sectionCmds.includes(cmd)) {
                     screen.scrollTop = 0;
