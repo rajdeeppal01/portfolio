@@ -32,14 +32,6 @@ document.addEventListener('DOMContentLoaded', () => {
         projSec.innerHTML = getProjectsHTML();
         mainContainer.appendChild(projSec);
         
-        // Create Showcase Section (live deployments carousel)
-        const showcaseSec = document.createElement('section');
-        showcaseSec.id = 'showcase';
-        showcaseSec.className = 'saas-section';
-        showcaseSec.innerHTML = getShowcaseHTML();
-        mainContainer.appendChild(showcaseSec);
-        initShowcaseCarousel();
-
         // Create Skills Section
         const skillsSec = document.createElement('section');
         skillsSec.id = 'skills';
@@ -59,6 +51,14 @@ document.addEventListener('DOMContentLoaded', () => {
         if (contactSec) {
             mainContainer.appendChild(contactSec);
         }
+
+        // Create Showcase Section (live deployments gallery) — placed last
+        const showcaseSec = document.createElement('section');
+        showcaseSec.id = 'showcase';
+        showcaseSec.className = 'saas-section';
+        showcaseSec.innerHTML = getShowcaseHTML();
+        mainContainer.appendChild(showcaseSec);
+        initShowcaseGallery();
     }
 
     initClock();
@@ -565,6 +565,7 @@ function getShowcaseHTML() {
     const showcaseItems = [
         {
             id: 'edza-ai',
+            shortName: 'Edza AI',
             status: 'LIVE',
             title: 'Edza AI — Socratic Cognitive Console',
             desc: 'An AI tutoring console that refuses to just hand over answers. It walks students through physics, math, and chemistry problems Socratically, forcing first-principles reasoning at every step.',
@@ -574,6 +575,7 @@ function getShowcaseHTML() {
         },
         {
             id: 'cybersentinel-ai',
+            shortName: 'CyberSentinel AI',
             status: 'LIVE',
             title: 'CyberSentinel AI — SOC & GRC Auditor',
             desc: 'An interactive AI-driven Security Operations Center simulator that doubles as a GRC compliance auditor, letting users practice threat detection and security diagnostics in a live console.',
@@ -583,6 +585,7 @@ function getShowcaseHTML() {
         },
         {
             id: 'portfolio-site',
+            shortName: 'This Portfolio',
             status: 'LIVE',
             title: 'This Portfolio — Terminal Console UI',
             desc: 'The very site you\'re on: a terminal-driven portfolio where every section doubles as a navigable command console, built from scratch in vanilla JS.',
@@ -592,9 +595,16 @@ function getShowcaseHTML() {
         }
     ];
 
-    const slides = showcaseItems.map(item => `
-        <div class="swiper-slide">
-            <div class="showcase-card">
+    const panels = showcaseItems.map((item, i) => `
+        <div class="expand-panel${i === 0 ? ' is-expanded' : ''}" data-panel-index="${i}" tabindex="0" role="button" aria-expanded="${i === 0 ? 'true' : 'false'}" aria-label="Show ${item.shortName}">
+            <div class="expand-panel-collapsed">
+                <div class="expand-panel-top">
+                    <span class="expand-panel-num">0${i + 1}</span>
+                    <span class="status-dot green"></span>
+                </div>
+                <span class="expand-panel-name">${item.shortName}</span>
+            </div>
+            <div class="expand-panel-content">
                 <div class="browser-chrome">
                     <span class="chrome-dot red"></span>
                     <span class="chrome-dot yellow"></span>
@@ -636,48 +646,44 @@ function getShowcaseHTML() {
         <span class="terminal-sec-title">LIVE DEPLOYMENTS</span>
     </div>
     <p class="showcase-subtitle">A rotating console of active builds — live, embedded, and one click from launch.</p>
-    <div class="showcase-carousel swiper showcase-swiper">
-        <div class="swiper-wrapper">
-            ${slides}
-        </div>
-        <div class="swiper-pagination showcase-pagination"></div>
-        <div class="swiper-button-prev showcase-nav-prev"></div>
-        <div class="swiper-button-next showcase-nav-next"></div>
+    <div class="expand-gallery" id="showcaseGallery">
+        ${panels}
     </div>
 </div>`;
 }
 
-function initShowcaseCarousel() {
-    if (typeof Swiper === 'undefined') return;
-    if (window.showcaseSwiperInstance) {
-        window.showcaseSwiperInstance.destroy(true, true);
+function initShowcaseGallery() {
+    const gallery = document.getElementById('showcaseGallery');
+    if (!gallery) return;
+    const panels = Array.from(gallery.querySelectorAll('.expand-panel'));
+    if (!panels.length) return;
+
+    const canHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+
+    function setActive(index) {
+        panels.forEach((p, i) => {
+            const isActive = i === index;
+            p.classList.toggle('is-expanded', isActive);
+            p.setAttribute('aria-expanded', isActive ? 'true' : 'false');
+        });
     }
-    window.showcaseSwiperInstance = new Swiper('.showcase-swiper', {
-        effect: 'coverflow',
-        grabCursor: true,
-        centeredSlides: true,
-        loop: true,
-        slidesPerView: 1.15,
-        spaceBetween: 24,
-        coverflowEffect: {
-            rotate: 0,
-            stretch: 0,
-            depth: 140,
-            modifier: 2,
-            slideShadows: false
-        },
-        pagination: {
-            el: '.showcase-pagination',
-            clickable: true
-        },
-        navigation: {
-            nextEl: '.showcase-nav-next',
-            prevEl: '.showcase-nav-prev'
-        },
-        breakpoints: {
-            640: { slidesPerView: 1.5, spaceBetween: 28 },
-            1000: { slidesPerView: 2.2, spaceBetween: 32 }
+
+    panels.forEach((panel, i) => {
+        if (canHover) {
+            panel.addEventListener('mouseenter', () => setActive(i));
         }
+        panel.addEventListener('click', (e) => {
+            // Ignore clicks that originate from links/iframe overlay inside the expanded content
+            if (e.target.closest('a')) return;
+            setActive(i);
+        });
+        panel.addEventListener('focus', () => setActive(i));
+        panel.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                setActive(i);
+            }
+        });
     });
 }
 
