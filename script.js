@@ -557,6 +557,27 @@ function getProjectsHTML() {
                 <span class="term-action-link disabled">Proprietary</span>
             </div>
         </div>
+
+        <!-- TrackrAI -->
+        <div class="terminal-card project-terminal-card" data-project-id="trackrai">
+            <div class="term-proj-status">
+                <span class="status-dot yellow"></span> STATUS: IN DEVELOPMENT
+            </div>
+            <h4 class="term-proj-title">TrackrAI — AI-Powered Job Tracker</h4>
+            <p class="term-proj-desc">
+                A full-stack job application tracker built for real multi-user use: JWT-authenticated accounts, a drag-and-drop application pipeline, live analytics, and an AI Copilot that scores pipeline health and suggests next steps.
+            </p>
+            <div class="term-tags">
+                <span class="term-tag">React</span>
+                <span class="term-tag">FastAPI</span>
+                <span class="term-tag">JWT Auth</span>
+                <span class="term-tag">SQLite</span>
+            </div>
+            <div class="term-proj-actions">
+                <a href="https://frontend-zeta-ebon-6g2mglih0o.vercel.app/" target="_blank" rel="noopener noreferrer" class="term-action-link">Live Demo ↗</a>
+                <a href="https://github.com/rajdeeppal01/trackrai" target="_blank" rel="noopener noreferrer" class="term-action-link">Repository ↗</a>
+            </div>
+        </div>
     </div>
 </div>`;
 }
