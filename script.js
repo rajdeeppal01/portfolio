@@ -613,6 +613,16 @@ function getShowcaseHTML() {
             tags: ['Vanilla JS', 'Terminal UI', 'GitHub Pages'],
             url: 'https://rajdeeppal01.github.io/portfolio/',
             urlLabel: 'rajdeeppal01.github.io/portfolio'
+        },
+        {
+            id: 'trackrai',
+            shortName: 'TrackrAI',
+            status: 'IN DEV',
+            title: 'TrackrAI — AI-Powered Job Tracker',
+            desc: 'A multi-user job application tracker with JWT authentication, a drag-and-drop pipeline, live analytics, and an AI Copilot that scores pipeline health and suggests next steps. Still actively evolving.',
+            tags: ['React', 'FastAPI', 'JWT Auth'],
+            url: 'https://frontend-zeta-ebon-6g2mglih0o.vercel.app/',
+            urlLabel: 'frontend-zeta-ebon-6g2mglih0o.vercel.app'
         }
     ];
 
