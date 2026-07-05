@@ -1074,36 +1074,35 @@ function initTerminal() {
                 appendHTML(getAboutHTML());
                 syncTerminalView('overview');
             } else if (path === 'experience' || path === 'exp') {
-                log.innerHTML = '';
-                printLine('guest@raj-console:~$ cd experience', 'input-echo');
-                appendHTML(getExperienceHTML());
-                syncTerminalView('experience');
+                printLine('[+] Redirecting to experience section...', 'success-msg');
+                setTimeout(() => {
+                    if (window.switchTab) window.switchTab('experience');
+                }, 300);
             } else if (path === 'projects' || path === 'proj') {
-                log.innerHTML = '';
-                printLine('guest@raj-console:~$ cd projects', 'input-echo');
-                appendHTML(getProjectsHTML());
-                syncTerminalView('projects');
+                printLine('[+] Redirecting to projects section...', 'success-msg');
+                setTimeout(() => {
+                    if (window.switchTab) window.switchTab('projects');
+                }, 300);
             } else if (path === 'skills') {
-                log.innerHTML = '';
-                printLine('guest@raj-console:~$ cd skills', 'input-echo');
-                appendHTML(getSkillsHTML());
-                syncTerminalView('skills');
+                printLine('[+] Redirecting to skills section...', 'success-msg');
+                setTimeout(() => {
+                    if (window.switchTab) window.switchTab('skills');
+                }, 300);
             } else if (path === 'credentials' || path === 'certs') {
-                log.innerHTML = '';
-                printLine('guest@raj-console:~$ cd credentials', 'input-echo');
-                appendHTML(getCredentialsHTML());
-                syncTerminalView('certs');
+                printLine('[+] Redirecting to credentials section...', 'success-msg');
+                setTimeout(() => {
+                    if (window.switchTab) window.switchTab('certs');
+                }, 300);
             } else if (path === 'contact') {
                 printLine('[+] Redirecting to contact section...', 'success-msg');
                 setTimeout(() => {
                     if (window.switchTab) window.switchTab('contact');
                 }, 300);
             } else if (path === 'showcase') {
-                log.innerHTML = '';
-                printLine('guest@raj-console:~$ cd showcase', 'input-echo');
-                appendHTML(getShowcaseHTML());
-                initShowcaseGallery();
-                syncTerminalView('showcase');
+                printLine('[+] Redirecting to showcase section...', 'success-msg');
+                setTimeout(() => {
+                    if (window.switchTab) window.switchTab('showcase');
+                }, 300);
             } else {
                 printLine(`bash: cd: ${path}: No such file or directory`, 'error-msg');
             }
@@ -1160,33 +1159,33 @@ function initTerminal() {
                 
             case 'experience':
             case 'exp':
-                log.innerHTML = '';
-                printLine('guest@raj-console:~$ experience', 'input-echo');
-                appendHTML(getExperienceHTML());
-                syncTerminalView('experience');
+                printLine('[+] Redirecting to experience section...', 'success-msg');
+                setTimeout(() => {
+                    if (window.switchTab) window.switchTab('experience');
+                }, 300);
                 break;
                 
             case 'projects':
             case 'proj':
-                log.innerHTML = '';
-                printLine('guest@raj-console:~$ projects', 'input-echo');
-                appendHTML(getProjectsHTML());
-                syncTerminalView('projects');
+                printLine('[+] Redirecting to projects section...', 'success-msg');
+                setTimeout(() => {
+                    if (window.switchTab) window.switchTab('projects');
+                }, 300);
                 break;
                 
             case 'skills':
-                log.innerHTML = '';
-                printLine('guest@raj-console:~$ skills', 'input-echo');
-                appendHTML(getSkillsHTML());
-                syncTerminalView('skills');
+                printLine('[+] Redirecting to skills section...', 'success-msg');
+                setTimeout(() => {
+                    if (window.switchTab) window.switchTab('skills');
+                }, 300);
                 break;
                 
             case 'credentials':
             case 'certs':
-                log.innerHTML = '';
-                printLine('guest@raj-console:~$ credentials', 'input-echo');
-                appendHTML(getCredentialsHTML());
-                syncTerminalView('certs');
+                printLine('[+] Redirecting to credentials section...', 'success-msg');
+                setTimeout(() => {
+                    if (window.switchTab) window.switchTab('certs');
+                }, 300);
                 break;
                 
             case 'contact':
@@ -1197,11 +1196,10 @@ function initTerminal() {
                 break;
 
             case 'showcase':
-                log.innerHTML = '';
-                printLine('guest@raj-console:~$ showcase', 'input-echo');
-                appendHTML(getShowcaseHTML());
-                initShowcaseGallery();
-                syncTerminalView('showcase');
+                printLine('[+] Redirecting to showcase section...', 'success-msg');
+                setTimeout(() => {
+                    if (window.switchTab) window.switchTab('showcase');
+                }, 300);
                 break;
                 
             case 'help':
