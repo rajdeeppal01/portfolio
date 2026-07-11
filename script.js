@@ -574,7 +574,7 @@ function getProjectsHTML() {
                 <span class="term-tag">SQLite</span>
             </div>
             <div class="term-proj-actions">
-                <a href="https://frontend-zeta-ebon-6g2mglih0o.vercel.app/" target="_blank" rel="noopener noreferrer" class="term-action-link">Live Demo ↗</a>
+                <a href="https://trackrai.in/" target="_blank" rel="noopener noreferrer" class="term-action-link">Live Demo ↗</a>
                 <a href="https://github.com/rajdeeppal01/trackrai" target="_blank" rel="noopener noreferrer" class="term-action-link">Repository ↗</a>
             </div>
         </div>
@@ -621,8 +621,8 @@ function getShowcaseHTML() {
             title: 'TrackrAI — AI-Powered Job Tracker',
             desc: 'A multi-user job application tracker with JWT authentication, a drag-and-drop pipeline, live analytics, and an AI Copilot that scores pipeline health and suggests next steps. Still actively evolving.',
             tags: ['React', 'FastAPI', 'JWT Auth'],
-            url: 'https://frontend-zeta-ebon-6g2mglih0o.vercel.app/',
-            urlLabel: 'frontend-zeta-ebon-6g2mglih0o.vercel.app'
+            url: 'https://trackrai.in/',
+            urlLabel: 'trackrai.in'
         }
     ];
 
