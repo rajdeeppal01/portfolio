@@ -585,16 +585,6 @@ function getProjectsHTML() {
 function getShowcaseHTML() {
     const showcaseItems = [
         {
-            id: 'edza-ai',
-            shortName: 'Edza AI',
-            status: 'LIVE',
-            title: 'Edza AI — Socratic Cognitive Console',
-            desc: 'An AI tutoring console that refuses to just hand over answers. It walks students through physics, math, and chemistry problems Socratically, forcing first-principles reasoning at every step.',
-            tags: ['AI Tutoring', 'Socratic Method', 'Gemini API'],
-            url: 'https://ezda-demo.onrender.com/',
-            urlLabel: 'ezda-demo.onrender.com'
-        },
-        {
             id: 'cybersentinel-ai',
             shortName: 'CyberSentinel AI',
             status: 'LIVE',
