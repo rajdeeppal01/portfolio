@@ -578,6 +578,27 @@ function getProjectsHTML() {
                 <a href="https://github.com/rajdeeppal01/trackrai" target="_blank" rel="noopener noreferrer" class="term-action-link">Repository ↗</a>
             </div>
         </div>
+
+        <!-- CyberSentinel AI -->
+        <div class="terminal-card project-terminal-card" data-project-id="cybersentinel-ai">
+            <div class="term-proj-status">
+                <span class="status-dot green"></span> STATUS: LIVE
+            </div>
+            <h4 class="term-proj-title">CyberSentinel AI — SOC & GRC Auditor</h4>
+            <p class="term-proj-desc">
+                An interactive AI-driven Security Operations Center simulator that doubles as a GRC compliance auditor, letting users practice threat detection and security diagnostics in a live console.
+            </p>
+            <div class="term-tags">
+                <span class="term-tag">React</span>
+                <span class="term-tag">TypeScript</span>
+                <span class="term-tag">Tailwind CSS</span>
+                <span class="term-tag">Gemini API</span>
+            </div>
+            <div class="term-proj-actions">
+                <a href="https://cyber-sentinel-ai-delta.vercel.app/" target="_blank" rel="noopener noreferrer" class="term-action-link">Live Demo ↗</a>
+                <a href="https://github.com/rajdeeppal01/cybersentinel-ai" target="_blank" rel="noopener noreferrer" class="term-action-link">Repository ↗</a>
+            </div>
+        </div>
     </div>
 </div>`;
 }
