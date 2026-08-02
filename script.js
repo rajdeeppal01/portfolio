@@ -616,6 +616,7 @@ function getProjectsHTML() {
                 <span class="term-tag">Gemini API</span>
             </div>
             <div class="term-proj-actions">
+                <a href="https://cywar.vercel.app/" target="_blank" rel="noopener noreferrer" class="term-action-link">Live Demo ↗</a>
                 <a href="https://github.com/rajdeeppal01/CYWAR" target="_blank" rel="noopener noreferrer" class="term-action-link">Repository ↗</a>
             </div>
         </div>
@@ -662,8 +663,8 @@ function getShowcaseHTML() {
             title: 'CYWAR — Threat & Conflict Predictor',
             desc: 'A high-fidelity cyber threat monitoring platform correlating cyber warfare traffic with real-time news to forecast geopolitical escalation windows.',
             tags: ['React', 'FastAPI', 'SVG Mapping', 'Gemini API'],
-            url: 'https://github.com/rajdeeppal01/CYWAR',
-            urlLabel: 'github.com/rajdeeppal01/CYWAR'
+            url: 'https://cywar.vercel.app/',
+            urlLabel: 'cywar.vercel.app'
         }
     ];
 
