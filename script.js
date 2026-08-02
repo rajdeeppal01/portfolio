@@ -599,6 +599,26 @@ function getProjectsHTML() {
                 <a href="https://github.com/rajdeeppal01/cybersentinel-ai" target="_blank" rel="noopener noreferrer" class="term-action-link">Repository ↗</a>
             </div>
         </div>
+
+        <!-- CYWAR -->
+        <div class="terminal-card project-terminal-card" data-project-id="cywar">
+            <div class="term-proj-status">
+                <span class="status-dot yellow"></span> STATUS: IN DEV
+            </div>
+            <h4 class="term-proj-title">CYWAR — Threat & Conflict Predictor</h4>
+            <p class="term-proj-desc">
+                A high-fidelity cyber threat monitoring and prediction platform correlating cyber warfare traffic with real-time news to forecast geopolitical escalation windows.
+            </p>
+            <div class="term-tags">
+                <span class="term-tag">React</span>
+                <span class="term-tag">FastAPI</span>
+                <span class="term-tag">SVG Mapping</span>
+                <span class="term-tag">Gemini API</span>
+            </div>
+            <div class="term-proj-actions">
+                <a href="https://github.com/rajdeeppal01/CYWAR" target="_blank" rel="noopener noreferrer" class="term-action-link">Repository ↗</a>
+            </div>
+        </div>
     </div>
 </div>`;
 }
@@ -634,6 +654,16 @@ function getShowcaseHTML() {
             tags: ['React', 'FastAPI', 'JWT Auth'],
             url: 'https://trackrai.in/',
             urlLabel: 'trackrai.in'
+        },
+        {
+            id: 'cywar',
+            shortName: 'CYWAR',
+            status: 'IN DEV',
+            title: 'CYWAR — Threat & Conflict Predictor',
+            desc: 'A high-fidelity cyber threat monitoring platform correlating cyber warfare traffic with real-time news to forecast geopolitical escalation windows.',
+            tags: ['React', 'FastAPI', 'SVG Mapping', 'Gemini API'],
+            url: 'https://github.com/rajdeeppal01/CYWAR',
+            urlLabel: 'github.com/rajdeeppal01/CYWAR'
         }
     ];
 
