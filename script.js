@@ -425,9 +425,9 @@ function getExperienceHTML() {
                 <div class="term-card-body">
                     <p>Developing the <strong>Jio Cybersecurity Suite (JCS)</strong>, a unified offline-first cognitive security platform combining automated threat intelligence and autonomous threat simulation.</p>
                     <ul class="term-bullets">
-                        <li><strong>Automated CVE Reconnaissance & Triage:</strong> Engineered a target intelligence engine processing 50,000+ CVEs via SQLite/NVD parsing. Orchestrates passive DNS mapping, TCP port sweeps, and service banner extraction to actively correlate and rank network vulnerabilities.</li>
-                        <li><strong>Autonomous Pentesting AI Agent:</strong> Built an interactive, LLM-driven threat simulation agent (Ollama/phi3) via a ReAct reasoning planner. It dynamically executes 9 distinct network attacks at 10,000 PPS, achieving near-100% NIDS evasion success through TLS tunneling and packet fragmentation.</li>
-                        <li><strong>Scalable Microservice Architecture:</strong> Orchestrated a high-stability backend pipeline leveraging FastAPI, PostgreSQL, Redis, and Celery on RHEL 9. The system handles 2,000+ concurrent requests across segregated worker tiers, accelerating the vulnerability assessment lifecycle by 65%.</li>
+                        <li><strong>Enterprise Security Architecture:</strong> Architected and developed the Jio Cybersecurity Suite (JCS), transitioning the infrastructure from Kubernetes to a high-stability Docker Compose microservices pipeline deployed natively on RHEL 9.</li>
+                        <li><strong>Scalable Backend & Task Orchestration:</strong> Engineered a proxy-aware, high-throughput backend utilizing FastAPI, PostgreSQL, and Redis. Implemented segregated Celery worker tiers (T1/T2/T3) and an Nginx reverse proxy to handle 2,000+ concurrent assessment requests with zero latency.</li>
+                        <li><strong>Automated Threat Evaluation Pipeline:</strong> Designed the core orchestration layer that powers autonomous AI penetration agents. The pipeline successfully executes and evaluates 9 distinct network attack vectors at 10,000 PPS, accelerating the enterprise vulnerability assessment lifecycle by 65%.</li>
                     </ul>
                 </div>
                 <div class="term-tags">
