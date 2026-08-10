@@ -335,6 +335,34 @@ function getProjectsHTML() {
         <span class="terminal-sec-title">SYSTEM BUILDOUTS</span>
     </div>
     <div class="terminal-projects-grid">
+        <!-- Q - Autonomous AI Agent Governance -->
+        <div class="terminal-card project-terminal-card" data-project-id="q-governance">
+            <div class="term-proj-status">
+                <span class="status-dot green"></span> STATUS: LIVE
+            </div>
+            <h4 class="term-proj-title">Q — Autonomous AI Agent Governance</h4>
+            <p class="term-proj-desc" style="margin-bottom: 0.5rem;">
+                A security and governance control plane for autonomous AI agents. Acting as a middleware, Q intercepts high-risk agent tool calls, halts execution, and pushes the request to a live dashboard for human approval before proceeding.
+            </p>
+            <ul class="term-bullets" style="font-size: 0.82rem; margin-bottom: 0.85rem; color: var(--text-muted); list-style-type: none; padding-left: 0;">
+                <li style="position: relative; padding-left: 0.85rem; margin-bottom: 0.35rem;"><strong style="color: var(--text-white);">Frontend:</strong> Built with React + Vite, featuring a responsive, terminal-inspired aesthetic for command-line power users. Features real-time WebSockets and custom CSS micro-animations.</li>
+                <li style="position: relative; padding-left: 0.85rem; margin-bottom: 0.35rem;"><strong style="color: var(--text-white);">Backend:</strong> FastAPI backend with fully secure cryptographically hashed API keys, strictly enforced endpoint rate limiting (SlowAPI), and SQLite tracking all agent telemetry.</li>
+                <li style="position: relative; padding-left: 0.85rem; margin-bottom: 0.35rem;"><strong style="color: var(--text-white);">SDK Integration:</strong> Provides a lightweight <code>@require_approval</code> Python decorator that seamlessly intercepts agent tool executions for human-in-the-loop validation.</li>
+            </ul>
+            <div class="term-tags">
+                <span class="term-tag">FastAPI</span>
+                <span class="term-tag">React</span>
+                <span class="term-tag">WebSockets</span>
+                <span class="term-tag">Python</span>
+                <span class="term-tag">SlowAPI</span>
+                <span class="term-tag">Cybersecurity</span>
+            </div>
+            <div class="term-proj-actions">
+                <a href="https://q-five-bice.vercel.app" target="_blank" rel="noopener noreferrer" class="term-action-link">Live Demo ↗</a>
+                <a href="https://github.com/rajdeeppal01/Q" target="_blank" rel="noopener noreferrer" class="term-action-link">Repository ↗</a>
+            </div>
+        </div>
+
         <!-- TrackrAI — NEW -->
         <div class="terminal-card project-terminal-card" data-project-id="trackrai">
             <div class="term-proj-status">
