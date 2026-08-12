@@ -1277,8 +1277,8 @@ function initTerminal() {
                 printLine('[+] Initiating secure resume transmission...', 'success-msg');
                 setTimeout(() => {
                     const link = document.createElement('a');
-                    link.href = 'Resume_Rajdeep.pdf';
-                    link.download = 'Resume_Rajdeep.pdf';
+                    link.href = 'Rajdeep_Pal_Resume.pdf';
+                    link.download = 'Rajdeep_Pal_Resume.pdf';
                     document.body.appendChild(link);
                     link.click();
                     document.body.removeChild(link);
