@@ -621,12 +621,43 @@ function getProjectsHTML() {
                 <a href="https://github.com/rajdeeppal01/CYWAR" target="_blank" rel="noopener noreferrer" class="term-action-link">Repository ↗</a>
             </div>
         </div>
+
+        <!-- VaporDrop -->
+        <div class="terminal-card project-terminal-card" data-project-id="vapordrop">
+            <div class="term-proj-status">
+                <span class="status-dot green"></span> STATUS: LIVE
+            </div>
+            <h4 class="term-proj-title">VaporDrop — Encrypted File Sharing</h4>
+            <p class="term-proj-desc">
+                A secure file sharing platform with self-destructing links. Files are encrypted client-side in the browser using AES-256-GCM and permanently deleted after download or expiry, ensuring a zero-knowledge architecture.
+            </p>
+            <div class="term-tags">
+                <span class="term-tag">Next.js</span>
+                <span class="term-tag">React</span>
+                <span class="term-tag">Supabase</span>
+                <span class="term-tag">AES-256</span>
+            </div>
+            <div class="term-proj-actions">
+                <a href="https://vapordrop-iota.vercel.app/" target="_blank" rel="noopener noreferrer" class="term-action-link">Live Demo ↗</a>
+                <a href="https://github.com/rajdeeppal01/vapordrop" target="_blank" rel="noopener noreferrer" class="term-action-link">Repository ↗</a>
+            </div>
+        </div>
     </div>
 </div>`;
 }
 
 function getShowcaseHTML() {
     const showcaseItems = [
+        {
+            id: 'vapordrop',
+            shortName: 'VaporDrop',
+            status: 'LIVE',
+            title: 'VaporDrop — Encrypted File Sharing',
+            desc: 'A secure file sharing platform with self-destructing links. Files are encrypted client-side in the browser using AES-256-GCM and permanently deleted after download or expiry, ensuring a zero-knowledge architecture.',
+            tags: ['Next.js', 'Supabase', 'AES-256'],
+            url: 'https://vapordrop-iota.vercel.app/',
+            urlLabel: 'vapordrop-iota.vercel.app'
+        },
         {
             id: 'q-governance',
             shortName: 'Q Agent Governance',
