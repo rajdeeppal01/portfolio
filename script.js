@@ -393,7 +393,7 @@ function getAboutHTML() {
             B.Tech Computer Science student specializing in <strong>Cybersecurity & Digital Forensics</strong> at UPES Dehradun. Driven by the convergence of security automation, cognitive threat intelligence, and intelligent systems engineering.
         </p>
         <p style="font-size: 0.9rem; line-height: 1.55;">
-            Experienced in architecting modern microservice infrastructures, designing low-latency telemetry protocols, and deploying cognitive LLM agent planners for active penetration desynchronization. Currently validating and expanding threat detection suites at Jio Platforms Limited.
+            Experienced in architecting modern microservice infrastructures, designing low-latency telemetry protocols, and deploying cognitive LLM agent planners for active penetration desynchronization. Previously engineered and validated threat detection suites at Jio Platforms Limited.
         </p>
     </div>
     <div class="terminal-card" style="margin-top: 0.65rem; border-color: var(--border-slate); background-color: transparent; border-style: dashed; font-family: var(--font-mono); font-size: 0.78rem; line-height: 1.5;">
@@ -421,9 +421,9 @@ function getExperienceHTML() {
                     <span class="term-job-title">Cybersecurity Intern</span>
                     <span class="term-company">Jio Platforms Limited</span>
                 </div>
-                <div class="term-card-meta">June 2026 - Present | Navi Mumbai, IN</div>
+                <div class="term-card-meta">June 2026 - Aug 2026 | Navi Mumbai, IN</div>
                 <div class="term-card-body">
-                    <p>Developing the <strong>Jio Cybersecurity Suite (JCS)</strong>, a unified offline-first cognitive security platform combining automated threat intelligence and autonomous threat simulation.</p>
+                    <p>Developed the <strong>Jio Cybersecurity Suite (JCS)</strong>, a unified offline-first cognitive security platform combining automated threat intelligence and autonomous threat simulation.</p>
                     <ul class="term-bullets">
                         <li><strong>Enterprise Security Architecture:</strong> Architected and developed the Jio Cybersecurity Suite (JCS), transitioning the infrastructure from Kubernetes to a high-stability Docker Compose microservices pipeline deployed natively on RHEL 9.</li>
                         <li><strong>Scalable Backend & Task Orchestration:</strong> Engineered a proxy-aware, high-throughput backend utilizing FastAPI, PostgreSQL, and Redis. Implemented segregated Celery worker tiers (T1/T2/T3) and an Nginx reverse proxy to handle 2,000+ concurrent assessment requests with zero latency.</li>
