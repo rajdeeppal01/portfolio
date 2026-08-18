@@ -393,7 +393,7 @@ function getAboutHTML() {
             B.Tech Computer Science student specializing in <strong>Cybersecurity & Digital Forensics</strong> at UPES Dehradun. Driven by the convergence of security automation, cognitive threat intelligence, and intelligent systems engineering.
         </p>
         <p style="font-size: 0.9rem; line-height: 1.55;">
-            Experienced in architecting modern microservice infrastructures, designing low-latency telemetry protocols, and deploying cognitive LLM agent planners for active penetration desynchronization. Previously engineered and validated threat detection suites at Jio Platforms Limited.
+            Experienced in architecting modern microservice infrastructures, designing low-latency telemetry protocols, and deploying cognitive LLM agent planners for active penetration desynchronization. Previously engineered and validated threat detection suites at Jio Platforms Limited. Actively building adversarial muscle and offensive security intuition through structured CTF environments (TryHackMe / HackTheBox) to complement platform engineering skills.
         </p>
     </div>
     <div class="terminal-card" style="margin-top: 0.65rem; border-color: var(--border-slate); background-color: transparent; border-style: dashed; font-family: var(--font-mono); font-size: 0.78rem; line-height: 1.5;">
@@ -425,9 +425,9 @@ function getExperienceHTML() {
                 <div class="term-card-body">
                     <p>Developed the <strong>Jio Cybersecurity Suite (JCS)</strong>, a unified offline-first cognitive security platform combining automated threat intelligence and autonomous threat simulation.</p>
                     <ul class="term-bullets">
-                        <li><strong>Enterprise Security Architecture:</strong> Architected and developed the Jio Cybersecurity Suite (JCS), transitioning the infrastructure from Kubernetes to a high-stability Docker Compose microservices pipeline deployed natively on RHEL 9.</li>
-                        <li><strong>Scalable Backend & Task Orchestration:</strong> Engineered a proxy-aware, high-throughput backend utilizing FastAPI, PostgreSQL, and Redis. Implemented segregated Celery worker tiers (T1/T2/T3) and an Nginx reverse proxy to handle 2,000+ concurrent assessment requests with zero latency.</li>
-                        <li><strong>Automated Threat Evaluation Pipeline:</strong> Designed the core orchestration layer that powers autonomous AI penetration agents. The pipeline successfully executes and evaluates 9 distinct network attack vectors at 10,000 PPS, accelerating the enterprise vulnerability assessment lifecycle by 65%.</li>
+                        <li><strong>Enterprise Security Architecture & Compliance:</strong> Architected the Jio Cybersecurity Suite (JCS) and mapped its microservice subsystems against NIST CSF and OWASP ASVS frameworks to ensure enterprise-grade compliance.</li>
+                        <li><strong>Incident Response & DevSecOps:</strong> Following a live PAT exposure incident during rapid prototyping, immediately revoked credentials and integrated TruffleHog/Gitleaks for automated pre-commit secret scanning, migrating all secrets to secure environment vaults.</li>
+                        <li><strong>Automated Threat Triage Pipeline:</strong> Engineered a target intelligence engine that actively detects simulated DDoS and credential-stuffing vectors, structuring the raw telemetry for rapid SOC triage and accelerating the vulnerability assessment lifecycle by 65%.</li>
                     </ul>
                 </div>
                 <div class="term-tags">
@@ -486,9 +486,9 @@ function getProjectsHTML() {
                 A unified, offline-first cognitive security platform combining automated CVE reconnaissance and active threat simulation.
             </p>
             <ul class="term-bullets" style="font-size: 0.82rem; margin-bottom: 0.85rem; color: var(--text-muted); list-style-type: none; padding-left: 0;">
-                <li style="position: relative; padding-left: 0.85rem; margin-bottom: 0.35rem;"><strong style="color: var(--text-white);">Automated CVE Reconnaissance & Triage:</strong> Engineered a target intelligence engine processing 50,000+ CVEs via SQLite/NVD parsing. Orchestrates passive DNS mapping, TCP port sweeps, and service banner extraction to actively correlate and rank network vulnerabilities.</li>
-                <li style="position: relative; padding-left: 0.85rem; margin-bottom: 0.35rem;"><strong style="color: var(--text-white);">Autonomous Pentesting AI Agent:</strong> Built an interactive, LLM-driven threat simulation agent (Ollama/phi3) via a ReAct reasoning planner. It dynamically executes 9 distinct network attacks at 10,000 PPS, achieving near-100% NIDS evasion success through TLS tunneling and packet fragmentation.</li>
-                <li style="position: relative; padding-left: 0.85rem; margin-bottom: 0.35rem;"><strong style="color: var(--text-white);">Scalable Microservice Architecture:</strong> Orchestrated a high-stability backend pipeline leveraging FastAPI, PostgreSQL, Redis, and Celery on RHEL 9. The system handles 2,000+ concurrent requests across segregated worker tiers, accelerating the vulnerability assessment lifecycle by 65%.</li>
+                <li style="position: relative; padding-left: 0.85rem; margin-bottom: 0.35rem;"><strong style="color: var(--text-white);">Automated Threat Triage & SOC Pipeline:</strong> Engineered a target intelligence engine processing 50,000+ CVEs via SQLite/NVD parsing. Actively detects simulated DDoS and credential-stuffing vectors, structuring the raw telemetry for rapid SOC triage.</li>
+                <li style="position: relative; padding-left: 0.85rem; margin-bottom: 0.35rem;"><strong style="color: var(--text-white);">Incident Response & Secrets Management:</strong> Following a live PAT exposure incident during rapid prototyping, immediately revoked credentials and integrated TruffleHog/Gitleaks for automated pre-commit secret scanning, migrating all secrets to secure environment vaults.</li>
+                <li style="position: relative; padding-left: 0.85rem; margin-bottom: 0.35rem;"><strong style="color: var(--text-white);">Scalable Architecture & Compliance:</strong> Orchestrated a high-stability backend pipeline leveraging FastAPI, PostgreSQL, Redis, and Celery on RHEL 9. Mapped subsystem architectures against NIST CSF and OWASP ASVS frameworks to ensure enterprise-grade compliance.</li>
             </ul>
             <div class="term-tags">
                 <span class="term-tag">FastAPI</span>
@@ -546,7 +546,7 @@ function getProjectsHTML() {
             </div>
             <h4 class="term-proj-title">Q — Autonomous AI Agent Governance</h4>
             <p class="term-proj-desc">
-                A security middleware for autonomous AI agents. Q intercepts high-risk tool calls via a Python SDK, pausing execution and pushing requests to a React dashboard for human approval.
+                A security middleware for autonomous AI agents. Q intercepts high-risk tool calls via a Python SDK, pausing execution and pushing requests to a React dashboard for human approval. Employed secure coding practices by conducting STRIDE threat modeling and integrating static application security testing (SAST) prior to deployment.
             </p>
             <div class="term-tags">
                 <span class="term-tag">React</span>
