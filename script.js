@@ -562,7 +562,7 @@ function getProjectsHTML() {
         <!-- TrackrAI -->
         <div class="terminal-card project-terminal-card" data-project-id="trackrai">
             <div class="term-proj-status">
-                <span class="status-dot yellow"></span> STATUS: IN DEVELOPMENT
+                <span class="status-dot green"></span> STATUS: LIVE
             </div>
             <h4 class="term-proj-title">TrackrAI — AI-Powered Job Tracker</h4>
             <p class="term-proj-desc">
@@ -572,7 +572,7 @@ function getProjectsHTML() {
                 <span class="term-tag">React</span>
                 <span class="term-tag">FastAPI</span>
                 <span class="term-tag">JWT Auth</span>
-                <span class="term-tag">SQLite</span>
+                <span class="term-tag">PostgreSQL</span>
             </div>
             <div class="term-proj-actions">
                 <a href="https://trackrai.in/" target="_blank" rel="noopener noreferrer" class="term-action-link">Live Demo ↗</a>
@@ -642,6 +642,71 @@ function getProjectsHTML() {
                 <a href="https://github.com/rajdeeppal01/vapordrop" target="_blank" rel="noopener noreferrer" class="term-action-link">Repository ↗</a>
             </div>
         </div>
+
+        <!-- SecureOnboard -->
+        <div class="terminal-card project-terminal-card" data-project-id="secureonboard">
+            <div class="term-proj-status">
+                <span class="status-dot green"></span> STATUS: LIVE
+            </div>
+            <h4 class="term-proj-title">SecureOnboard — Zero-Trust Identity Lifecycle</h4>
+            <p class="term-proj-desc">
+                Zero-Trust Identity Lifecycle Automation for SMBs. Auto-revokes SaaS access (Google Workspace, Slack, GitHub) the moment an employee leaves — in under 60 seconds — with a full SOC 2 / ISO 27001-ready audit trail.
+            </p>
+            <div class="term-tags">
+                <span class="term-tag">Next.js</span>
+                <span class="term-tag">TypeScript</span>
+                <span class="term-tag">n8n</span>
+                <span class="term-tag">Prisma</span>
+                <span class="term-tag">Zero-Trust</span>
+            </div>
+            <div class="term-proj-actions">
+                <a href="https://secureonboard.vercel.app" target="_blank" rel="noopener noreferrer" class="term-action-link">Live Demo ↗</a>
+                <a href="https://github.com/rajdeeppal01/secureonboard" target="_blank" rel="noopener noreferrer" class="term-action-link">Repository ↗</a>
+            </div>
+        </div>
+
+        <!-- Alfred the Butler -->
+        <div class="terminal-card project-terminal-card" data-project-id="alfred">
+            <div class="term-proj-status">
+                <span class="status-dot green"></span> STATUS: LIVE
+            </div>
+            <h4 class="term-proj-title">Alfred — AI Personal Command Center</h4>
+            <p class="term-proj-desc">
+                A J.A.R.V.I.S-inspired personal assistant dashboard with push-to-talk voice AI, WebGL-powered UI, time-aware greetings, habit/streak tracking, GitHub commit monitoring, email summarization, and a personalized daily briefing via TTS.
+            </p>
+            <div class="term-tags">
+                <span class="term-tag">React</span>
+                <span class="term-tag">TypeScript</span>
+                <span class="term-tag">Vite</span>
+                <span class="term-tag">WebGL</span>
+                <span class="term-tag">Voice AI</span>
+            </div>
+            <div class="term-proj-actions">
+                <a href="https://alfredthebuttler-one.vercel.app" target="_blank" rel="noopener noreferrer" class="term-action-link">Live Demo ↗</a>
+                <a href="https://github.com/rajdeeppal01/alfredthebuttler" target="_blank" rel="noopener noreferrer" class="term-action-link">Repository ↗</a>
+            </div>
+        </div>
+
+        <!-- ForgeAI -->
+        <div class="terminal-card project-terminal-card" data-project-id="forgeai">
+            <div class="term-proj-status">
+                <span class="status-dot green"></span> STATUS: LIVE
+            </div>
+            <h4 class="term-proj-title">ForgeAI — AI Company Builder</h4>
+            <p class="term-proj-desc">
+                A next-generation AI Company Builder — your complete C-Suite in a box. Input a startup idea and ForgeAI spins up 8 specialized AI departments (Product, Growth, Legal, Sales, Finance, Design, Ops) with an Action Item approval queue for human-in-the-loop control.
+            </p>
+            <div class="term-tags">
+                <span class="term-tag">React</span>
+                <span class="term-tag">JavaScript</span>
+                <span class="term-tag">Gemini API</span>
+                <span class="term-tag">HITL</span>
+            </div>
+            <div class="term-proj-actions">
+                <a href="https://forgeai-rose.vercel.app" target="_blank" rel="noopener noreferrer" class="term-action-link">Live Demo ↗</a>
+                <a href="https://github.com/rajdeeppal01/forgeai" target="_blank" rel="noopener noreferrer" class="term-action-link">Repository ↗</a>
+            </div>
+        </div>
     </div>
 </div>`;
 }
@@ -691,9 +756,9 @@ function getShowcaseHTML() {
         {
             id: 'trackrai',
             shortName: 'TrackrAI',
-            status: 'IN DEV',
+            status: 'LIVE',
             title: 'TrackrAI — AI-Powered Job Tracker',
-            desc: 'A multi-user job application tracker with JWT authentication, a drag-and-drop pipeline, live analytics, and an AI Copilot that scores pipeline health and suggests next steps. Still actively evolving.',
+            desc: 'A multi-user job application tracker with JWT authentication, a drag-and-drop pipeline, live analytics, and an AI Copilot that scores pipeline health and suggests next steps.',
             tags: ['React', 'FastAPI', 'JWT Auth'],
             url: 'https://trackrai.in/',
             urlLabel: 'trackrai.in'
@@ -707,6 +772,36 @@ function getShowcaseHTML() {
             tags: ['React', 'FastAPI', 'SVG Mapping', 'Gemini API'],
             url: 'https://cywar.vercel.app/',
             urlLabel: 'cywar.vercel.app'
+        },
+        {
+            id: 'secureonboard',
+            shortName: 'SecureOnboard',
+            status: 'LIVE',
+            title: 'SecureOnboard — Zero-Trust Identity Lifecycle',
+            desc: 'Zero-Trust Identity Lifecycle Automation for SMBs. Auto-revokes SaaS access the moment an employee leaves — in under 60 seconds — with a full SOC 2 / ISO 27001-ready audit trail.',
+            tags: ['Next.js', 'TypeScript', 'n8n', 'Zero-Trust'],
+            url: 'https://secureonboard.vercel.app',
+            urlLabel: 'secureonboard.vercel.app'
+        },
+        {
+            id: 'alfred',
+            shortName: 'Alfred',
+            status: 'LIVE',
+            title: 'Alfred — AI Personal Command Center',
+            desc: 'A J.A.R.V.I.S-inspired personal assistant with push-to-talk voice AI, WebGL UI, habit tracking, GitHub monitoring, email summarization, and a daily AI briefing via TTS.',
+            tags: ['React', 'TypeScript', 'WebGL', 'Voice AI'],
+            url: 'https://alfredthebuttler-one.vercel.app',
+            urlLabel: 'alfredthebuttler-one.vercel.app'
+        },
+        {
+            id: 'forgeai',
+            shortName: 'ForgeAI',
+            status: 'LIVE',
+            title: 'ForgeAI — AI Company Builder',
+            desc: 'Your complete C-Suite in a box. Input a startup idea and ForgeAI spins up 8 specialized AI departments with a human-in-the-loop Action Item approval queue.',
+            tags: ['React', 'Gemini API', 'HITL'],
+            url: 'https://forgeai-rose.vercel.app',
+            urlLabel: 'forgeai-rose.vercel.app'
         }
     ];
 
@@ -945,7 +1040,7 @@ function getSkillsHTML() {
             <div class="term-skills-list">
                 <div class="term-skill-item">
                     <div class="term-skill-info">
-                        <span>Threat Detection <span class="term-sub-skill">(Wazuh, Suricata)</span></span>
+                        <span>Threat Detection <span class="term-sub-skill">(Custom SIEM Pipelines, SOC Triage)</span></span>
                         <span>85%</span>
                     </div>
                     <div class="term-bar-wrap">
