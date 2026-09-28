@@ -682,7 +682,7 @@ function getProjectsHTML() {
                 <span class="term-tag">Voice AI</span>
             </div>
             <div class="term-proj-actions">
-                <a href="https://alfredthebuttler-one.vercel.app" target="_blank" rel="noopener noreferrer" class="term-action-link">Live Demo ↗</a>
+                <a href="https://alfredthebuttler-frontend.vercel.app/" target="_blank" rel="noopener noreferrer" class="term-action-link">Live Demo ↗</a>
                 <a href="https://github.com/rajdeeppal01/alfredthebuttler" target="_blank" rel="noopener noreferrer" class="term-action-link">Repository ↗</a>
             </div>
         </div>
@@ -790,8 +790,8 @@ function getShowcaseHTML() {
             title: 'Alfred — AI Personal Command Center',
             desc: 'A J.A.R.V.I.S-inspired personal assistant with push-to-talk voice AI, WebGL UI, habit tracking, GitHub monitoring, email summarization, and a daily AI briefing via TTS.',
             tags: ['React', 'TypeScript', 'WebGL', 'Voice AI'],
-            url: 'https://alfredthebuttler-one.vercel.app',
-            urlLabel: 'alfredthebuttler-one.vercel.app'
+            url: 'https://alfredthebuttler-frontend.vercel.app/',
+            urlLabel: 'alfredthebuttler-frontend.vercel.app'
         },
         {
             id: 'forgeai',
