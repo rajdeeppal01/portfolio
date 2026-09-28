@@ -660,7 +660,7 @@ function getProjectsHTML() {
                 <span class="term-tag">Zero-Trust</span>
             </div>
             <div class="term-proj-actions">
-                <a href="https://secureonboard.vercel.app" target="_blank" rel="noopener noreferrer" class="term-action-link">Live Demo ↗</a>
+                <a href="https://secureonb.vercel.app" target="_blank" rel="noopener noreferrer" class="term-action-link">Live Demo ↗</a>
                 <a href="https://github.com/rajdeeppal01/secureonboard" target="_blank" rel="noopener noreferrer" class="term-action-link">Repository ↗</a>
             </div>
         </div>
@@ -780,8 +780,8 @@ function getShowcaseHTML() {
             title: 'SecureOnboard — Zero-Trust Identity Lifecycle',
             desc: 'Zero-Trust Identity Lifecycle Automation for SMBs. Auto-revokes SaaS access the moment an employee leaves — in under 60 seconds — with a full SOC 2 / ISO 27001-ready audit trail.',
             tags: ['Next.js', 'TypeScript', 'n8n', 'Zero-Trust'],
-            url: 'https://secureonboard.vercel.app',
-            urlLabel: 'secureonboard.vercel.app'
+            url: 'https://secureonb.vercel.app',
+            urlLabel: 'secureonb.vercel.app'
         },
         {
             id: 'alfred',
