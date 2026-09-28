@@ -3094,8 +3094,10 @@ body, .saas-card, .project-card, .skills-category, .info-card, .terminal-card, .
 }
 
 .browser-viewport iframe {
-    width: 100%;
-    height: 100%;
+    width: 400%;
+    height: 400%;
+    transform: scale(0.25);
+    transform-origin: 0 0;
     border: 0;
     pointer-events: none;
 }
