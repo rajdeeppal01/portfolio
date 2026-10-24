@@ -707,6 +707,27 @@ function getProjectsHTML() {
                 <a href="https://github.com/rajdeeppal01/forgeai" target="_blank" rel="noopener noreferrer" class="term-action-link">Repository ↗</a>
             </div>
         </div>
+
+        <!-- Spectre -->
+        <div class="terminal-card project-terminal-card" data-project-id="spectre">
+            <div class="term-proj-status">
+                <span class="status-dot green"></span> STATUS: ACTIVE
+            </div>
+            <h4 class="term-proj-title">Spectre — Cyber Command Center & PQC Agent Workspace</h4>
+            <p class="term-proj-desc">
+                A local cyber defense and Post-Quantum Cryptography development command center. Features dual-agent cognitive intelligence (ARCHITECT for web dev & self-healing compilers, SPECTRE for red-team audits & secret scanning), real-time tool approval workflows, live web previews, and multi-workspace telemetry.
+            </p>
+            <div class="term-tags">
+                <span class="term-tag">Python</span>
+                <span class="term-tag">Gemini Pro</span>
+                <span class="term-tag">PQC / liboqs</span>
+                <span class="term-tag">Docker</span>
+                <span class="term-tag">WebSockets</span>
+            </div>
+            <div class="term-proj-actions">
+                <a href="https://github.com/rajdeeppal01/spectre" target="_blank" rel="noopener noreferrer" class="term-action-link">Repository ↗</a>
+            </div>
+        </div>
     </div>
 </div>`;
 }
@@ -802,6 +823,16 @@ function getShowcaseHTML() {
             tags: ['React', 'Gemini API', 'HITL'],
             url: 'https://forgeai-rose.vercel.app',
             urlLabel: 'forgeai-rose.vercel.app'
+        },
+        {
+            id: 'spectre',
+            shortName: 'Spectre',
+            status: 'ACTIVE',
+            title: 'Spectre — Cyber Command Center & PQC Agent Workspace',
+            desc: 'A local cyber defense and Post-Quantum Cryptography development command center with dual-agent cognitive intelligence, self-healing compilers, and live web preview.',
+            tags: ['Python', 'Gemini Pro', 'PQC / liboqs', 'Docker'],
+            url: 'https://github.com/rajdeeppal01/spectre',
+            urlLabel: 'github.com/rajdeeppal01/spectre'
         }
     ];
 
