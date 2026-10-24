@@ -1,0 +1,6 @@
+# Local redundant subfolders & IDE artifacts
+portfolio-latest/
+portfolio-source/
+.agents/
+.DS_Store
+Thumbs.db
