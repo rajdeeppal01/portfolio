@@ -728,6 +728,27 @@ function getProjectsHTML() {
                 <a href="https://github.com/rajdeeppal01/spectre" target="_blank" rel="noopener noreferrer" class="term-action-link">Repository ↗</a>
             </div>
         </div>
+
+        <!-- CVEWatch -->
+        <div class="terminal-card project-terminal-card" data-project-id="cvewatch">
+            <div class="term-proj-status">
+                <span class="status-dot green"></span> STATUS: LIVE
+            </div>
+            <h4 class="term-proj-title">CVEWatch — Live CVE Intelligence Dashboard</h4>
+            <p class="term-proj-desc">
+                Real-time CVE monitoring via NIST NVD &amp; CISA KEV with Server-Sent Events for zero-refresh updates, CVSS scoring, and auto-generated remediation steps — plus an Android USB Scanner that ADB-fingerprints a connected device and matches it against the full CVE database.
+            </p>
+            <div class="term-tags">
+                <span class="term-tag">FastAPI</span>
+                <span class="term-tag">SQLite</span>
+                <span class="term-tag">NVD API</span>
+                <span class="term-tag">CISA KEV</span>
+                <span class="term-tag">ADB</span>
+            </div>
+            <div class="term-proj-actions">
+                <a href="https://github.com/rajdeeppal01/CVEWatch" target="_blank" rel="noopener noreferrer" class="term-action-link">Repository ↗</a>
+            </div>
+        </div>
     </div>
 </div>`;
 }
@@ -833,6 +854,16 @@ function getShowcaseHTML() {
             tags: ['Python', 'Gemini Pro', 'PQC / liboqs', 'Docker'],
             url: 'https://github.com/rajdeeppal01/spectre',
             urlLabel: 'github.com/rajdeeppal01/spectre'
+        },
+        {
+            id: 'cvewatch',
+            shortName: 'CVEWatch',
+            status: 'LIVE',
+            title: 'CVEWatch — Live CVE Intelligence Dashboard',
+            desc: 'Real-time CVE monitoring via NIST NVD & CISA KEV with Server-Sent Events, CVSS scoring, auto-remediation — plus an Android USB Scanner that ADB-fingerprints a device and matches it against the full CVE database.',
+            tags: ['FastAPI', 'NVD API', 'CISA KEV', 'ADB'],
+            url: 'https://github.com/rajdeeppal01/CVEWatch',
+            urlLabel: 'github.com/rajdeeppal01/CVEWatch'
         }
     ];
 
